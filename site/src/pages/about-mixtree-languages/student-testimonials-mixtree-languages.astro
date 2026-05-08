@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GoogleReviews from '../../components/GoogleReviews.astro';
+import GoogleReviewsBadge from '../../components/GoogleReviewsBadge.astro';
+import data from '../../data/google-reviews.json';
+
+const seo = {
+  title: 'Student Testimonials | MixTree Languages',
+  description:
+    'Read genuine Google reviews from MixTree Languages students. Discover why our small-group English courses in Amsterdam are rated 4.9/5.',
+};
+
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'MixTree Languages',
+  url: 'https://mixtreelang.nl/',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: data.rating,
+    reviewCount: data.reviewCount,
+    bestRating: 5,
+    worstRating: 1,
+  },
+}];
+---
+<BaseLayout seo={seo} jsonLd={jsonLd} container={false}>
+  <!-- Hero -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">Testimonials</p>
+      <h1 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl lg:text-5xl">
+        Read what our students think about us
+      </h1>
+      <p class="mt-4 max-w-3xl text-lg text-slate-700">
+        We are very proud of the feedback we have received from our students over the years.
+        Here is a selection of recent Google reviews from people who have studied at MixTree Languages.
+      </p>
+      <div class="mt-6">
+        <GoogleReviewsBadge />
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    <GoogleReviews layout="grid" heading="Recent Google reviews" />
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-brand-700 text-white">
+    <div class="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 lg:px-8 lg:py-16">
+      <h2 class="text-2xl font-bold sm:text-3xl">Become our next happy student</h2>
+      <p class="mx-auto mt-3 max-w-2xl text-white/90">
+        Book a free English level check and find the course that&rsquo;s right for you.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/free-online-english-level-check/" class="rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow hover:brightness-105">
+          Book a free level check →
+        </a>
+        <a href="/english-course/" class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-white/20">
+          See our courses →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

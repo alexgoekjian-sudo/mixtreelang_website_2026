@@ -1,0 +1,20 @@
+---
+/**
+ * AUTO-GENERATED from WordPress page export (WPBakery shortcodes cleaned).
+ * Source: https://mixtreelang.nl/attendance/
+ * Re-running scripts/convert-pages.mjs will overwrite this file.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: "Attendance | MixTree Languages",
+  description: "Attendance at MixTree Languages, English language school in Amsterdam.",
+};
+
+const body = `<div><iframe style="width: 100%; height: 500px; overflow: auto;" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQUaX9L0cdzWkQ4AV4RKOnra1M8_tyocuqbMtwEt5aV2KHV3lUuepr0ToulU9OE9DcfkZ89MjmTuGQu/pubhtml?gid=1645048383&amp;single=true&amp;widget=true&amp;headers=false" width="320" height="240" frameborder="0">
+</iframe></div>`;
+---
+<BaseLayout seo={seo}>
+  <h1 class="text-3xl font-bold text-brand-700 sm:text-4xl">Attendance</h1>
+  <article class="prose prose-slate mt-6 max-w-none" set:html={body} />
+</BaseLayout>

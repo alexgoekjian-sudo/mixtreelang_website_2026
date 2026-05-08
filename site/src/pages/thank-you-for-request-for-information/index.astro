@@ -1,0 +1,20 @@
+---
+import ThankYouLayout from '../../layouts/ThankYouLayout.astro';
+import { GADS_CONVERSION } from '../../lib/conversions';
+---
+<ThankYouLayout
+  title="Thank you for your request"
+  description="We've received your request for information and will respond within two working days."
+  eyebrow="Request received"
+  lead="Thanks for requesting more information about MixTree Languages. We'll be in touch within two working days."
+  nextSteps={[
+    'Our team will reply by email with the details you asked for.',
+    'Please check your spam folder if you don\'t see a reply.',
+    'Not sure which course suits you? Book a free 15-minute level check.',
+  ]}
+  ctas={[
+    { label: 'Book a free level check', href: '/free-online-english-level-check/' },
+    { label: 'See our course schedule', href: '/course-schedule/', variant: 'secondary' },
+  ]}
+  conversionSendTo={GADS_CONVERSION.contact}
+/>

@@ -1,0 +1,236 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import GoogleReviews from '../../components/GoogleReviews.astro';
+
+const seo = {
+  title: 'English Group Courses in Amsterdam | MixTree Languages',
+  description:
+    'All our English group courses in one place: Intensive, Morning, Live-Online Evening, English for Beginners, C1 Advanced and Business English — small groups in the heart of Amsterdam.',
+};
+
+type Course = {
+  title: string;
+  href: string;
+  image: string;
+  alt: string;
+  mode: 'In-Person Learning' | 'Live-Online';
+  levels: string;
+  hours: string;
+  duration: string;
+  price: string;
+  priceNote?: string;
+  blurb: string;
+};
+
+const courses: Course[] = [
+  {
+    title: 'Intensive English Course',
+    href: '/english-course/intensive-english-course/',
+    image: '/wp-content/uploads/2025/05/English-Courses-Amsterdam-MixTree-Languages.jpg',
+    alt: 'Students in intensive English language classroom in Amsterdam',
+    mode: 'In-Person Learning',
+    levels: 'A2+ · B1 · B2',
+    hours: '40 hours',
+    duration: '4 weeks',
+    price: '€640',
+    priceNote: '€16/h · book included',
+    blurb: 'Improve your English fast: 10 hours a week with CELTA-certified teachers in small interactive groups.',
+  },
+  {
+    title: 'Morning English Courses',
+    href: '/english-course/morning-english-courses/',
+    image: '/wp-content/uploads/2021/01/morning-english-course.jpg',
+    alt: 'Students in morning English class in Amsterdam',
+    mode: 'In-Person Learning',
+    levels: 'A2 · A2+ · B1 · B2 · C1',
+    hours: '30 hours',
+    duration: '6 weeks',
+    price: '€525',
+    priceNote: 'Book included',
+    blurb: 'Use your mornings to improve your English with two relaxed lessons a week and our friendly community.',
+  },
+  {
+    title: 'Live-Online Evening Courses',
+    href: '/english-course/online-evening-english-courses/',
+    image: '/wp-content/uploads/2021/02/Advanced-C1-English-Courses-Amsterdam-MixTRee-scaled-1.jpg',
+    alt: 'Live-Online Evening English Courses',
+    mode: 'Live-Online',
+    levels: 'A2+ · B1 · B2 · C1',
+    hours: '24 hours',
+    duration: '6 weeks',
+    price: '€385',
+    blurb: 'Improve your English from anywhere — interactive evening lessons on Zoom with the same teachers as our in-person courses.',
+  },
+  {
+    title: 'English for Beginners',
+    href: '/english-course/english-for-beginners/',
+    image: '/wp-content/uploads/2020/08/intensive-english-courses.jpg',
+    alt: 'Beginner English students learning in Amsterdam classroom',
+    mode: 'In-Person Learning',
+    levels: 'A1',
+    hours: '24 hours',
+    duration: '6 weeks',
+    price: '€445',
+    priceNote: 'Book included',
+    blurb: 'Brand new to English? A friendly A1 course to start using English confidently from day one.',
+  },
+  {
+    title: 'C1 Advanced English Course',
+    href: '/c1-advanced-english-course/',
+    image: '/wp-content/uploads/2021/02/Advanced-C1-English-Courses-Amsterdam-MixTRee-scaled-1.jpg',
+    alt: 'C1 Advanced English Course',
+    mode: 'Live-Online',
+    levels: 'C1',
+    hours: '24 hours',
+    duration: '6 weeks',
+    price: '€385',
+    blurb: 'Refine grammar, activate nuanced vocabulary and polish your English for personal or professional use.',
+  },
+  {
+    title: 'Business English Course',
+    href: '/english-course/business-english/',
+    image: '/wp-content/uploads/2024/12/3.Business-English-courses.school-in-Amsterdam.-2023.-MixTree-Languages.jpg',
+    alt: 'Business English Course',
+    mode: 'Live-Online',
+    levels: 'B2 · C1',
+    hours: '24 hours',
+    duration: '6 weeks',
+    price: '€385',
+    blurb: 'Communicate confidently with international colleagues and clients — interviews, meetings, networking and more.',
+  },
+];
+
+const itemListJsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: courses.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `https://mixtreelang.nl${c.href}`,
+    name: c.title,
+  })),
+}];
+---
+<BaseLayout seo={seo} jsonLd={itemListJsonLd} container={false}>
+  <!-- Hero -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">Group Courses</p>
+      <h1 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl lg:text-5xl">
+        English Group Courses at MixTree Languages
+      </h1>
+      <p class="mt-4 max-w-3xl text-lg text-slate-700">
+        Choose the course that fits your goals, schedule and level — all taught by experienced
+        CELTA/TESOL-certified teachers in small, friendly groups in the heart of Amsterdam (or live-online
+        on Zoom).
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="/free-online-english-level-check/" class="rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow hover:brightness-105">
+          Book a free level check →
+        </a>
+        <a href="/course-schedule/" class="rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-brand-700">
+          See full schedule →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Course grid -->
+  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {courses.map((c) => (
+        <article class="flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:shadow-md">
+          <a href={c.href} class="block">
+            <figure class="aspect-[16/10] overflow-hidden bg-slate-100">
+              <img
+                src={c.image}
+                alt={c.alt}
+                loading="lazy"
+                decoding="async"
+                class="h-full w-full object-cover transition duration-300 hover:scale-105"
+              />
+            </figure>
+          </a>
+          <div class="flex flex-1 flex-col p-5">
+            <p class="text-xs font-semibold uppercase tracking-wide text-accent-500">{c.mode}</p>
+            <h2 class="mt-1 text-xl font-bold text-brand-700">
+              <a href={c.href} class="hover:underline">{c.title}</a>
+            </h2>
+            <p class="mt-2 text-sm text-slate-600">{c.blurb}</p>
+            <dl class="mt-4 grid grid-cols-3 gap-2 border-t border-slate-100 pt-4 text-xs text-slate-700">
+              <div>
+                <dt class="font-semibold text-slate-500">Levels</dt>
+                <dd>{c.levels}</dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-slate-500">Hours</dt>
+                <dd>{c.hours}</dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-slate-500">Duration</dt>
+                <dd>{c.duration}</dd>
+              </div>
+            </dl>
+            <div class="mt-5 flex items-end justify-between gap-3">
+              <div>
+                <p class="text-2xl font-bold text-brand-700">{c.price}</p>
+                {c.priceNote && <p class="text-xs text-slate-500">{c.priceNote}</p>}
+              </div>
+              <a href={c.href} class="rounded-full bg-accent-500 px-4 py-2 text-xs font-semibold text-white shadow hover:brightness-105">
+                Learn more →
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Why MixTree strip -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+      <SectionHeading title="Why study with MixTree Languages" />
+      <ul class="mt-8 grid gap-3 text-slate-700 sm:grid-cols-2">
+        {[
+          'CELTA / TESOL-certified teachers with 5+ years of experience',
+          'Small interactive groups (6–12 students)',
+          '"Activate Your English" speaking-focused method',
+          'Oxford English File coursebooks included (in-person courses)',
+          'Certificate of Attendance & Proficiency (CEFR) at the end of every course',
+          'Friendly multicultural community in the heart of Amsterdam',
+        ].map((w) => (
+          <li class="flex gap-3 rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-200">
+            <span class="text-accent-500" aria-hidden="true">✓</span>
+            <span>{w}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <GoogleReviews count={3} layout="grid" heading="What our students say" />
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="bg-brand-700 text-white">
+    <div class="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 lg:px-8 lg:py-16">
+      <h2 class="text-2xl font-bold sm:text-3xl">Not sure which course is right for you?</h2>
+      <p class="mx-auto mt-3 max-w-2xl text-white/90">
+        Book a free English level check and we&rsquo;ll help you choose the perfect course.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/free-online-english-level-check/" class="rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow hover:brightness-105">
+          Book a free level check →
+        </a>
+        <a href="/contact/" class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-white/20">
+          Contact us →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+
+const seo = {
+  title: 'Frequently Asked Questions | MixTree Languages',
+  description:
+    'Answers to the most frequently asked questions about MixTree Languages: registration, payment, levels, schedules, certificates, teachers and our school in Amsterdam.',
+};
+
+type QA = { q: string; a: string };
+
+const registration: QA[] = [
+  { q: 'Can I enrol when a course has already started?', a: 'Yes, you can join a course after it has started if there is still a place available.' },
+  { q: 'Is it a good idea to take more than one course at the same time?', a: "Yes, you're welcome to take more than one course at the same time, such as a morning and afternoon Intensive course. Just keep in mind that each course includes homework, so it's important to make sure you'll have enough time to keep up. If you have any questions about planning your schedule, we're happy to help!" },
+  { q: 'How and when can I pay for my course?', a: 'Payment is expected before the beginning of the course — this secures your spot. Payment options: bank transfer (Account name: Mixtree Languages Stichting · IBAN: NL78 ABNA 0409 4668 08 · BIC/SWIFT: ABNANL2A · Description: your full name + course name + start date), online payment by credit card, PayPal or iDEAL on request, or cash payment by appointment at the school.' },
+  { q: 'What do the levels (A1, A2, B1, B2 and C1) mean?', a: 'MixTree Languages follows the international Common European Framework of Reference (CEFR), so you always know the language level of your course — and your CEFR level is shown on your final certificate. A1 Beginner: just starting out, building essential everyday vocabulary and grammar. A2 Elementary: short conversations, pronunciation and key grammar. A2+ Pre-intermediate: improving accuracy, fluency and confidence in everyday communication. B1 Intermediate: handling most day-to-day situations with more detail and accuracy. B2 Upper-intermediate: refining skills with more complex grammar, idioms and clearer written and spoken communication. C1 Advanced: nuanced vocabulary, precise expression and complex grammar for personal, academic or professional use.' },
+  { q: 'Will the course I am enroling in definitely take place?', a: 'We aim for every planned course to run as scheduled. Each course requires a minimum of 5 students for the full number of class hours. If we don\u2019t reach this number we will contact you to offer an alternative such as reduced course hours or different schedule options. Our goal is to never cancel a course — in the unlikely event that we do, you will receive a full refund.' },
+  { q: 'How do I enroll from abroad, and how do I pay for the course?', a: 'After completing your online English Level Check you can enrol from abroad via our website or by email at info@mixtreelang.nl. Once we\u2019ve processed your registration you will receive a confirmation of enrolment and an invoice by email. You can pay by bank transfer to STICHTING MIXTREE, credit or debit card, PayPal or — by prior appointment — cash on arrival in Amsterdam.' },
+  { q: 'Can I join part of the course, or join for a few weeks?', a: 'Yes, you can join part of a course or attend for just a few weeks if certain conditions are met (such as availability and level suitability). You will only pay for the remaining part of the course, plus a €45 administration fee.' },
+  { q: 'How can I find out my level of English?', a: 'Before you enrol we ask about your goals and current level so we can place you in the most suitable course. Book a FREE English Level Check — a short online conversation (via Zoom or WhatsApp) with one of our friendly, CELTA/TEFL-certified teachers. You can also come to the school in person; in-person level checks are available Monday to Friday, 9:30–13:30 (except Wednesdays).' },
+];
+
+const school: QA[] = [
+  { q: 'Do you provide accommodation?', a: 'We do not offer accommodation directly, but we have put together a list of useful resources to help you find housing in Amsterdam.' },
+  { q: 'If I find a job or if I need to leave Amsterdam for a problem or for personal reasons, can I be refunded?', a: 'If you have to stop your course for personal reasons (such as finding a job or leaving Amsterdam), we can offer you the option to postpone your course or transfer to another course. Full details are in paragraph 3 of our Terms and Conditions.' },
+  { q: 'On what dates is MixTree Languages closed?', a: 'MixTree Languages is closed on New Year\u2019s Day (1 January), Good Friday, Easter Monday, King\u2019s Day (27 April), Liberation Day (5 May), Ascension Day (Thursday and Friday), Whit Monday and Christmas (25 and 26 December). Lessons continue during school holidays. If a class falls on a public holiday the lesson is moved to another day (usually a day when students don\u2019t normally have class). Lessons are not cancelled and all course hours are still delivered. You will be informed of any changes by registration email, by your teacher and in class.' },
+  { q: 'What is the difference between English courses at MixTree Languages and those of other language schools?', a: 'What sets us apart is our vibrant community and collaborative learning approach. Based on educational research including Vygotsky\u2019s Zone of Proximal Development (ZPD), we believe language is learned most effectively through social interaction and support — so you actively use English by sharing ideas and experiences with classmates inside and outside the classroom. Our signature "Activate Your English" method focuses on developing your speaking skills and confidence. All teachers are highly qualified (minimum CELTA/TESOL and 5+ years of experience) and either native or bilingual speakers. Through lively classes, WhatsApp groups and our events you\u2019ll find plenty of ways to practise and connect.' },
+  { q: 'What does it mean to be a Non profit organization? What is the advantage for the students?', a: 'Being a non-profit means MixTree Languages does not make a profit — all the money you pay for your course is reinvested directly into providing the best possible learning experience: teachers, classroom rental, materials, promotion and administration. This lets us keep our course fees fair and affordable without compromising on quality. For you that means highly qualified teachers (minimum CELTA/TESOL with 5+ years of experience) and all necessary teaching materials included — no extra costs for books or registration fees. (For online courses the coursebook is not included; you can buy it online or pick it up at MixTree.)' },
+  { q: 'Can MixTree Languages arrange a visa for me?', a: 'Unfortunately, MixTree Languages does not handle visa applications, work permits or any other official government documents. You will need to arrange these independently.' },
+];
+
+const courses: QA[] = [
+  { q: 'After I have completed a course, can I move on to the next level automatically?', a: 'Our courses follow the CEFR, which recommends around 200 hours of guided study to move from one level to the next. Every learner progresses at their own pace — some students may be ready to move up after one course, others benefit from two or three courses at the same level. We offer three unique programmes at each level, each with different grammar and vocabulary topics, so you\u2019re always learning something new. After each course your teacher will recommend the next best step.' },
+  { q: 'Are the lessons exclusively taught in English?', a: 'Yes. All lessons are exclusively taught in English.' },
+  { q: 'Can I change level if I feel that the level is too easy or too difficult for me?', a: 'Thanks to our detailed intake process, students are usually placed in the right group. If a student finds the course too easy or too challenging and the teacher agrees that a different level may be more suitable, we will do our best to offer a place in another group depending on availability. Any changes must be discussed with your teacher and take place before the 3rd lesson.' },
+  { q: 'Do you offer courses that last four months or longer?', a: 'MixTree Languages offers 4-week Intensive Courses and 6-week Morning or Online Courses. You can take multiple courses in a row to keep improving step by step. For private, business or tailor-made group courses you can choose the course length that suits your needs. Book and pay for 2 or more courses at the same time and you\u2019ll receive a 5% discount on the total price.' },
+  { q: 'How much homework will I be expected to do?', a: 'Before each class you receive a pre-assignment by email — this could be reading an article, watching a video, writing a short text or completing a grammar exercise. Doing this at home means you arrive in class prepared with knowledge, questions and ideas, ready to spend more time speaking and interacting. Expect about 1–1.5 hours of homework per day (around 5 hours per week). The more time you invest, the more you\u2019ll get out of the course.' },
+  { q: 'I missed a class. What should I do now?', a: 'Unfortunately it\u2019s not possible to make up a missed class. Check the course programme to see what was covered, use the English File Online platform for extra revision, check Google Classroom for materials from the session, look at the WhatsApp group for notes or board photos, and prepare questions for your next class. We include regular review sessions, so you\u2019ll have a chance to catch up. To receive a certificate of successful completion you must attend at least 80% of the course.' },
+  { q: 'How is the course assessed?', a: 'We assess your progress in several ways. Writing Assessment: on the first day you complete a short writing task; at the end of the course you do the same task again, and your teacher discusses your progress with you. Speaking Tasks: at A2+ or higher you give a 5–10 minute presentation on a topic of your choice at the end of the course (lower levels discuss a topic instead). Ongoing Assessment: your teacher monitors your progress during lessons with instant corrections and personalised delayed feedback. At the end of the course you receive a Certificate of Attendance and Proficiency Level based on the CEFR.' },
+  { q: "It's a very interactive course, does this mean that we don\u2019t practise a lot of grammar?", a: 'Grammar is a big part of our courses because it\u2019s essential for speaking and using the language correctly. We focus on all language skills: speaking, listening, reading and writing. Grammar is often assigned as a pre-assignment which prepares you for class. In class your teacher revises meaning, form and pronunciation, you do exercises to show understanding, and then we move on to speaking practice so you can use the language in real conversations. There\u2019s always time to discuss any difficulties.' },
+  { q: 'Where are the classes held?', a: 'MixTree Languages is located at Eerste Weteringplantsoen 2c, 1017 SJ Amsterdam — right in the heart of the city. We\u2019re a 5-minute walk from Weteringschans and close to key public transport: tram lines 1, 7, 19 and 24 stop at Weteringcircuit or Vijzelgracht; metro line 52 (Noord/Zuidlijn) stops at Vijzelgracht station, only a 4-minute walk from the school. The Heineken Experience and Rijksmuseum are nearby, and we\u2019re close to Museumplein and Leidseplein.' },
+  { q: 'Who will be teaching my course? Will my teacher be a native English speaker?', a: 'All our teachers are native or bilingual English speakers and have a minimum of a CELTA (Certificate in English Language Teaching to Adults) or an equivalent certification, plus 5+ years of teaching experience after qualification. CELTA is one of the most respected credentials in English language teaching — it ensures teachers are well-trained in effective, modern methods and have practical teaching experience.' },
+  { q: 'Will I get a certificate at the end of the course?', a: 'If you have attended at least 80% of the classes you will receive a certificate of successful completion. The certificate shows your proficiency level using the standardised Common European Framework of Reference for Languages (CEFR).' },
+  { q: 'Do I need to buy a book for my course?', a: 'You do not need to buy a separate book for your course. The coursebook is included in the course price and given to you on the first day of class (except for online courses). We use the English File 4th Edition series, which includes access to an online platform with additional practice and revision activities. For online courses you can buy and collect the book from MixTree, or purchase it online — we can send you links to trusted retailers.' },
+];
+
+const sections: { title: string; items: QA[] }[] = [
+  { title: 'Registration & Availability at MixTree Languages', items: registration },
+  { title: 'MixTree Languages School', items: school },
+  { title: 'English Courses at MixTree Languages', items: courses },
+];
+
+const allQA = [...registration, ...school, ...courses];
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: allQA.map((qa) => ({
+    '@type': 'Question',
+    name: qa.q,
+    acceptedAnswer: { '@type': 'Answer', text: qa.a },
+  })),
+}];
+---
+<BaseLayout seo={seo} jsonLd={jsonLd} container={false}>
+  <!-- Hero -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">FAQ</p>
+      <h1 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl lg:text-5xl">
+        Frequently Asked Questions
+      </h1>
+      <p class="mt-4 max-w-3xl text-lg text-slate-700">
+        Here you can find the answers to our most frequently asked questions
+        about our school, courses, registration and prices.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ sections -->
+  <div class="mx-auto max-w-4xl space-y-14 px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    {sections.map((s) => (
+      <section>
+        <SectionHeading title={s.title} />
+        <div class="mt-8 space-y-3">
+          {s.items.map((qa) => (
+            <details class="group rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-200 open:ring-brand-200">
+              <summary class="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-brand-700 marker:hidden [&::-webkit-details-marker]:hidden">
+                <span>{qa.q}</span>
+                <span class="shrink-0 text-2xl leading-none text-accent-500 transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <p class="mt-3 text-sm text-slate-700">{qa.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <!-- Any other questions CTA -->
+  <section class="bg-brand-700 text-white">
+    <div class="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 lg:px-8 lg:py-16">
+      <h2 class="text-2xl font-bold sm:text-3xl">Any other questions? Contact us here.</h2>
+      <p class="mx-auto mt-3 max-w-2xl text-white/90">
+        We’re happy to help. Send us your question and we’ll get back to you within one working day.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/contact/" class="rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow hover:brightness-105">
+          Contact us →
+        </a>
+        <a href="/free-online-english-level-check/" class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-white/20">
+          Book a free level check →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

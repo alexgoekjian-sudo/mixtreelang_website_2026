@@ -1,0 +1,86 @@
+---
+/**
+ * Static Google Reviews carousel.
+ *
+ * Reads from src/data/google-reviews.json (refreshed via `npm run reviews:fetch`).
+ * Renders SSR-only HTML — no third-party JS at runtime.
+ *
+ * Props:
+ *   - count: number of reviews to show (default: all)
+ *   - layout: 'grid' (default) | 'carousel' (single visible, prev/next on mobile)
+ *   - heading: optional heading
+ */
+import data from '../data/google-reviews.json';
+
+export interface Props {
+  count?: number;
+  layout?: 'grid' | 'carousel';
+  heading?: string;
+}
+
+const { count, layout = 'grid', heading = 'What our students say' } = Astro.props;
+
+type Review = {
+  author: string;
+  authorUri: string | null;
+  authorPhoto: string | null;
+  rating: number;
+  text: string;
+  relativeTime: string;
+  publishedAt: string | null;
+};
+
+const reviews = (data.reviews as Review[]).slice(0, count ?? data.reviews.length);
+const stars = (n: number) => '★'.repeat(Math.round(n)) + '☆'.repeat(5 - Math.round(n));
+---
+
+<section class="my-12">
+  <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <h2 class="text-2xl font-bold text-brand-700">{heading}</h2>
+      <p class="mt-1 text-sm text-slate-600">
+        <span class="font-semibold text-amber-500">{stars(data.rating)}</span>
+        <span class="ml-1">{data.rating.toFixed(1)} on Google</span>
+        <span class="ml-1 text-slate-500">({data.reviewCount} reviews)</span>
+      </p>
+    </div>
+    <a
+      href={data.mapsUri}
+      target="_blank"
+      rel="noopener"
+      class="text-sm font-medium text-brand-600 hover:text-brand-700"
+    >See all reviews on Google →</a>
+  </div>
+
+  <div
+    class={layout === 'carousel'
+      ? 'flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:thin]'
+      : 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3'}
+  >
+    {reviews.map((r) => (
+      <article
+        class={`${
+          layout === 'carousel' ? 'min-w-[85%] snap-start sm:min-w-[45%] lg:min-w-[31%]' : ''
+        } rounded-lg border border-slate-200 bg-white p-5 shadow-sm`}
+      >
+        <header class="mb-3 flex items-center gap-3">
+          {r.authorPhoto && (
+            <img
+              src={r.authorPhoto}
+              alt=""
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              class="h-10 w-10 rounded-full object-cover"
+            />
+          )}
+          <div>
+            <p class="text-sm font-semibold text-slate-800">{r.author}</p>
+            <p class="text-xs text-slate-500">{r.relativeTime}</p>
+          </div>
+        </header>
+        <p class="mb-2 text-amber-500">{stars(r.rating)}</p>
+        <p class="text-sm leading-relaxed text-slate-700">{r.text}</p>
+      </article>
+    ))}
+  </div>
+</section>

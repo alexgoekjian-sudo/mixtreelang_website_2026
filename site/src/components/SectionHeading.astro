@@ -1,0 +1,35 @@
+---
+/**
+ * Centered section heading. If `title` contains " | ", the right-hand
+ * side is rendered in the accent (orange) colour to create a two-tone
+ * "Main | Subtitle" look matching the rest of the homepage.
+ *
+ * Props:
+ *   - title:    full heading text
+ *   - subtitle: optional small text rendered below the heading
+ *   - light:    when true, uses white text (for use on dark backgrounds)
+ */
+export interface Props {
+  title: string;
+  subtitle?: string;
+  light?: boolean;
+}
+
+const { title, subtitle, light = false } = Astro.props;
+const [left, right] = title.includes(' | ') ? title.split(' | ') : [title, ''];
+const baseColor = light ? 'text-white' : 'text-brand-700';
+const accentColor = light ? 'text-accent-300' : 'text-accent-500';
+const subColor = light ? 'text-white/80' : 'text-slate-600';
+---
+<header class="text-center">
+  <h2 class={`text-2xl font-bold sm:text-3xl ${baseColor}`}>
+    <span>{left}</span>
+    {right && (
+      <>
+        <span class="mx-2">|</span>
+        <span class={accentColor}>{right}</span>
+      </>
+    )}
+  </h2>
+  {subtitle && <p class={`mt-2 text-xs sm:text-sm ${subColor}`}>{subtitle}</p>}
+</header>

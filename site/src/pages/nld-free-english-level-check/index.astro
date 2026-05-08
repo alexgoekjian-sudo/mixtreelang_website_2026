@@ -1,0 +1,65 @@
+---
+/**
+ * AUTO-GENERATED from WordPress page export (WPBakery shortcodes cleaned).
+ * Source: https://mixtreelang.nl/nld-free-english-level-check/
+ * Re-running scripts/convert-pages.mjs will overwrite this file.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: "Free English Level Check - Mixtree Languages - Online or Onsite",
+  description: "Discover your proficiency with a free English Language Level check. Assess your skills and advance your language journey.",
+};
+
+const body = `<main>
+        <header>
+            <h1>Book a Free English Level Check at MixTree Languages</h1>
+            <p>Please select your preferred date and time below. One of our <strong>highly qualified English teachers</strong> will assess <strong>your current level</strong> and discuss <strong>your learning goals</strong>.</p>
+        </header>
+
+        <!-- Tab Contents -->
+        <div id="online-tab">
+            <section id="online-english-assessment" class="booking-option online-option">
+                <div class="booking-widget">
+                    <div id="online-loading" class="calendar-loading">
+                        <div class="loading-content">
+                            <div class="loading-spinner"></div>
+                            <p class="loading-text">Loading online calendar...</p>
+                        </div>
+                    </div>
+                    <iframe 
+                        src="https://cal.com/mixtree-languages-wun1zc/navi-online-english-level-check?embed=1&partner_code=nld" 
+                        allow="fullscreen" 
+                        title="Book Online English Level Check" 
+                        loading="lazy"
+                        onload="hideLoader('online-loading')">
+                    </iframe>
+                </div>
+            </section>
+        </div>
+
+        <!-- Additional Information Section -->
+        <section id="english-assessment-info">
+            <h2>What to Expect During Your English Level Check</h2>
+            <p>Our <strong>English level check</strong> helps us recommend the best course for your specific needs by assessing your current level and understanding your learning requirements:</p>
+            
+            <div class="assessment-areas">
+                <h3>Level Check Components:</h3>
+                <ul>
+                    <li><strong>Language level evaluation</strong> - Speaking, listening, and grammar assessment</li>
+                    <li><strong>Schedule discussion</strong> - Finding class times that work for you</li>
+                    <li><strong>Goal setting</strong> - Understanding what you want to achieve</li>
+                    <li><strong>Course matching</strong> - Recommending the most suitable class format and level</li>
+                </ul>
+            </div>
+            <div class="next-steps">
+                <h1>After Your Level Check</h1>
+                <h2>You'll receive an email with specific course recommendations based on your English level, availability, and learning objectives.</h2>
+            </div>
+        </section>
+    </main>`;
+---
+<BaseLayout seo={seo}>
+  <h1 class="text-3xl font-bold text-brand-700 sm:text-4xl">Free Online English Level Check | MixTree Languages</h1>
+  <article class="prose prose-slate mt-6 max-w-none" set:html={body} />
+</BaseLayout>

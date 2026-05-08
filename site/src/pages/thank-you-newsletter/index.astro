@@ -1,0 +1,20 @@
+---
+import ThankYouLayout from '../../layouts/ThankYouLayout.astro';
+import { GADS_CONVERSION } from '../../lib/conversions';
+---
+<ThankYouLayout
+  title="Welcome to our newsletter!"
+  description="You're now subscribed to the MixTree Languages newsletter — English language tips and news about courses and events."
+  eyebrow="Subscription confirmed"
+  lead="You'll receive our next MixTree Languages newsletter in your inbox, with English language tips and news about upcoming courses and events in Amsterdam."
+  nextSteps={[
+    'Check your inbox for a welcome email.',
+    'Add <strong>info@mixtreelang.nl</strong> to your contacts so we don\'t end up in spam.',
+    'In the meantime, take our free 15-minute level check to find the right course for you.',
+  ]}
+  ctas={[
+    { label: 'Book a free level check', href: '/free-online-english-level-check/' },
+    { label: 'Read our magazine', href: '/english-language-tips/', variant: 'secondary' },
+  ]}
+  conversionSendTo={GADS_CONVERSION.newsletter}
+/>

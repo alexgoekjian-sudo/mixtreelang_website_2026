@@ -1,0 +1,274 @@
+---
+import CourseDetailLayout from '../../../layouts/CourseDetailLayout.astro';
+import SectionHeading from '../../../components/SectionHeading.astro';
+import { courseNode } from '../../../lib/schema';
+
+const seo = {
+  title: 'Private English Courses & One-to-One Lessons | MixTree Languages',
+  description:
+    'One-to-one private English lessons in Amsterdam or live online. Tailored to your goals — General English, Business, exam prep, presentation skills and more. From €72/hour.',
+};
+
+const jsonLd = [
+  courseNode({
+    name: 'Private English Courses and One-to-One Lessons',
+    description:
+      'Tailored one-to-one private English lessons with CELTA-certified teachers, on-site in Amsterdam or live online via Zoom. All levels, packages from 10 hours.',
+    courseCode: 'PRIVATE_ENGLISH',
+    educationalLevel: 'A1-C2',
+    scheduleFilter: { type: 'PRIVATE' },
+    timeRequired: 'PT10H',
+    courseWorkload: 'PT10H',
+    courseMode: 'blended',
+    price: '720',
+    path: '/private-courses/private-english-course/',
+  }),
+];
+
+const props = {
+  seo,
+  jsonLd,
+  showEffective: false,
+  showBestPrice: false,
+  hero: {
+    image: {
+      src: '/wp-content/uploads/2020/02/MixTree-Languages-English-intake-Amsterdam.jpg',
+      alt: 'Private English lesson at MixTree Languages in Amsterdam',
+    },
+    eyebrow: 'Private English Courses',
+    title: 'Private English Courses & One-to-One Lessons',
+    intro:
+      'Tailored <strong>one-to-one English lessons</strong> built entirely around your goals — broaden your job opportunities, prepare for university, or feel more confident in any social setting. Available <strong>on-site in Amsterdam</strong> or <strong>live online via Zoom</strong>, at all levels.',
+  },
+  details: [
+    ['Levels', 'All levels (A1 to C2)'],
+    ['Format', 'On-site in Amsterdam or live online (Zoom)'],
+    ['Group size', 'One-to-one (or 2–8 for private groups)'],
+    ['Schedule', 'On demand — flexible to your calendar'],
+    ['Packages', '10, 20 or 30 hours'],
+    ['Location', 'Eerste Weteringplantsoen 2C, Amsterdam — or online'],
+    ['Certificate', 'Certificate of Attendance & Proficiency Level (CEFR)'],
+  ] as [string, string][],
+  sidebar: {
+    price: 'From €52/h',
+    nextStart: 'On demand',
+    includes: [
+      { icon: '👤', text: 'Personal programme of study' },
+      { icon: '📘', text: 'Course materials' },
+      { icon: '💻', text: 'On-site or live-online via Zoom' },
+      { icon: '✓', text: 'Final evaluation with your teacher' },
+      { icon: '★', text: 'Certificate of Attendance & Level' },
+    ],
+  },
+  finalCta: {
+    heading: 'Ready to learn English on your own terms?',
+    text: 'Schedule a free 15-minute consultation with one of our senior teachers to discuss your goals and design your programme.',
+  },
+};
+
+const formats = [
+  {
+    title: 'On-site in Amsterdam',
+    text: 'One-to-one lessons in our city-centre school at Eerste Weteringplantsoen 2C, scheduled around your calendar.',
+    icon: '🏫',
+  },
+  {
+    title: 'Live online via Zoom',
+    text: 'Same expert teachers, same tailored programme — from anywhere. Ideal for busy schedules or when you travel.',
+    icon: '💻',
+  },
+  {
+    title: 'Private group (2–8)',
+    text: 'Bring colleagues, friends or family. We design a single programme matched to the group’s goals and level.',
+    icon: '👥',
+  },
+];
+
+const onlinePackages = [
+  {
+    label: '10-hour package',
+    price: '€520',
+    perHour: '€52 / hour',
+    cta: 'Book 10-hour online package',
+    bullets: ['10 hours of one-to-one lessons', 'Duration: 4–6 weeks', 'All English levels'],
+    popular: false,
+  },
+  {
+    label: '20-hour package',
+    price: '€1,020',
+    was: '€1,060',
+    perHour: '€51 / hour',
+    cta: 'Book 20-hour online package',
+    bullets: ['20 hours of one-to-one lessons', 'Duration: 6–8 weeks', 'All English levels'],
+    popular: true,
+  },
+  {
+    label: '30-hour package',
+    price: '€1,500',
+    was: '€1,560',
+    perHour: '€50 / hour',
+    cta: 'Book 30-hour online package',
+    bullets: ['30 hours of one-to-one lessons', 'Duration: 6–10 weeks', 'All English levels'],
+    popular: false,
+  },
+];
+
+const onsitePackages = [
+  {
+    label: '10-hour package',
+    price: '€740',
+    perHour: '€74 / hour',
+    cta: 'Book 10-hour on-site package',
+    bullets: ['10 hours of one-to-one lessons', 'Duration: 4–6 weeks', 'All English levels'],
+    popular: false,
+  },
+  {
+    label: '20-hour package',
+    price: '€1,460',
+    was: '€1,520',
+    perHour: '€73 / hour',
+    cta: 'Book 20-hour on-site package',
+    bullets: ['20 hours of one-to-one lessons', 'Duration: 6–8 weeks', 'All English levels'],
+    popular: true,
+  },
+  {
+    label: '30-hour package',
+    price: '€2,160',
+    was: '€2,250',
+    perHour: '€72 / hour',
+    cta: 'Book 30-hour on-site package',
+    bullets: ['30 hours of one-to-one lessons', 'Duration: 6–10 weeks', 'All English levels'],
+    popular: false,
+  },
+];
+
+const programmeFeatures = [
+  {
+    title: 'Taught by professionals',
+    text: 'We only work with highly experienced and certified (minimum CELTA or TEFL qualification) native or bilingual English teachers.',
+  },
+  {
+    title: 'Expertly designed',
+    text: 'Our MA-qualified Learning Manager uses her deep understanding of the learning process and professional materials to create effective learning programmes.',
+  },
+];
+
+const offerings = [
+  'General English at all levels — speaking, listening, grammar, writing',
+  'Business English',
+  'Job interview preparation (CV and cover letter)',
+  'Pronunciation and accent reduction',
+  'Cambridge exam preparation: IELTS, PET, FCE, CAE, CPE, BEC Preliminary, Vantage and Higher',
+  'Presentation and public speaking skills',
+  'Diplomacy, tact and formal language',
+  'Networking',
+  'English for HR managers',
+  'Conducting an interview',
+  'Effective email composition',
+  'Interpersonal communication for management and leadership',
+  'Negotiation strategies',
+  'English for specific purposes (legal, medical, etc.)',
+];
+---
+<CourseDetailLayout {...props}>
+  <div slot="extra" class="space-y-16">
+    <!-- Two formats: on-site & live-online -->
+    <section>
+      <SectionHeading title="On-site in Amsterdam | Or live online" />
+      <p class="mt-4 text-lg text-slate-700">
+        Choose the format that fits your life — every option uses the same
+        CELTA-certified teachers and the same tailored programme of study.
+      </p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-3">
+        {formats.map((f) => (
+          <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div class="text-3xl" aria-hidden="true">{f.icon}</div>
+            <h3 class="mt-3 text-base font-semibold text-brand-700">{f.title}</h3>
+            <p class="mt-1 text-sm text-slate-700">{f.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Packages: split by format -->
+    <section>
+      <SectionHeading title="Packages | Online or on-site" />
+      <p class="mt-4 text-lg text-slate-700">
+        All packages include a free 15-minute consultation, a personal
+        programme, course materials, a final evaluation and a CEFR certificate.
+        The more hours you book, the better the per-hour price.
+      </p>
+
+      <h3 class="mt-10 text-xl font-bold text-brand-700">Online private lessons <span class="ml-2 align-middle text-sm font-normal text-slate-600">(€52 / hour)</span></h3>
+      <div class="mt-4 grid gap-6 sm:grid-cols-3">
+        {onlinePackages.map((p) => (
+          <article class={`relative flex flex-col rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ${p.popular ? 'ring-2 ring-accent-500' : 'ring-slate-200'}`}>
+            {p.popular && (
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent-500 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow">Most popular</span>
+            )}
+            <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">{p.label}</p>
+            <p class="mt-3 text-3xl font-extrabold text-brand-700">
+              {p.price}{p.was && (<span class="ml-2 text-base font-medium text-slate-400 line-through">{p.was}</span>)}
+            </p>
+            <p class="mt-1 text-sm text-slate-600">{p.perHour} · live online (Zoom)</p>
+            <ul class="mt-5 space-y-2 text-left text-sm text-slate-700">
+              {p.bullets.map((b) => (
+                <li class="flex gap-2"><span class="text-accent-500" aria-hidden="true">✓</span><span>{b}</span></li>
+              ))}
+            </ul>
+            <a href="/contact-form-request-for-information-english-courses-mixtree-languages/" class={`mt-6 block rounded-full px-5 py-3 text-sm font-semibold text-white shadow ${p.popular ? 'bg-accent-500 hover:brightness-105' : 'bg-brand-600 hover:bg-brand-700'}`}>
+              {p.cta} →
+            </a>
+          </article>
+        ))}
+      </div>
+
+      <h3 class="mt-12 text-xl font-bold text-brand-700">On-site private lessons <span class="ml-2 align-middle text-sm font-normal text-slate-600">(€74 / hour)</span></h3>
+      <div class="mt-4 grid gap-6 sm:grid-cols-3">
+        {onsitePackages.map((p) => (
+          <article class={`relative flex flex-col rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ${p.popular ? 'ring-2 ring-accent-500' : 'ring-slate-200'}`}>
+            {p.popular && (
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent-500 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow">Most popular</span>
+            )}
+            <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">{p.label}</p>
+            <p class="mt-3 text-3xl font-extrabold text-brand-700">
+              {p.price}{p.was && (<span class="ml-2 text-base font-medium text-slate-400 line-through">{p.was}</span>)}
+            </p>
+            <p class="mt-1 text-sm text-slate-600">{p.perHour} · Amsterdam city centre</p>
+            <ul class="mt-5 space-y-2 text-left text-sm text-slate-700">
+              {p.bullets.map((b) => (
+                <li class="flex gap-2"><span class="text-accent-500" aria-hidden="true">✓</span><span>{b}</span></li>
+              ))}
+            </ul>
+            <a href="/contact-form-request-for-information-english-courses-mixtree-languages/" class={`mt-6 block rounded-full px-5 py-3 text-sm font-semibold text-white shadow ${p.popular ? 'bg-accent-500 hover:brightness-105' : 'bg-brand-600 hover:bg-brand-700'}`}>
+              {p.cta} →
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Activate Your English (programme features) -->
+    <section class="rounded-2xl bg-brand-50 p-6 sm:p-10">
+      <SectionHeading title="All our 'Activate your English' programmes are" />
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        {programmeFeatures.map((f) => (
+          <div class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-200">
+            <h3 class="text-base font-semibold text-brand-700">{f.title}</h3>
+            <p class="mt-1 text-sm text-slate-700">{f.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- What we teach -->
+    <section>
+      <SectionHeading title="MixTree Languages offers English private lessons in" />
+      <ul class="mt-6 grid gap-2 text-sm text-slate-700 sm:grid-cols-2">
+        {offerings.map((o) => (
+          <li class="flex gap-2 rounded-lg bg-white p-3 ring-1 ring-slate-200"><span class="text-accent-500" aria-hidden="true">▸</span><span>{o}</span></li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</CourseDetailLayout>

@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+
+const seo = {
+  title: 'MixTree Events | English Language School in Amsterdam',
+  description:
+    'Social, artistic and educative events organised by MixTree Languages — language exchange meetups, cultural evenings and more in the heart of Amsterdam.',
+};
+
+const events = [
+  {
+    title: 'Language Exchange Meetup',
+    when: 'Every second Tuesday',
+    body: 'Practise your English in a fun, social setting at venues in the centre of Amsterdam. Meet students from all our courses and locals who want to practise other languages — a great way to build your fluency and your network.',
+  },
+  {
+    title: 'Cultural & artistic evenings',
+    when: 'Throughout the year',
+    body: 'From film nights and book club evenings to art-gallery visits and city walks — we organise regular cultural events that combine real-world English practice with the best of Amsterdam life.',
+  },
+  {
+    title: 'Educative workshops',
+    when: 'Several times a term',
+    body: 'Free workshops on pronunciation, exam preparation, English in the workplace and more — open to all current and past MixTree students.',
+  },
+];
+---
+<BaseLayout seo={seo} container={false}>
+  <!-- Hero -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">MixTree Events</p>
+      <h1 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl lg:text-5xl">
+        More than just classes
+      </h1>
+      <p class="mt-4 max-w-3xl text-lg text-slate-700">
+        We organise social, artistic and educative events for our students throughout the year — from
+        language exchange meetups to cultural evenings around Amsterdam. They&rsquo;re free, friendly and
+        a brilliant way to practise your English outside the classroom.
+      </p>
+      <div class="mt-8">
+        <a
+          href="https://www.facebook.com/MixTreeLanguages/events"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow hover:brightness-105"
+        >
+          See upcoming events on Facebook →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hero image -->
+  <div class="mx-auto max-w-6xl px-4 pt-2 sm:px-6 lg:px-8">
+    <figure class="overflow-hidden rounded-xl shadow-sm">
+      <img
+        src="/wp-content/uploads/2020/01/Meetup.2.jpg"
+        alt="MixTree Languages language exchange meetup in Amsterdam"
+        class="h-48 w-full object-cover sm:h-64 md:h-80 lg:h-96"
+        width="1600"
+        height="600"
+        decoding="async"
+      />
+    </figure>
+  </div>
+
+  <!-- Event types -->
+  <section class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    <SectionHeading title="What we organise" />
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      {events.map((e) => (
+        <article class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+          <p class="text-xs font-semibold uppercase tracking-wide text-accent-500">{e.when}</p>
+          <h2 class="mt-2 text-xl font-bold text-brand-700">{e.title}</h2>
+          <p class="mt-3 text-sm text-slate-700">{e.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-brand-700 text-white">
+    <div class="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 lg:px-8 lg:py-16">
+      <h2 class="text-2xl font-bold sm:text-3xl">Stay in the loop</h2>
+      <p class="mx-auto mt-3 max-w-2xl text-white/90">
+        Follow us on social media to hear about the next MixTree Languages event in Amsterdam.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="https://www.facebook.com/MixTreeLanguages/events" target="_blank" rel="noopener noreferrer" class="rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow hover:brightness-105">
+          Facebook events →
+        </a>
+        <a href="https://www.instagram.com/mixtreelanguages/" target="_blank" rel="noopener noreferrer" class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-white/20">
+          Instagram →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

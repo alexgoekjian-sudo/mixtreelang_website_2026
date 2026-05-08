@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'Get a Quote — In-Company English Course | MixTree Languages',
+  description:
+    'Request a custom quote for in-company English training in Amsterdam or live online. Tailored programme, certified teachers, all materials and lesson hours included.',
+  noindex: true,
+};
+---
+<BaseLayout seo={seo}>
+  <section class="mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:px-8">
+    <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">In-Company English Course</p>
+    <h1 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl">Get a Quote</h1>
+    <p class="mt-4 text-lg text-slate-700">
+      Tell us about your team and we’ll send a tailored programme and full
+      quote — including all materials and lesson hours.
+    </p>
+    <div class="mt-8 rounded-2xl bg-brand-50 p-6 text-center ring-1 ring-brand-100 sm:p-10">
+      <p class="text-sm font-semibold text-brand-700">Quote form coming soon</p>
+      <p class="mt-2 text-sm text-slate-700">
+        In the meantime, please contact us directly and we’ll get back to you
+        within one working day.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a href="mailto:info@mixtreelang.nl?subject=In-Company%20English%20Course%20%E2%80%94%20Quote%20request" class="rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow hover:brightness-105">
+          Email info@mixtreelang.nl
+        </a>
+        <a href="tel:+31207861981" class="rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-brand-700">
+          Call +31 (0) 20 78 61 981
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

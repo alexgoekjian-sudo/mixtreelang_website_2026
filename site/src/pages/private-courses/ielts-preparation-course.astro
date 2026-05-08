@@ -1,0 +1,113 @@
+---
+import CourseDetailLayout from '../../layouts/CourseDetailLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { courseNode } from '../../lib/schema';
+
+const seo = {
+  title: 'IELTS Preparation Course in Amsterdam or Online | MixTree Languages',
+  description:
+    'One-to-one IELTS preparation lessons (Academic or General) with CELTA-certified teachers. Practise the four modules, learn exam strategies and complete mock tests. From €52/hour.',
+};
+
+const jsonLd = [
+  courseNode({
+    name: 'IELTS Preparation Course',
+    description:
+      'Tailored one-to-one IELTS preparation (Academic or General) with CELTA-certified teachers. On-site in Amsterdam or live online.',
+    courseCode: 'IELTS_PREP',
+    educationalLevel: 'B1-C1',
+    scheduleFilter: { type: 'PRIVATE' },
+    timeRequired: 'PT10H',
+    courseWorkload: 'PT10H',
+    courseMode: 'blended',
+    price: '520',
+    path: '/private-courses/ielts-preparation-course/',
+  }),
+];
+
+const props = {
+  seo,
+  jsonLd,
+  showBestPrice: false,
+  hero: {
+    image: {
+      src: '/wp-content/uploads/2020/08/ielts-preparation.jpg',
+      alt: 'IELTS preparation course at MixTree Languages',
+    },
+    eyebrow: 'IELTS Preparation Course',
+    title: 'IELTS Preparation Course in Amsterdam or Online',
+    intro:
+      'Planning to take the IELTS exam to study or work in the Netherlands? Get <strong>one-to-one preparation</strong> for IELTS Academic or General with a CELTA-certified teacher who will guide you through everything you need to succeed.',
+  },
+  details: [
+    ['Levels', 'From B1 (and up to C1)'],
+    ['Format', 'On-site in Amsterdam or live online (Zoom)'],
+    ['Group size', 'One-to-one'],
+    ['Schedule', 'On demand — flexible to your calendar'],
+    ['Packages', 'From 10 hours'],
+    ['Exams covered', 'IELTS Academic & IELTS General'],
+    ['Certificate', 'Certificate of Attendance & Proficiency Level (CEFR)'],
+  ] as [string, string][],
+  sidebar: {
+    price: 'From €52/h',
+    nextStart: 'On demand',
+    includes: [
+      { icon: '👤', text: 'Personal IELTS programme' },
+      { icon: '📘', text: 'Course materials & past papers' },
+      { icon: '📝', text: 'Mock exams & feedback' },
+      { icon: '✓', text: 'Final evaluation with your teacher' },
+      { icon: '★', text: 'Certificate of Attendance & Level' },
+    ],
+  },
+  finalCta: {
+    heading: 'Ready to ace the IELTS?',
+    text: 'Schedule a free 15-minute consultation to discuss your target score and design your preparation programme.',
+  },
+};
+
+const modules = [
+  { title: 'Listening', text: 'Listen for detail, summarise what you hear and respond appropriately under exam conditions.', icon: '🎧' },
+  { title: 'Reading', text: 'Strategies for skimming, scanning and answering each question type accurately and fast.', icon: '📖' },
+  { title: 'Writing', text: 'Craft and edit a well-organised, clear essay — with detailed feedback on every task.', icon: '✍️' },
+  { title: 'Speaking', text: 'Mock interviews and targeted practice for parts 1, 2 and 3 of the speaking exam.', icon: '🗣' },
+];
+
+const learn = [
+  'Practise skills in each of the four IELTS modules.',
+  'Complete sample tests and targeted practice for every section.',
+  'Receive feedback on your speaking and writing.',
+  'Learn effective test-taking strategies and tips for exam day.',
+  'Build stronger, more flexible grammar and a wider vocabulary.',
+];
+---
+<CourseDetailLayout {...props}>
+  <div slot="extra" class="space-y-16">
+    <!-- Four modules -->
+    <section>
+      <SectionHeading title="Four modules | One focused programme" />
+      <p class="mt-4 text-lg text-slate-700">
+        Your teacher builds a programme around your target score and the
+        modules where you need the most support.
+      </p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {modules.map((m) => (
+          <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div class="text-3xl" aria-hidden="true">{m.icon}</div>
+            <h3 class="mt-3 text-base font-semibold text-brand-700">{m.title}</h3>
+            <p class="mt-1 text-sm text-slate-700">{m.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- What you'll do -->
+    <section class="rounded-2xl bg-brand-50 p-6 sm:p-10">
+      <SectionHeading title="What you'll do in your lessons" />
+      <ul class="mt-6 grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
+        {learn.map((l) => (
+          <li class="flex gap-2 rounded-lg bg-white p-3 ring-1 ring-slate-200"><span class="text-accent-500" aria-hidden="true">✓</span><span>{l}</span></li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</CourseDetailLayout>

@@ -1,0 +1,20 @@
+---
+import ThankYouLayout from '../../layouts/ThankYouLayout.astro';
+import { GADS_CONVERSION } from '../../lib/conversions';
+---
+<ThankYouLayout
+  title="Thank you for enrolling"
+  description="Your enrolment request has been received. You'll get a confirmation email from our booking system shortly."
+  eyebrow="Enrolment received"
+  lead="Welcome aboard! We've sent a confirmation email with the details of your enrolment. Please check your inbox (and spam folder) in the next few minutes."
+  nextSteps={[
+    'Check your email for confirmation from our booking platform.',
+    'Add the start date to your calendar so you don\'t miss day one.',
+    'Have a question in the meantime? Reply to the email or contact us at <a href="mailto:info@mixtreelang.nl" class="text-brand-700 underline">info@mixtreelang.nl</a>.',
+  ]}
+  ctas={[
+    { label: 'Browse upcoming courses', href: '/course-schedule/' },
+    { label: 'Read about our school', href: '/about-mixtree-languages/', variant: 'secondary' },
+  ]}
+  conversionSendTo={GADS_CONVERSION.enrolment}
+/>

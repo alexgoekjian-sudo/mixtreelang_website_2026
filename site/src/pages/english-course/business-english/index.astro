@@ -1,0 +1,96 @@
+---
+import CourseDetailLayout from '../../../layouts/CourseDetailLayout.astro';
+import { nextStartLabel, findUpcoming, fmtDate } from '../../../lib/schedule';
+import { courseNode } from '../../../lib/schema';
+
+const seo = {
+  title: 'Live-Online Business English Course | MixTree Languages',
+  description:
+    'Live-online Business English course — 24 hours over 6 weeks, B2/C1, CELTA-certified teachers. Communicate confidently with international colleagues and clients.',
+};
+
+const jsonLd = [
+  courseNode({
+    name: 'Business English Course',
+    description:
+      'Live-online Business English course for B2/C1 students. Boost your business communication, presentation, meeting and email skills with CELTA-certified teachers.',
+    courseCode: 'BUSINESS_ENGLISH',
+    educationalLevel: 'B2-C1',
+    scheduleFilter: { level: 'BUSINESS' },
+    timeRequired: 'PT24H',
+    courseWorkload: 'PT24H',
+    courseMode: 'online',
+    price: '385',
+    path: '/english-course/business-english/',
+  }),
+];
+
+const nextStart = nextStartLabel({ level: 'BUSINESS' }, 'Check schedule');
+const upcomingStarts = findUpcoming({ level: 'BUSINESS' }, 20);
+const uniqueStartDates = Array.from(new Set(upcomingStarts.map((r) => r.startDate))).slice(0, 3);
+const nextStartsList = uniqueStartDates.length
+  ? uniqueStartDates.map(fmtDate).join(' · ')
+  : 'Check schedule';
+
+const props = {
+  seo,
+  jsonLd,
+  hero: {
+    image: {
+      src: '/wp-content/uploads/2024/12/3.Business-English-courses.school-in-Amsterdam.-2023.-MixTree-Languages.jpg',
+      alt: 'Business English course at MixTree Languages, Amsterdam',
+    },
+    eyebrow: 'Business English Course',
+    title: 'Live-Online Business English Course',
+    intro:
+      'Communicate confidently with international colleagues and clients. <strong>24 hours over 6 weeks</strong>, live-online via Zoom, with the perfect mix of <strong>speaking practice and real business tasks</strong>.',
+  },
+  levels: {
+    heading: 'Two Levels | B2 · C1',
+    intro:
+      'Available to <strong>upper-intermediate</strong> and <strong>advanced</strong> students. Lessons focus on <strong>business communication</strong>: meetings, presentations, networking, negotiations, emails and CVs.',
+    items: [
+      {
+        code: 'B2',
+        name: 'Upper-Intermediate Business',
+        desc: 'For students who can hold a discussion in English and want sharper vocabulary, structure and confidence for the workplace.',
+        book: { src: '/wp-content/uploads/2022/01/b2-book.jpeg', alt: 'English File Upper-Intermediate textbook' },
+        isbn: '978-0194039697',
+      },
+      {
+        code: 'C1',
+        name: 'Advanced Business',
+        desc: 'For advanced speakers who want nuance, accuracy and authority — for leading meetings, negotiating and presenting.',
+        book: { src: '/wp-content/uploads/2022/04/c1-book.jpeg', alt: 'English File Advanced textbook' },
+        isbn: '978-0194038041',
+      },
+    ],
+  },
+  details: [
+    ['Levels', 'B2 Upper-Intermediate · C1 Advanced'],
+    ['Next starts', nextStartsList],
+    ['Days', 'Tuesday & Thursday'],
+    ['Times', '19:00–21:00'],
+    ['Location', 'Live-Online with Zoom'],
+    ['Classroom hours', '24 hours (12 lessons of 2 hours over 6 weeks)'],
+    ['Self-study', '~24 hours'],
+    ['Group size', '6–10 participants'],
+    ['Certificate', 'Certificate of Attendance & Proficiency Level (CEFR)'],
+  ] as [string, string][],
+  sidebar: {
+    price: '€385',
+    nextStart,
+    includes: [
+      { icon: '⏱', text: '24-hour live-online group course' },
+      { icon: '▣', text: 'Extra course materials & online practice' },
+      { icon: '✓', text: 'Final evaluation with your teacher' },
+      { icon: '★', text: 'Certificate of Attendance with your English Level' },
+    ],
+  },
+  finalCta: {
+    heading: 'Ready to elevate your business English?',
+    text: 'Book a free 15-minute level check and join the next live-online cohort.',
+  },
+};
+---
+<CourseDetailLayout {...props} />

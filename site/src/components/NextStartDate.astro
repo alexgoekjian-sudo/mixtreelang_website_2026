@@ -1,0 +1,77 @@
+---
+import schedule from '../data/schedule.json';
+
+type CourseRow = {
+  code: string;
+  type: string;
+  level: string;
+  programme: string;
+  hours: number;
+  weeks: number;
+  priceEur: number;
+  startDate: string; // ISO yyyy-mm-dd
+  endDate: string;
+  year: number;
+  days: string;
+  times: string;
+  registerUrl: string;
+};
+
+export interface Props {
+  /** Filter by course type, e.g. "INTENSIVE", "EVENING", "MORNING", "BEGINNER" */
+  type?: string;
+  /** Filter by level, e.g. "BUSINESS", "C1", "A1" */
+  level?: string;
+  /** Filter by programme name */
+  programme?: string;
+  /** Restrict to summer months (Jul/Aug) — for summer-intensive */
+  summerOnly?: boolean;
+  /** Format: "date" (default, e.g. "11 May 2026") | "dateAndPrice" | "long" (date + days + times) */
+  format?: 'date' | 'dateAndPrice' | 'long';
+  /** Fallback string when no upcoming course matches */
+  fallback?: string;
+}
+
+const {
+  type,
+  level,
+  programme,
+  summerOnly = false,
+  format = 'date',
+  fallback = 'TBA',
+} = Astro.props;
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const rows = (schedule as CourseRow[])
+  .filter((r) => !type || r.type === type)
+  .filter((r) => !level || r.level === level)
+  .filter((r) => !programme || r.programme === programme)
+  .filter((r) => {
+    if (!summerOnly) return true;
+    const m = Number(r.startDate.slice(5, 7));
+    return m === 7 || m === 8;
+  })
+  .filter((r) => new Date(r.startDate) >= today)
+  .sort((a, b) => a.startDate.localeCompare(b.startDate));
+
+const next = rows[0];
+
+const fmtDate = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
+let label = fallback;
+if (next) {
+  if (format === 'date') label = fmtDate(next.startDate);
+  else if (format === 'dateAndPrice')
+    label = `${fmtDate(next.startDate)} — €${next.priceEur}`;
+  else if (format === 'long')
+    label = `${fmtDate(next.startDate)} · ${next.days} · ${next.times}`;
+}
+---
+<span class="next-start-date">{label}</span>

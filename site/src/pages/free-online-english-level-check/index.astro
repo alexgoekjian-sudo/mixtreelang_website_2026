@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'Book a Free English Level Check at MixTree Languages',
+  description:
+    'Book a free English level check, online or in-person at our school in Amsterdam. A qualified teacher will assess your level and discuss your learning goals.',
+};
+---
+<BaseLayout seo={seo}>
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold text-brand-700 sm:text-4xl">Book a Free English Level Check at MixTree Languages</h1>
+    <p class="mt-3 max-w-3xl text-slate-700">
+      Select your preferred date and time below, <strong>ONLINE</strong> or <strong>IN-PERSON</strong> (at our school).
+      One of our <strong>highly qualified English teachers</strong> will assess <strong>your current level</strong> and discuss <strong>your learning goals</strong>.
+    </p>
+    <p class="mt-2 max-w-3xl text-slate-700">
+      If you prefer, you can just visit the school without an appointment and have an in-person level check with us between 9.30 and 13.00, except on Wednesdays.
+    </p>
+  </header>
+
+  <div class="mb-4 inline-flex rounded-lg bg-slate-100 p-1" role="tablist" aria-label="Level check format">
+    <button type="button" id="tab-online" role="tab" aria-selected="true" aria-controls="online-tab"
+      class="flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-brand-700 shadow-sm">
+      <span>💻</span><span>ONLINE — Video call</span>
+    </button>
+    <button type="button" id="tab-onsite" role="tab" aria-selected="false" aria-controls="onsite-tab"
+      class="flex items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold text-slate-600 hover:text-brand-700">
+      <span>📍</span><span>IN-PERSON — Amsterdam</span>
+    </button>
+  </div>
+
+  <div id="online-tab" role="tabpanel" aria-labelledby="tab-online" class="rounded-lg ring-1 ring-slate-200">
+    <iframe
+      src="https://cal.com/mixtree-languages-wun1zc/online-lc-15min?embed=1"
+      title="Book Online English Level Check"
+      class="h-[800px] w-full rounded-lg"
+      loading="lazy"
+      allow="fullscreen">
+    </iframe>
+  </div>
+
+  <div id="onsite-tab" role="tabpanel" aria-labelledby="tab-onsite" hidden class="rounded-lg ring-1 ring-slate-200">
+    <iframe
+      src="https://cal.com/mixtree-languages-wun1zc/onsite-lc-15min?embed=1"
+      title="Book Onsite English Level Check"
+      class="h-[800px] w-full rounded-lg"
+      loading="lazy"
+      allow="fullscreen">
+    </iframe>
+  </div>
+
+  <section class="prose prose-slate mt-12 max-w-3xl">
+    <h2>What to Expect During Your English Level Check</h2>
+    <p>Our <strong>English level check</strong> helps us recommend the best course for your specific needs by assessing your current level and understanding your learning requirements:</p>
+    <h3>Level Check Components:</h3>
+    <ul>
+      <li><strong>Language level evaluation</strong> — Speaking, listening, and grammar assessment</li>
+      <li><strong>Schedule discussion</strong> — Finding class times that work for you</li>
+      <li><strong>Goal setting</strong> — Understanding what you want to achieve</li>
+      <li><strong>Course matching</strong> — Recommending the most suitable class format and level</li>
+    </ul>
+    <h2>After Your Level Check</h2>
+    <p>You'll receive an email with specific course recommendations based on your English level, availability, and learning objectives.</p>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    var tabs = [
+      { btn: document.getElementById('tab-online'), panel: document.getElementById('online-tab') },
+      { btn: document.getElementById('tab-onsite'), panel: document.getElementById('onsite-tab') }
+    ];
+    function activate(idx) {
+      tabs.forEach(function (t, i) {
+        var on = i === idx;
+        if (!t.btn || !t.panel) return;
+        t.btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.btn.classList.toggle('bg-white', on);
+        t.btn.classList.toggle('text-brand-700', on);
+        t.btn.classList.toggle('shadow-sm', on);
+        t.btn.classList.toggle('text-slate-600', !on);
+        t.panel.hidden = !on;
+      });
+    }
+    tabs.forEach(function (t, i) { if (t.btn) t.btn.addEventListener('click', function () { activate(i); }); });
+  })();
+</script>

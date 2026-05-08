@@ -1,0 +1,127 @@
+---
+import scheduleData from '../data/schedule.json';
+import { scheduleSchema, type ScheduleRow } from '../data/schedule.schema';
+
+const rows: ScheduleRow[] = scheduleSchema.parse(scheduleData);
+
+const types = Array.from(new Set(rows.map((r) => r.type))).sort();
+const levels = Array.from(new Set(rows.map((r) => r.level))).sort();
+const months = Array.from(
+  new Set(
+    rows.map((r) => {
+      const d = new Date(r.startDate);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    }),
+  ),
+).sort();
+
+const fmtMonth = (ym: string) => {
+  const [y, m] = ym.split('-');
+  return new Date(Number(y), Number(m) - 1, 1).toLocaleString('en-GB', {
+    month: 'long',
+    year: 'numeric',
+  });
+};
+
+const fmtDate = (iso: string) =>
+  new Date(iso).toLocaleString('en-GB', { month: 'short', day: 'numeric' });
+---
+
+<section class="not-prose">
+  <div class="mb-4 flex flex-wrap items-end gap-3">
+    <label class="text-sm">
+      <span class="mr-2 text-slate-600">Type</span>
+      <select id="filter-type" class="rounded border border-slate-300 px-2 py-1">
+        <option value="">All</option>
+        {types.map((t) => <option value={t}>{t}</option>)}
+      </select>
+    </label>
+    <label class="text-sm">
+      <span class="mr-2 text-slate-600">Level</span>
+      <select id="filter-level" class="rounded border border-slate-300 px-2 py-1">
+        <option value="">All</option>
+        {levels.map((l) => <option value={l}>{l}</option>)}
+      </select>
+    </label>
+    <label class="text-sm">
+      <span class="mr-2 text-slate-600">Start month</span>
+      <select id="filter-month" class="rounded border border-slate-300 px-2 py-1">
+        <option value="">All</option>
+        {months.map((m) => <option value={m}>{fmtMonth(m)}</option>)}
+      </select>
+    </label>
+    <p id="schedule-count" class="ml-auto text-sm text-slate-600" data-total={rows.length}>
+      Showing {rows.length} of {rows.length} courses
+    </p>
+  </div>
+
+  <div class="overflow-x-auto rounded-lg ring-1 ring-slate-200">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+      <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+        <tr>
+          <th class="px-3 py-2">Course</th>
+          <th class="px-3 py-2">Type</th>
+          <th class="px-3 py-2">Level</th>
+          <th class="px-3 py-2">Hours / Weeks</th>
+          <th class="px-3 py-2">Price</th>
+          <th class="px-3 py-2">Start</th>
+          <th class="px-3 py-2">End</th>
+          <th class="px-3 py-2">Days</th>
+          <th class="px-3 py-2">Times</th>
+          <th class="px-3 py-2 text-right">Register</th>
+        </tr>
+      </thead>
+      <tbody id="schedule-rows" class="divide-y divide-slate-100 bg-white">
+        {rows.map((r) => {
+          const ym = `${new Date(r.startDate).getFullYear()}-${String(
+            new Date(r.startDate).getMonth() + 1,
+          ).padStart(2, '0')}`;
+          return (
+            <tr data-type={r.type} data-level={r.level} data-month={ym}>
+              <td class="px-3 py-2 font-medium text-slate-900">{r.code}</td>
+              <td class="px-3 py-2">{r.type}</td>
+              <td class="px-3 py-2">{r.level}</td>
+              <td class="px-3 py-2">{r.hours}h / {r.weeks}w</td>
+              <td class="px-3 py-2">€{r.priceEur}</td>
+              <td class="px-3 py-2">{fmtDate(r.startDate)}</td>
+              <td class="px-3 py-2">{fmtDate(r.endDate)}</td>
+              <td class="px-3 py-2">{r.days}</td>
+              <td class="px-3 py-2">{r.times}</td>
+              <td class="px-3 py-2 text-right">
+                <a href={r.registerUrl} class="rounded bg-brand-600 px-3 py-1 text-xs font-semibold text-white hover:bg-brand-700">Register</a>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var typeSel = document.getElementById('filter-type');
+    var levelSel = document.getElementById('filter-level');
+    var monthSel = document.getElementById('filter-month');
+    var rows = Array.from(document.querySelectorAll('#schedule-rows tr'));
+    var counter = document.getElementById('schedule-count');
+    var total = counter ? Number(counter.getAttribute('data-total')) : rows.length;
+
+    function apply() {
+      var t = typeSel.value, l = levelSel.value, m = monthSel.value;
+      var visible = 0;
+      rows.forEach(function (row) {
+        var ok =
+          (!t || row.dataset.type === t) &&
+          (!l || row.dataset.level === l) &&
+          (!m || row.dataset.month === m);
+        row.style.display = ok ? '' : 'none';
+        if (ok) visible++;
+      });
+      if (counter) counter.textContent = 'Showing ' + visible + ' of ' + total + ' courses';
+    }
+    [typeSel, levelSel, monthSel].forEach(function (el) {
+      if (el) el.addEventListener('change', apply);
+    });
+  })();
+</script>

@@ -1,0 +1,65 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="mt-16 border-t border-slate-200 bg-slate-50">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-4 lg:px-8">
+    <div>
+      <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-700">Quick Links</h3>
+      <ul class="space-y-2 text-sm text-slate-600">
+        <li><a href="/about-mixtree-languages/" class="hover:text-brand-700">About MixTree Languages</a></li>
+        <li><a href="/course-schedule/" class="hover:text-brand-700">Courses Schedule 2025-26</a></li>
+        <li><a href="/english-course/summer-intensive-english-course/" class="hover:text-brand-700">Summer Intensive English Courses</a></li>
+        <li><a href="/about-mixtree-languages/faq-mixtree-languages/" class="hover:text-brand-700">Frequently Asked Questions</a></li>
+        <li><a href="/contact/" class="hover:text-brand-700">Contact Us</a></li>
+        <li><a href="/engels-leren-mixtree/" class="hover:text-brand-700">Engels leren bij Mixtree</a></li>
+        <li><a href="/english-language-tips/" class="hover:text-brand-700">MixTree Magazine</a></li>
+        <li><a href="/mixtree-events/" class="hover:text-brand-700">Upcoming Events</a></li>
+      </ul>
+    </div>
+
+    <div class="md:col-span-2">
+      <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-700">Contact</h3>
+      <address class="not-italic text-sm leading-6 text-slate-600">
+        Eerste Weteringplantsoen 2c, 1017 SJ, Amsterdam, The Netherlands<br />
+        Phone: <a href="tel:+31207861981" class="text-brand-700 hover:underline">+31 (0) 20 78 61 981</a><br />
+        Email: <a href="mailto:info@mixtreelang.nl" class="text-brand-700 hover:underline">info@mixtreelang.nl</a><br />
+        Office Hours: Mon–Fri 9:00–18:00 | Wed 9:00–15:00
+      </address>
+      <div class="mt-3 flex gap-3 text-sm">
+        <a href="https://www.facebook.com/MixTreeLanguages" rel="noopener" class="text-brand-700 hover:underline">Facebook</a>
+        <a href="https://www.instagram.com/mixtree.lang/" rel="noopener" class="text-brand-700 hover:underline">Instagram</a>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-700">Newsletter</h3>
+      <p class="mb-3 text-sm text-slate-600">
+        Subscribe to receive information about our
+        <a href="/english-course/" class="text-brand-700 hover:underline">courses</a> and
+        <a href="/mixtree-events/" class="text-brand-700 hover:underline">events</a>.
+      </p>
+      <form action="/mailer.php" method="post" class="space-y-2">
+        <input type="hidden" name="form" value="newsletter" />
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+        <input type="text" name="name" required placeholder="Name" class="w-full rounded border border-slate-300 px-3 py-2 text-sm" />
+        <input type="email" name="email" required placeholder="Email" class="w-full rounded border border-slate-300 px-3 py-2 text-sm" />
+        <p class="text-xs text-slate-500">
+          By continuing, you accept the
+          <a href="/privacy-policy/" class="text-brand-700 hover:underline">privacy policy</a>.
+        </p>
+        <button type="submit" class="w-full rounded bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">SUBSCRIBE</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="border-t border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-4 text-xs text-slate-500 sm:flex-row sm:px-6 lg:px-8">
+      <p>MixTree Languages © {year} . All rights reserved.</p>
+      <p>
+        <a href="/terms-and-conditions/" class="hover:text-brand-700">Terms &amp; Conditions</a>
+        · <a href="/privacy-policy/" class="hover:text-brand-700">Privacy Policy</a>
+        · <button type="button" onclick="window.showCookiePreferences && window.showCookiePreferences()" class="hover:text-brand-700">Manage cookies</button>
+      </p>
+    </div>
+  </div>
+</footer>

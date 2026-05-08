@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { articleNode } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.data.urlSlug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const seo = {
+  ...post.data.seo,
+  ogImage: post.data.coverImage,
+};
+
+const pageUrl = new URL(Astro.url.pathname, 'https://mixtreelang.nl').toString();
+const jsonLd = [
+  articleNode({
+    title: post.data.title,
+    excerpt: post.data.excerpt,
+    publishedAt: post.data.publishedAt,
+    updatedAt: post.data.updatedAt,
+    coverImage: post.data.coverImage,
+    author: post.data.author,
+    url: pageUrl,
+  }),
+];
+---
+<BaseLayout seo={seo} jsonLd={jsonLd}>
+  <article class="prose prose-slate mx-auto max-w-3xl prose-a:text-brand-700 hover:prose-a:text-accent-500">
+    <h1>{post.data.title}</h1>
+    <p class="text-sm text-slate-500">
+      {new Date(post.data.publishedAt).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+    </p>
+    <Content />
+
+    {post.data.source && (
+      <aside class="mt-10 rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm not-prose">
+        <p class="text-slate-600">
+          <span class="font-semibold uppercase tracking-wide text-accent-500">Source</span>
+          <span class="mx-2 text-slate-400">·</span>
+          Originally published on
+          <a
+            href={post.data.source.url}
+            rel="noopener external"
+            target="_blank"
+            class="font-semibold text-brand-700 hover:underline"
+          >
+            {post.data.source.name}
+            <span aria-hidden="true" class="ml-0.5">↗</span>
+          </a>
+        </p>
+      </aside>
+    )}
+  </article>
+</BaseLayout>

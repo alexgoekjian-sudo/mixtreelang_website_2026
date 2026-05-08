@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts');
+
+const seo = {
+  title: 'MixTree Magazine — English Language Tips',
+  description: 'Tips, advice and stories about learning English from the MixTree Languages team.',
+};
+
+// Decode the most common HTML entities and strip any leftover tags / nbsp noise
+// from WordPress-imported excerpts.
+const ENTITY_MAP: Record<string, string> = {
+  '&nbsp;': ' ',
+  '&amp;': '&',
+  '&quot;': '"',
+  '&#039;': "'",
+  '&apos;': "'",
+  '&lt;': '<',
+  '&gt;': '>',
+  '&hellip;': '…',
+  '&mdash;': '—',
+  '&ndash;': '–',
+  '&rsquo;': '\u2019',
+  '&lsquo;': '\u2018',
+  '&rdquo;': '\u201d',
+  '&ldquo;': '\u201c',
+};
+
+function cleanExcerpt(raw: string, title: string): string {
+  if (!raw) return '';
+  let s = raw
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&#(\d+);/g, (_m, n) => String.fromCharCode(parseInt(n, 10)))
+    .replace(/&[a-z]+;/gi, (m) => ENTITY_MAP[m.toLowerCase()] ?? ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  // Strip a leading repetition of the title (case-insensitive, ignoring punctuation).
+  const t = title.trim();
+  if (t && s.toLowerCase().startsWith(t.toLowerCase())) {
+    s = s.slice(t.length).replace(/^[\s:–—-]+/, '').trim();
+  }
+  if (s.length > 200) {
+    s = s.slice(0, 200).replace(/\s+\S*$/, '') + '…';
+  } else if (s && !/[.!?…]$/.test(s)) {
+    s += '…';
+  }
+  return s;
+}
+
+function fmtDate(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(+d)) return '';
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+const sorted = posts
+  .slice()
+  .sort((a, b) => +new Date(b.data.publishedAt) - +new Date(a.data.publishedAt));
+---
+<BaseLayout seo={seo}>
+  <h1 class="text-3xl font-bold text-brand-700 sm:text-4xl">MixTree Magazine</h1>
+  <p class="mt-3 text-slate-700">Tips, advice and stories about learning English.</p>
+
+  {sorted.length === 0 ? (
+    <p class="mt-8 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+      Posts will appear here once migrated from WordPress.
+    </p>
+  ) : (
+    <ul class="mt-8 grid gap-6 md:grid-cols-2">
+      {sorted.map((p) => {
+        const excerpt = cleanExcerpt(p.data.excerpt ?? '', p.data.title ?? '');
+        const dateLabel = fmtDate(p.data.publishedAt);
+        return (
+          <li class="flex flex-col rounded-lg p-5 ring-1 ring-slate-200 transition hover:shadow-sm">
+            {dateLabel && (
+              <time
+                datetime={p.data.publishedAt}
+                class="text-xs font-semibold uppercase tracking-wide text-accent-500"
+              >
+                {dateLabel}
+              </time>
+            )}
+            <a
+              href={`/english-language-tips/${p.data.urlSlug}/`}
+              class="mt-1 text-lg font-semibold text-brand-700 hover:underline"
+            >
+              {p.data.title}
+            </a>
+            {excerpt && <p class="mt-2 text-sm text-slate-600">{excerpt}</p>}
+          </li>
+        );
+      })}
+    </ul>
+  )}
+</BaseLayout>

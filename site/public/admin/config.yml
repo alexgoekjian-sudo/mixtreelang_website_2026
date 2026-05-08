@@ -1,0 +1,104 @@
+# Decap CMS configuration for MixTree Languages
+#
+# Backend: GitHub (so editing works directly against the repo on Cloud86 deploys).
+# To enable login, you need an OAuth provider in front of GitHub. Two options:
+#   1. Netlify hosting → use `git-gateway` instead of `github`.
+#   2. Self-hosted OAuth proxy (recommended on Cloud86):
+#        https://github.com/vencax/netlify-cms-github-oauth-provider
+#      then set `base_url` and `auth_endpoint` here.
+#
+# For local-only editing (no auth) run `npx decap-server` in /site and visit
+# http://localhost:4321/admin/ — see scripts/cms-local.md.
+
+backend:
+  name: github
+  repo: alexgoekjian-sudo/mixtreelang_website
+  branch: main
+  # Uncomment + set when your OAuth proxy is up.
+  # base_url: https://oauth.mixtreelang.nl
+  # auth_endpoint: /auth
+
+# Where uploaded images go (served from /public/...).
+media_folder: site/public/wp-content/uploads/cms
+public_folder: /wp-content/uploads/cms
+
+# Show "Open in editor" preview pane.
+site_url: https://mixtreelang.nl
+display_url: https://mixtreelang.nl
+logo_url: https://mixtreelang.nl/logo.svg
+
+# Editorial workflow → drafts become PRs in GitHub.
+publish_mode: editorial_workflow
+
+collections:
+  # Magazine articles (Markdown content collection).
+  - name: posts
+    label: Magazine articles
+    label_singular: Magazine article
+    folder: site/src/content/posts
+    create: true
+    slug: '{{slug}}'
+    extension: md
+    format: frontmatter
+    summary: '{{title}} — {{publishedAt | date("YYYY-MM-DD")}}'
+    sortable_fields: [publishedAt, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: urlSlug, label: URL slug, widget: string, hint: 'Used in /english-language-tips/<slug>/' }
+      - { name: publishedAt, label: Published, widget: datetime, format: 'YYYY-MM-DD', date_format: 'YYYY-MM-DD', time_format: false }
+      - { name: updatedAt, label: Updated, widget: datetime, required: false, format: 'YYYY-MM-DD', date_format: 'YYYY-MM-DD', time_format: false }
+      - { name: excerpt, label: Excerpt, widget: text }
+      - { name: coverImage, label: Cover image, widget: image, required: false }
+      - { name: coverImageAlt, label: Cover image alt text, widget: string, required: false }
+      - { name: author, label: Author, widget: string, default: 'MixTree Languages' }
+      - { name: tags, label: Tags, widget: list, required: false }
+      - name: source
+        label: Original source (optional)
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { name: name, label: Site name, widget: string }
+          - { name: url, label: Article URL, widget: string }
+      - name: seo
+        label: SEO
+        widget: object
+        fields:
+          - { name: title, label: SEO title, widget: string }
+          - { name: description, label: Meta description, widget: text }
+          - { name: canonical, label: Canonical URL override, widget: string, required: false }
+          - { name: ogImage, label: OG image, widget: image, required: false }
+          - { name: noindex, label: Noindex, widget: boolean, default: false }
+      - { name: body, label: Article body, widget: markdown }
+
+  # Group / private courses.
+  - name: courses
+    label: Courses
+    folder: site/src/content/courses
+    create: false  # don't create new courses from CMS — schema-bound to live pages
+    slug: '{{slug}}'
+    extension: md
+    format: frontmatter
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: urlPath, label: URL path, widget: string }
+      - { name: category, label: Category, widget: select, options: [group, private] }
+      - { name: levels, label: Levels, widget: list }
+      - { name: format, label: Format, widget: select, options: [in-person, online, in-company, hybrid] }
+      - { name: hours, label: Total hours, widget: number, required: false, value_type: int }
+      - { name: weeks, label: Weeks, widget: number, required: false, value_type: int }
+      - { name: priceEur, label: Price (EUR), widget: number, required: false, value_type: int }
+      - { name: nextStartDate, label: Next start date, widget: string, required: false }
+      - { name: heroImage, label: Hero image, widget: image, required: false }
+      - { name: heroImageAlt, label: Hero image alt text, widget: string, required: false }
+      - { name: order, label: Sort order, widget: number, default: 0, value_type: int }
+      - name: seo
+        label: SEO
+        widget: object
+        fields:
+          - { name: title, label: SEO title, widget: string }
+          - { name: description, label: Meta description, widget: text }
+          - { name: canonical, label: Canonical override, widget: string, required: false }
+          - { name: ogImage, label: OG image, widget: image, required: false }
+          - { name: noindex, label: Noindex, widget: boolean, default: false }
+      - { name: body, label: Body, widget: markdown, required: false }

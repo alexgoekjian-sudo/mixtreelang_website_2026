@@ -1,0 +1,44 @@
+# Repo-wide ignores. Per-package ignores live in /site/.gitignore etc.
+
+# Node / build artefacts
+**/node_modules/
+**/dist/
+**/.astro/
+**/.cache/
+**/.output/
+**/.vercel/
+**/.netlify/
+
+# Logs
+**/*.log
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+
+# Environment / secrets — NEVER commit
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*.swo
+
+# Personal / agent state
+.claude/
+.sixth/
+chat-session-resources/
+
+# WP exports — keep them locally for reference but don't push
+*.WordPress.*.xml
+wp_courses_export.txt
+
+# Build outputs / local previews of the link checker etc.
+**/coverage/

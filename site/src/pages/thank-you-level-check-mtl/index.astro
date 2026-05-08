@@ -1,0 +1,21 @@
+---
+import ThankYouLayout from '../../layouts/ThankYouLayout.astro';
+import { GADS_CONVERSION } from '../../lib/conversions';
+---
+<ThankYouLayout
+  title="Your level check is confirmed"
+  description="Your English level check appointment is confirmed. Look out for the email from our booking platform."
+  eyebrow="Appointment confirmed"
+  lead="Great — your free 15-minute English level check is on the books. We're looking forward to meeting you."
+  nextSteps={[
+    'Check your email for confirmation from cal.com (look in spam too).',
+    'You\'ll receive an automatic reminder 24 hours before your appointment.',
+    'The level check lasts 15 minutes with one of our CELTA-certified teachers.',
+    'Need to reschedule? Use the link in your confirmation email.',
+  ]}
+  ctas={[
+    { label: 'Browse our courses', href: '/english-course/' },
+    { label: 'Meet our teachers', href: '/meet-our-teachers/', variant: 'secondary' },
+  ]}
+  conversionSendTo={GADS_CONVERSION.levelCheck}
+/>

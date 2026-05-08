@@ -1,0 +1,20 @@
+---
+import ThankYouLayout from '../../layouts/ThankYouLayout.astro';
+import { GADS_CONVERSION } from '../../lib/conversions';
+---
+<ThankYouLayout
+  title="Thank you for contacting MixTree Languages"
+  description="We've received your message and will get back to you within one working day."
+  eyebrow="Message received"
+  lead="Thanks for reaching out — we typically reply within one working day. In the meantime, why not take the next step?"
+  nextSteps={[
+    'Our team will review your message and reply by email.',
+    'If you don\'t hear back, please check your spam folder.',
+    'For urgent enquiries, call us on <a href="tel:+31207861981" class="text-brand-700 underline">+31 (0)20 786 1981</a>.',
+  ]}
+  ctas={[
+    { label: 'Book a free 15-min level check', href: '/free-online-english-level-check/' },
+    { label: 'See course schedule', href: '/course-schedule/', variant: 'secondary' },
+  ]}
+  conversionSendTo={GADS_CONVERSION.contact}
+/>

@@ -1,0 +1,20 @@
+---
+import ThankYouLayout from '../../layouts/ThankYouLayout.astro';
+import { GADS_CONVERSION } from '../../lib/conversions';
+---
+<ThankYouLayout
+  title="Thank you for your question"
+  description="We've received your question and will respond as soon as we can."
+  eyebrow="Question received"
+  lead="Thanks for your question — we'll do our best to answer within one working day."
+  nextSteps={[
+    'You\'ll get a personal reply by email.',
+    'Check your spam folder just in case.',
+    'Not sure of your level? Book a free 15-minute level check below.',
+  ]}
+  ctas={[
+    { label: 'Book a free level check', href: '/free-online-english-level-check/' },
+    { label: 'Browse our courses', href: '/english-course/', variant: 'secondary' },
+  ]}
+  conversionSendTo={GADS_CONVERSION.contact}
+/>

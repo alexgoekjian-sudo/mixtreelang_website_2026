@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'Page not found (404) | MixTree Languages',
+  description:
+    "Sorry — the page you're looking for doesn't exist. Browse our English courses, course schedule, or get in touch.",
+  noindex: true,
+};
+---
+<BaseLayout seo={seo} container={false}>
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 lg:py-24">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">404</p>
+      <h1 class="mt-2 text-4xl font-bold text-brand-700 sm:text-5xl">Page not found</h1>
+      <p class="mx-auto mt-4 max-w-xl text-lg text-slate-700">
+        The page you're looking for doesn't exist or has moved. Try one of the links below — or use
+        the menu at the top of the page.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-accent-600"
+          >Back to home</a
+        >
+        <a
+          href="/free-online-english-level-check/"
+          class="inline-flex items-center justify-center rounded-full border border-brand-700 px-6 py-3 text-sm font-semibold text-brand-700 hover:bg-white"
+          >Book a free level check</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:py-20">
+    <h2 class="text-2xl font-bold text-brand-700">Popular pages</h2>
+    <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+      {[
+        { href: '/english-course/', title: 'All English courses', desc: 'Browse our six group courses.' },
+        { href: '/course-schedule/', title: 'Course schedule', desc: 'Upcoming start dates and times.' },
+        { href: '/about-mixtree-languages/', title: 'About MixTree Languages', desc: 'Our story, team and methods.' },
+        { href: '/meet-our-teachers/', title: 'Meet our teachers', desc: 'CELTA-certified, native and bilingual.' },
+        { href: '/english-language-tips/', title: 'English language tips', desc: 'Magazine articles and study tips.' },
+        { href: '/contact/', title: 'Contact us', desc: 'Get in touch — we reply within 1 working day.' },
+      ].map((p) => (
+        <li>
+          <a
+            href={p.href}
+            class="block rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 transition hover:shadow-md hover:ring-brand-300"
+          >
+            <p class="font-semibold text-brand-700">{p.title}</p>
+            <p class="mt-1 text-sm text-slate-600">{p.desc}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

@@ -1,0 +1,33 @@
+---
+/**
+ * AUTO-GENERATED from WordPress page export (WPBakery shortcodes cleaned).
+ * Source: https://mixtreelang.nl/contact-form-request-for-information-english-courses-mixtree-languages/
+ * Re-running scripts/convert-pages.mjs will overwrite this file.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: "Contact Form for Information - English Courses MixTree Languages",
+  description: "Interested in our English courses? Use our contact form to request further information and get started today.",
+};
+
+const body = `<section class="course-inquiry-section">
+    <h1 style="text-align: center; margin-bottom: 20px; font-size: 24px; font-weight: 600;">
+        Request for Information
+    </h1>
+    
+    <div style="max-width: 700px; margin: 0 auto 25px; text-align: center;">
+        <p style="font-size: 16px; line-height: 1.5; margin-bottom: 15px;">
+        Do you have questions about our <strong>English courses</strong>? Our team is here to help you find the right course for your goals and schedule. Please fill in the form below. We typically respond within 24 hours.
+        </p>
+        <p style="font-size: 15px; line-height: 1.3; color: #666;">
+            <strong>Note:</strong> All students must complete a <a href="/free-online-english-level-check/" style="color: #114193; text-decoration: underline;">free English level check</a> before enrolment to ensure you're placed in the appropriate course level.
+        </p>
+    </div>
+    </section>
+[contact-form-7 id="34867"]`;
+---
+<BaseLayout seo={seo}>
+  <h1 class="text-3xl font-bold text-brand-700 sm:text-4xl">Contact Form | Request for Information English Courses | MixTree Languages</h1>
+  <article class="prose prose-slate mt-6 max-w-none" set:html={body} />
+</BaseLayout>

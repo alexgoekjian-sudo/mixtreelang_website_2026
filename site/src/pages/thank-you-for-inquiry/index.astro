@@ -1,0 +1,20 @@
+---
+import ThankYouLayout from '../../layouts/ThankYouLayout.astro';
+import { GADS_CONVERSION } from '../../lib/conversions';
+---
+<ThankYouLayout
+  title="Thank you for your enquiry"
+  description="We've received your enquiry and will respond as soon as we can."
+  eyebrow="Enquiry received"
+  lead="Thanks for getting in touch with MixTree Languages. One of our team will respond to your enquiry as soon as possible."
+  nextSteps={[
+    'We aim to reply within one working day.',
+    'Please check your spam folder if you don\'t hear back.',
+    'In the meantime, explore our courses and upcoming events.',
+  ]}
+  ctas={[
+    { label: 'View our English courses', href: '/english-course/' },
+    { label: 'Upcoming events in Amsterdam', href: '/mixtree-events/', variant: 'secondary' },
+  ]}
+  conversionSendTo={GADS_CONVERSION.contact}
+/>

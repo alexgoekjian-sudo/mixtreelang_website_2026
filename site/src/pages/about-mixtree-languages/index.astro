@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import GoogleReviews from '../../components/GoogleReviews.astro';
+
+const seo = {
+  title: 'About MixTree Languages — English Language School in Amsterdam',
+  description:
+    'MixTree Languages is a non-profit English language school in the heart of Amsterdam. Since 2015 we have helped adults from around the world improve their English in a friendly, multicultural community.',
+};
+
+const approach = [
+  {
+    title: 'Our Approach',
+    body: 'Our English courses are expertly designed using our "Activate Your English" approach. This helps language learners improve faster by focusing on speaking. Students practise using grammar and vocabulary in real-life situations, which makes learning easier and more effective. Our teaching is based on the theories of social learning — language is learnt not only by acquiring vocabulary and grammar, but by being able to communicate and share ideas, experiences and emotions, and to learn from others. Every student is on their own unique language-learning journey, so we begin with a personalised level check to understand their needs, wants and goals. Our teachers then tailor the learning experience throughout the course to ensure progress.',
+  },
+  {
+    title: 'Our Teachers',
+    body: 'Our courses are taught by highly-qualified and experienced native or bilingual English teachers, who support students to step outside of their comfort zone by making them feel safe to experiment and try new things. They facilitate conversation, group interaction and offer continuous feedback. We choose teachers based on their positive energy and ability to motivate others — they all bring diverse backgrounds and experiences from years of working internationally with students from many different countries.',
+  },
+  {
+    title: 'More Than Just Classes',
+    body: 'At MixTree Languages, you\u2019re part of a vibrant and welcoming community. Each course has a dedicated WhatsApp group where you can ask questions, connect with classmates and arrange meetups. Our canteen is a great space to study, relax with friends and play games — you can also borrow English books to support your learning. Every second Tuesday we host a Language Exchange Meetup at locations in the centre of Amsterdam, giving you the chance to practise your English in a fun, social setting and boost your fluency. We also keep you informed about events across the city and provide support to help you navigate life in Amsterdam.',
+  },
+];
+
+const why = [
+  '10 years of experience teaching English in Amsterdam',
+  'Highly-qualified teachers with at least a CELTA or TESOL and 5+ years of experience',
+  'Small groups for personalised attention',
+  'All skills covered, with a focus on speaking and communication',
+  'Interactive classes with personal language feedback to help you improve faster',
+  'High-quality materials from the Oxford English File series, plus online self-study practice',
+  'Certificate of Attendance and Proficiency at the end of your course',
+  'A friendly and multicultural community with opportunities to socialise and practise English',
+  'Located in the heart of Amsterdam — a welcoming space where you can study, relax and connect with classmates',
+  'Affordable prices — the best value English courses in Amsterdam',
+];
+---
+<BaseLayout seo={seo} container={false}>
+  <!-- Hero -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">About MixTree Languages</p>
+      <h1 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl lg:text-5xl">
+        A non-profit English school in the heart of Amsterdam
+      </h1>
+      <p class="mt-4 max-w-3xl text-lg text-slate-700">
+        MixTree Languages is a non-profit English language school in the heart of Amsterdam that offers
+        high-quality courses in a friendly and multicultural community.
+      </p>
+      <p class="mt-3 max-w-3xl text-slate-700">
+        Since 2015 we have been helping adults from all over the world improve and expand their English by
+        offering courses for all levels at an affordable price. We understand the importance of creating a
+        positive and safe learning environment for students to confidently practise their speaking in small
+        groups. These include
+        <a href="/english-course/morning-english-courses/" class="font-medium text-brand-600 hover:text-brand-700">Morning</a>,
+        <a href="/english-course/intensive-english-course/" class="font-medium text-brand-600 hover:text-brand-700">Intensive</a>,
+        <a href="/english-course/online-evening-english-courses/" class="font-medium text-brand-600 hover:text-brand-700">Evening</a> and
+        <a href="/english-course/business-english/" class="font-medium text-brand-600 hover:text-brand-700">Business</a> group courses,
+        <a href="/private-courses/private-english-course/" class="font-medium text-brand-600 hover:text-brand-700">Private</a> lessons and
+        <a href="/private-courses/in-company-english-course/" class="font-medium text-brand-600 hover:text-brand-700">In-Company</a> courses.
+      </p>
+    </div>
+  </section>
+
+  <!-- Hero image -->
+  <div class="mx-auto max-w-6xl px-4 pt-2 sm:px-6 lg:px-8">
+    <figure class="overflow-hidden rounded-xl shadow-sm">
+      <img
+        src="/wp-content/uploads/2025/05/English-Courses-Amsterdam-MixTree-Languages.jpg"
+        alt="English courses in Amsterdam at MixTree Languages"
+        class="h-48 w-full object-cover sm:h-64 md:h-80 lg:h-96"
+        width="1920"
+        height="600"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </figure>
+  </div>
+
+  <!-- Approach / Teachers / More than classes -->
+  <section class="mx-auto max-w-5xl space-y-12 px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    {approach.map((s) => (
+      <article>
+        <h2 class="text-2xl font-bold text-brand-700 sm:text-3xl">{s.title}</h2>
+        <p class="mt-4 text-lg text-slate-700">{s.body}</p>
+      </article>
+    ))}
+  </section>
+
+  <!-- Why MixTree -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+      <SectionHeading title="Why Choose MixTree Languages" />
+      <ul class="mt-8 grid gap-3 text-slate-700 sm:grid-cols-2">
+        {why.map((w) => (
+          <li class="flex gap-3 rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-200">
+            <span class="text-accent-500" aria-hidden="true">✓</span>
+            <span>{w}</span>
+          </li>
+        ))}
+      </ul>
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <a href="/free-online-english-level-check/" class="rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow hover:brightness-105">
+          Book a free level check →
+        </a>
+        <a href="/contact/" class="rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-brand-700">
+          Visit us at school →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <GoogleReviews count={3} layout="grid" heading="Read what our students think about us" />
+    </div>
+  </section>
+</BaseLayout>

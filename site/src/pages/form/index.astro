@@ -1,0 +1,177 @@
+---
+/**
+ * AUTO-GENERATED from WordPress page export (WPBakery shortcodes cleaned).
+ * Source: https://mixtreelang.nl/form/
+ * Re-running scripts/convert-pages.mjs will overwrite this file.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: "MixTree Functionality Overview | MixTree Languages",
+  description: "MixTree Functionality Overview at MixTree Languages, English language school in Amsterdam.",
+};
+
+const body = `<h4>Ask Information Form</h4>[contact-form-7 id="6374091" title="Ask Information"]<h4>Shortcode Available</h4>[next_open_day_date][next_open_day_title][next_open_day_description]<!-- TODO: dynamic date/price was here -->[business_english_dates_shortcode]<!-- TODO: dynamic date/price was here -->[extensive_english_dates_shortcode]<!-- TODO: dynamic date/price was here -->[morning_english_dates_shortcode][online_evening_course_start_date]<!-- TODO: dynamic date/price was here -->[evening_online_english_dates_shortcode]<!-- TODO: dynamic date/price was here -->[advanced_english_course_dates_shortcode]<!-- TODO: dynamic date/price was here -->[english_beginners_dates_shortcode]<!-- TODO: dynamic date/price was here -->[ielts_preparation_dates_shortcode]<!-- TODO: dynamic date/price was here -->[saturday_english_dates_shortcode]<!-- TODO: dynamic date/price was here -->[summer_intensive_english_dates_shortcode]<!-- TODO: dynamic date/price was here -->[join_us_link]
+<!-- Pop-up HTML -->
+<div id="promo-popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.7); z-index:10000; justify-content:center; align-items:center; overflow:hidden;">
+    <div style="background-color:#fff; padding:20px; border-radius:10px; width:90%; max-width:500px; height:auto; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 8px rgba(0,0,0,0.2); position:relative; overflow:hidden;">
+        
+        <!-- Decorative Background -->
+        <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-image:radial-gradient(circle, rgba(211, 211, 211, 0.2) 20%, transparent 80%); opacity:0.4; z-index:0;"></div>
+
+        <!-- Title -->
+        <h2 style="color:#333; font-weight:bold; margin-bottom:20px; z-index:1;">🎁 Spin & Win Amazing Year-End Prizes! 🎉</h2>
+
+        <!-- Wheel of Fortune -->
+        <div id="wheel-container" style="margin:20px auto; width:250px; height:250px; position:relative; z-index:1;">
+            <!-- Wheel Image -->
+            <img id="wheel" src="../wp-content/uploads/2024/03/MTL_LOGO_512.png" alt="Wheel of Fortune" style="width:100%; height:auto; transition: transform 4s ease-in-out; border-radius:50%;">
+
+            <!-- Static Pointer (pointing down) -->
+            <div id="pointer" style="position:absolute; top:10px; left:50%; transform:translateX(-50%) rotate(0deg); width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-top:30px solid red; z-index:2;"></div>
+        </div>
+
+        <!-- Result Display -->
+        <div id="result" style="margin-top:20px; padding:15px; font-size:20px; font-weight:bold; color:#333; background-color:#f9f9f9; border:2px solid silver; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.1); text-align:center; z-index:1; width:80%;">
+            Spin the wheel to find out your prize!
+        </div>
+
+        <!-- QR Code Display -->
+        <div id="qr-code" style="margin-top:20px; text-align:center; z-index:1;"></div>
+
+        <!-- GDPR Consent -->
+        <div id="gdpr-consent" style="margin-top:20px; text-align:center; display:flex; flex-direction:column; align-items:center;">
+            <input type="checkbox" id="consent-checkbox" style="margin-bottom:10px; transform:scale(1.2); position:unset;">
+            <label for="consent-checkbox" style="font-size:14px; color:#333; text-align:center;">
+                I agree to share my contact information and accept the <a href="#" style="color:#4CAF50; text-decoration:none;">Privacy Policy</a>.
+            </label>
+        </div>
+
+        <!-- Spin Button -->
+        <button id="spin-wheel" style="margin-top:20px; background-color:grey; color:white; border:none; padding:15px 30px; border-radius:50px; font-weight:bold; font-size:16px; cursor:not-allowed; z-index:1;" disabled>SPIN</button>
+    </div>
+</div>
+
+<!-- JavaScript for the Wheel -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const popup = document.getElementById("promo-popup");
+    const spinButton = document.getElementById("spin-wheel");
+    const consentCheckbox = document.getElementById("consent-checkbox");
+    const gdprConsent = document.getElementById("gdpr-consent");
+    const wheel = document.getElementById("wheel");
+    const resultDisplay = document.getElementById("result");
+    const qrCodeDisplay = document.getElementById("qr-code");
+
+    let hasSpun = false; // Flag to check if the wheel has already been spun
+
+    // Enable the spin button only if the consent checkbox is checked
+    consentCheckbox.addEventListener("change", () => {
+        if (consentCheckbox.checked) {
+            spinButton.disabled = false;
+            spinButton.style.backgroundColor = "#4CAF50";
+            spinButton.style.cursor = "pointer";
+        } else {
+            spinButton.disabled = true;
+            spinButton.style.backgroundColor = "grey";
+            spinButton.style.cursor = "not-allowed";
+        }
+    });
+
+    // Show the pop-up after 2 seconds
+    setTimeout(() => {
+        popup.style.display = "flex";
+    }, 2000);
+
+    // Close the pop-up with the Esc key
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            popup.style.display = "none";
+        }
+    });
+
+    // Spin the wheel
+    spinButton.addEventListener("click", () => {
+        const prizes = ["15% Off", "20% Off", "25% Off"];
+        const phoneNumber = "+393205626458";
+
+        if (!hasSpun) {
+            hasSpun = true; // Set the flag to true after the first spin
+            const randomDegree = Math.floor(Math.random() * 360 + 1440); // Minimum 4 full rotations
+            wheel.style.transform = \`rotate(\${randomDegree}deg)\`;
+
+            // After the spin animation, determine the prize
+            setTimeout(() => {
+                const winningSegmentIndex = Math.floor((randomDegree % 360) / (360 / 3)); // 3 segments
+                const prizeWon = prizes[winningSegmentIndex];
+                const code = generateUniqueCode(prizeWon);
+                const message = \`I won a \${prizeWon} with code \${code}! I would like to redeem my prize, thank you!\`;
+                const whatsappLink = \`https://wa.me/\${phoneNumber}?text=\${encodeURIComponent(message)}\`;
+                const qrCodeUrl = generateQRCode(whatsappLink);
+
+                // Hide the GDPR consent fields
+                gdprConsent.style.display = "none";
+
+                // Display the result and the QR Code
+                resultDisplay.innerHTML = \`
+                    🎉 <span style="color:#4CAF50;">Congratulations!</span> 🎉 <br>
+                    You won: <strong style="color:#333;">\${prizeWon}</strong> <br>
+                    Your code: <strong style="color:#4CAF50;">\${code}</strong>
+                \`;
+                qrCodeDisplay.innerHTML = \`
+                    <a href="\${whatsappLink}" style="font-size:16px; font-weight:bold; color:#4CAF50;">Click here to redeem your prize</a><br>
+                    <img src="\${qrCodeUrl}" alt="QR Code" style="width:150px; height:150px; margin:10px auto;">
+                \`;
+            }, 4000); // Match the duration of the CSS transition
+        } else {
+            const message = \`I would like to redeem my prize.\`;
+            const whatsappLink = \`https://wa.me/\${phoneNumber}?text=\${encodeURIComponent(message)}\`;
+            const qrCodeUrl = generateQRCode(whatsappLink);
+
+            // Hide the GDPR consent fields
+            gdprConsent.style.display = "none";
+
+            resultDisplay.innerHTML = \`
+                🚫 You have already spun the wheel! <br>
+                <span style="color:#4CAF50; font-weight:bold;">Share your win with us to redeem your prize!</span>
+            \`;
+            qrCodeDisplay.innerHTML = \`
+                <a href="\${whatsappLink}" style="font-size:16px; font-weight:bold; color:#4CAF50;">Click here to redeem your prize</a><br>
+                <img src="\${qrCodeUrl}" alt="QR Code" style="width:150px; height:150px; margin:10px auto;">
+            \`;
+        }
+    });
+
+    // Generate a unique code for the prize
+    function generateUniqueCode(prize) {
+        const timestamp = Date.now().toString().slice(-5); // Last 5 digits of the timestamp
+        return \`\${prize.replace("% Off", "").trim()}-\${timestamp}\`;
+    }
+
+    // Generate QR Code
+    function generateQRCode(link) {
+        return \`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=\${encodeURIComponent(link)}\`;
+    }
+});
+</script>
+
+<style>
+/* Adjust the pointer styles */
+#pointer {
+    position: absolute;
+    top: 10px; /* Pointing towards the wheel */
+    left: 50%;
+    transform: translateX(-50%) rotate(0deg); /* Fixed orientation pointing downward */
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 30px solid red; /* Pointing down */
+    z-index: 10;
+}
+</style>`;
+---
+<BaseLayout seo={seo}>
+  <h1 class="text-3xl font-bold text-brand-700 sm:text-4xl">MixTree Functionality Overview</h1>
+  <article class="prose prose-slate mt-6 max-w-none" set:html={body} />
+</BaseLayout>

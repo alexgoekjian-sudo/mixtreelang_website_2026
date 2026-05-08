@@ -1,0 +1,77 @@
+---
+import CourseDetailLayout from '../../../layouts/CourseDetailLayout.astro';
+import { nextStartLabel, findUpcoming, fmtDate } from '../../../lib/schedule';
+import { courseNode } from '../../../lib/schema';
+
+const seo = {
+  title: 'English for Beginners (A1) Course in Amsterdam — MixTree Languages',
+  description:
+    'Brand-new to English? Our A1 Beginners course in Amsterdam: 24 hours over 6 weeks, small groups, friendly CELTA-certified teachers.',
+};
+
+const jsonLd = [
+  courseNode({
+    name: 'English for Beginners (A1)',
+    description: 'A1 Beginners English course in Amsterdam — 24 hours over 6 weeks, designed for absolute beginners.',
+    courseCode: 'BEGINNER_ENGLISH',
+    educationalLevel: 'A1',
+    scheduleFilter: { type: 'BEGINNER' },
+    timeRequired: 'PT24H',
+    courseWorkload: 'PT24H',
+    courseMode: 'in-person',
+    price: '445',
+    path: '/english-course/english-for-beginners/',
+  }),
+];
+
+const nextStart = nextStartLabel({ type: 'BEGINNER' }, 'Check schedule');
+const upcomingStarts = findUpcoming({ type: 'BEGINNER' }, 20);
+const uniqueStartDates = Array.from(new Set(upcomingStarts.map((r) => r.startDate))).slice(0, 3);
+const nextStartsList = uniqueStartDates.length ? uniqueStartDates.map(fmtDate).join(' · ') : 'Check schedule';
+
+const props = {
+  seo,
+  jsonLd,
+  hero: {
+    image: { src: '/wp-content/uploads/2020/08/intensive-english-courses.jpg', alt: 'MixTree Languages English for Beginners class in Amsterdam' },
+    eyebrow: 'English for Beginners (A1)',
+    title: 'English for Beginners Course in Amsterdam',
+    intro:
+      "Brand new to English? Our A1 'Activate Your English' course will help you start using English confidently — <strong>24 hours over 6 weeks</strong>, small groups, friendly experienced teachers.",
+  },
+  levels: {
+    heading: 'One Level | A1 Beginner',
+    intro: 'Your friendly, experienced teacher will help you build the four core skills — <strong>speaking, listening, reading and writing</strong> — so you can communicate with others and understand basic information.',
+    items: [
+      { code: 'A1', name: 'Beginner', desc: 'For students who have never studied English before, or who want a confident fresh start with the basics.', book: { src: '/wp-content/uploads/2022/04/pre-intermidiate.jpeg', alt: 'English File Beginner textbook' }, isbn: '978-0194029803' },
+    ],
+  },
+  details: [
+    ['Level', 'A1 Beginner'],
+    ['Next starts', nextStartsList],
+    ['Days', 'Monday & Wednesday'],
+    ['Times', '15:30–17:30'],
+    ['Location', 'Amsterdam city centre — Eerste Weteringplantsoen 2C'],
+    ['Classroom hours', '24 hours (4 hours per week over 6 weeks)'],
+    ['Self-study', '~24 hours'],
+    ['Group size', '6–11 participants'],
+    ['Certificate', 'Certificate of Attendance & Proficiency Level (CEFR)'],
+  ] as [string, string][],
+  sidebar: {
+    price: '€445',
+    nextStart,
+    includes: [
+      { icon: '⏱', text: '24-hour group course' },
+      { icon: '■', text: '"English File" course book' },
+      { icon: '▣', text: 'Extra materials & online practice' },
+      { icon: '✓', text: 'Final evaluation with your teacher' },
+      { icon: '★', text: 'Certificate of Attendance & Level' },
+    ],
+  },
+  finalCta: {
+    heading: 'Ready to start speaking English?',
+    text: 'Schedule a free English level check — it only takes 15 minutes.',
+  },
+};
+---
+<CourseDetailLayout {...props} />

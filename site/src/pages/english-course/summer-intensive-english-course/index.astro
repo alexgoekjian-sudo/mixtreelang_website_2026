@@ -1,0 +1,79 @@
+---
+import CourseDetailLayout from '../../../layouts/CourseDetailLayout.astro';
+import { nextStartLabel, findUpcoming, fmtDate } from '../../../lib/schedule';
+import { courseNode } from '../../../lib/schema';
+
+const seo = {
+  title: 'Summer Intensive English Courses in Amsterdam — MixTree Languages',
+  description:
+    'Spend a productive summer in Amsterdam: 40 hours over 4 weeks, levels A2+ to B2, small groups with CELTA-certified teachers.',
+};
+
+const jsonLd = [
+  courseNode({
+    name: 'Summer Intensive English Courses',
+    description: 'Summer intensive English courses in Amsterdam — 40 hours over 4 weeks, levels A2+ to B2.',
+    courseCode: 'SUMMER_INTENSIVE_ENGLISH',
+    educationalLevel: 'A2-B2',
+    scheduleFilter: { type: 'INTENSIVE', summerOnly: true },
+    timeRequired: 'PT40H',
+    courseWorkload: 'PT40H',
+    courseMode: 'in-person',
+    price: '640',
+    path: '/english-course/summer-intensive-english-course/',
+  }),
+];
+
+const nextStart = nextStartLabel({ type: 'INTENSIVE', summerOnly: true }, 'Check schedule');
+const upcomingStarts = findUpcoming({ type: 'INTENSIVE', summerOnly: true }, 20);
+const uniqueStartDates = Array.from(new Set(upcomingStarts.map((r) => r.startDate))).slice(0, 3);
+const nextStartsList = uniqueStartDates.length ? uniqueStartDates.map(fmtDate).join(' · ') : 'Check schedule';
+
+const props = {
+  seo,
+  jsonLd,
+  hero: {
+    image: { src: '/wp-content/uploads/2025/05/English-Courses-Amsterdam-MixTree-Languages.jpg', alt: 'Students enjoying a summer English course in Amsterdam' },
+    eyebrow: 'Summer Intensive English Course',
+    title: 'Summer Intensive English Courses in Amsterdam',
+    intro:
+      'Make this summer count: <strong>40 hours of English over 4 weeks</strong> in central Amsterdam, with small groups, CELTA-certified teachers and plenty of speaking practice.',
+  },
+  levels: {
+    heading: 'Three Levels | A2+ · B1 · B2',
+    intro: 'At every level the focus is the same — <strong>communication</strong>. You learn grammar and vocabulary by using them in real conversations and engaging tasks.',
+    items: [
+      { code: 'A2+', name: 'Pre-Intermediate', desc: 'For students who can speak a little about themselves but need to strengthen basic grammar and vocabulary.', book: { src: '/wp-content/uploads/2022/04/pre-intermidiate.jpeg', alt: 'English File Pre-Intermediate textbook' }, isbn: '978-0194037419' },
+      { code: 'B1', name: 'Intermediate', desc: 'For students ready to deepen their understanding of English grammar and expand vocabulary on a wide range of topics.', book: { src: '/wp-content/uploads/2021/12/english-file-intermidiate.jpeg', alt: 'English File Intermediate textbook' }, isbn: '978-0194035910' },
+      { code: 'B2', name: 'Upper-Intermediate', desc: 'For students tackling advanced grammar structures and the vocabulary needed for stronger written and spoken English.', book: { src: '/wp-content/uploads/2022/01/b2-book.jpeg', alt: 'English File Upper-Intermediate textbook' }, isbn: '978-0194039697' },
+    ],
+  },
+  details: [
+    ['Levels', 'A2+ Pre-Intermediate · B1 Intermediate · B2 Upper-Intermediate'],
+    ['Next starts', nextStartsList],
+    ['Days', 'Monday, Tuesday, Thursday & Friday'],
+    ['Times', '09:30–12:00, 12:30–15:00 or 15:30–18:00'],
+    ['Location', 'Amsterdam city centre — Eerste Weteringplantsoen 2C'],
+    ['Classroom hours', '40 hours (10 hours per week over 4 weeks)'],
+    ['Self-study', '~30 hours'],
+    ['Group size', '7–12 participants'],
+    ['Certificate', 'Certificate of Attendance & Proficiency Level (CEFR)'],
+  ] as [string, string][],
+  sidebar: {
+    price: '€640',
+    nextStart,
+    includes: [
+      { icon: '⏱', text: '40-hour group course' },
+      { icon: '■', text: '"English File" course book' },
+      { icon: '▣', text: 'Extra materials & online practice' },
+      { icon: '✓', text: 'Final evaluation with your teacher' },
+      { icon: '★', text: 'Certificate of Attendance & Level' },
+    ],
+  },
+  finalCta: {
+    heading: 'Ready for an English-powered summer?',
+    text: 'Schedule a free English level check — it only takes 15 minutes.',
+  },
+};
+---
+<CourseDetailLayout {...props} />

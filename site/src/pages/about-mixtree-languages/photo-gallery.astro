@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+
+const seo = {
+  title: 'Photo Gallery | MixTree Languages',
+  description:
+    'Snapshots from MixTree Languages classes, meetups and events in Amsterdam — 2016 to 2025.',
+};
+
+const SITE = 'https://mixtreelang.nl';
+const pageUrl = new URL(Astro.url.pathname, SITE).toString();
+
+// Curated selection of class & community photos shipped under /wp-content/uploads/.
+const photos: { src: string; alt: string }[] = [
+  { src: '/wp-content/uploads/2025/05/English-Courses-Amsterdam-MixTree-Languages.jpg', alt: 'English course at MixTree Languages, Amsterdam, 2025' },
+  { src: '/wp-content/uploads/2025/05/English-courses-MixTree-Languages-Amsterdam-2025-1-scaled.jpg', alt: 'English course in Amsterdam, MixTree Languages 2025' },
+  { src: '/wp-content/uploads/2025/05/Presentation-MixTree-Languages-Amsterdam-2025.jpg', alt: 'Student presentation at MixTree Languages, 2025' },
+  { src: '/wp-content/uploads/2025/05/English-Courses-Amsterdam-MixTree-2-scaled.jpg', alt: 'Students in class at MixTree Languages, Amsterdam' },
+  { src: '/wp-content/uploads/2025/05/mixtree_lang-scaled.jpg', alt: 'MixTree Languages community in Amsterdam' },
+  { src: '/wp-content/uploads/2025/10/English-Courses-Amsterdam-2022-MixTree-Languages.webp', alt: 'English course in Amsterdam, MixTree Languages 2022' },
+  { src: '/wp-content/uploads/2024/12/English-courses-Amsterdam-class.jpg', alt: 'English class at MixTree Languages, Amsterdam' },
+  { src: '/wp-content/uploads/2024/12/3.Business-English-courses.school-in-Amsterdam.-2023.-MixTree-Languages.jpg', alt: 'Business English course at MixTree Languages, 2023' },
+  { src: '/wp-content/uploads/2020/02/Interactive-English-courses-Amsterdam.18.jpg', alt: 'Interactive English course at MixTree Languages' },
+  { src: '/wp-content/uploads/2020/02/MixTree-Languages-English-courses-Amsterdam.jpg', alt: 'MixTree Languages English class' },
+  { src: '/wp-content/uploads/2020/02/MixTree-Languages-interactive-class-2019.jpg', alt: 'Interactive English class, 2019' },
+  { src: '/wp-content/uploads/2020/02/MixTree-English-lessons-Amsterdam-e1618327719671.jpg', alt: 'English lesson in Amsterdam' },
+  { src: '/wp-content/uploads/2020/02/MixTree-Languages-English-intake-Amsterdam.jpg', alt: 'English intake meeting at MixTree Languages' },
+  { src: '/wp-content/uploads/2020/02/MixTree-Languages-Free-English-level-check-Amsterdam.jpg', alt: 'Free English level check at MixTree Languages' },
+  { src: '/wp-content/uploads/2020/01/Meetup.2.jpg', alt: 'MixTree Languages language exchange meetup, Amsterdam' },
+  { src: '/wp-content/uploads/2020/08/intensive-english-courses.jpg', alt: 'Intensive English course at MixTree Languages' },
+  { src: '/wp-content/uploads/2018/03/IMG_3282.jpg', alt: 'MixTree Languages students, 2018' },
+  { src: '/wp-content/uploads/2018/03/IMG_3329.jpg', alt: 'MixTree Languages students, 2018' },
+  { src: '/wp-content/uploads/2018/03/IMG_3375.jpg', alt: 'MixTree Languages students, 2018' },
+  { src: '/wp-content/uploads/2018/03/IMG_3387.jpg', alt: 'MixTree Languages students, 2018' },
+  { src: '/wp-content/uploads/2018/03/IMG_3439.jpg', alt: 'MixTree Languages class, 2018' },
+  { src: '/wp-content/uploads/2018/03/IMG_3445.jpg', alt: 'MixTree Languages class, 2018' },
+  { src: '/wp-content/uploads/2018/03/IMG_3459.jpg', alt: 'MixTree Languages class, 2018' },
+  { src: '/wp-content/uploads/2017/07/IMG_1349-scaled.jpg', alt: 'MixTree Languages students, 2017' },
+  { src: '/wp-content/uploads/2017/07/IMG_1418-scaled.jpg', alt: 'MixTree Languages students, 2017' },
+  { src: '/wp-content/uploads/2017/07/IMG_1458.jpg', alt: 'MixTree Languages students, 2017' },
+  { src: '/wp-content/uploads/2016/12/IMG_2532.jpg', alt: 'MixTree Languages, 2016' },
+  { src: '/wp-content/uploads/2016/12/IMG_2652.jpg', alt: 'MixTree Languages, 2016' },
+];
+
+const jsonLd = [
+  {
+    '@type': 'ImageGallery',
+    '@id': `${pageUrl}#gallery`,
+    name: 'MixTree Languages photo gallery',
+    description: 'Photos of classes, meetups and events at MixTree Languages, Amsterdam.',
+    url: pageUrl,
+    isPartOf: { '@id': `${pageUrl}#webpage` },
+    image: photos.map((p) => ({
+      '@type': 'ImageObject',
+      contentUrl: `${SITE}${p.src}`,
+      url: `${SITE}${p.src}`,
+      caption: p.alt,
+      creditText: 'MixTree Languages',
+      copyrightNotice: 'MixTree Languages',
+    })),
+  },
+];
+---
+<BaseLayout seo={seo} jsonLd={jsonLd} container={false}>
+  <!-- Hero -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">Photo Gallery</p>
+      <h1 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl lg:text-5xl">
+        Photos from our classes, events and meetups
+      </h1>
+      <p class="mt-4 max-w-3xl text-lg text-slate-700">
+        From classroom moments to language exchange meetups and end-of-course celebrations — a glimpse of
+        the MixTree Languages community in Amsterdam, 2016&ndash;2025.
+      </p>
+      <p class="mt-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        2016&ndash;2025 — From the WhatsApp class groups
+      </p>
+    </div>
+  </section>
+
+  <!-- Grid -->
+  <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+      {photos.map((p) => (
+        <figure class="group overflow-hidden rounded-lg bg-slate-100 shadow-sm ring-1 ring-slate-200">
+          <img
+            src={p.src}
+            alt={p.alt}
+            loading="lazy"
+            decoding="async"
+            class="aspect-square h-full w-full object-cover transition duration-300 group-hover:scale-105"
+          />
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-brand-700 text-white">
+    <div class="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 lg:px-8 lg:py-16">
+      <h2 class="text-2xl font-bold sm:text-3xl">Want to be in the next photo?</h2>
+      <p class="mx-auto mt-3 max-w-2xl text-white/90">
+        Join one of our small-group English courses in the heart of Amsterdam.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/free-online-english-level-check/" class="rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow hover:brightness-105">
+          Book a free level check →
+        </a>
+        <a href="/english-course/" class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-white/20">
+          Browse our courses →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

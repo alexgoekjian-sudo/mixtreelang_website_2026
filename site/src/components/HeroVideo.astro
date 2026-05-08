@@ -1,0 +1,113 @@
+---
+/**
+ * Hero video player — facade pattern.
+ *
+ * Renders a poster image + play button. YouTube iframe is only loaded
+ * after click (saves ~1MB on page load, no third-party requests until
+ * user interacts). Includes mute toggle once playing.
+ *
+ * Uses youtube-nocookie.com to avoid setting cookies pre-consent.
+ *
+ * Props:
+ *   - videoId: YouTube video id (required)
+ *   - poster:  image src for facade (required)
+ *   - title:   accessible title (default: "Play video")
+ *   - aspect:  CSS aspect-ratio (default: '16 / 9')
+ */
+export interface Props {
+  videoId: string;
+  poster: string;
+  title?: string;
+  aspect?: string;
+}
+
+const { videoId, poster, title = 'Play video', aspect = '16 / 9' } = Astro.props;
+---
+
+<div
+  class="mtl-hero-video relative w-full overflow-hidden rounded-xl bg-black shadow-lg"
+  style={`aspect-ratio: ${aspect};`}
+  data-video-id={videoId}
+>
+  <!-- Poster (facade) -->
+  <button
+    type="button"
+    class="mtl-hv-poster group absolute inset-0 z-10 block h-full w-full cursor-pointer border-0 p-0"
+    aria-label={title}
+  >
+    <img
+      src={poster}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      class="h-full w-full object-cover"
+    />
+    <span class="absolute inset-0 bg-black/0 transition-colors duration-200 group-hover:bg-black/20 group-focus-visible:bg-black/20"></span>
+    <span
+      class="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 opacity-0 shadow-xl transition-all duration-200 group-hover:scale-110 group-hover:opacity-100 group-focus-visible:opacity-100"
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 24 24" class="ml-1 h-8 w-8 fill-brand-700"><path d="M8 5v14l11-7z"/></svg>
+    </span>
+  </button>
+
+  <!-- Mute toggle (revealed after play) -->
+  <button
+    type="button"
+    class="mtl-hv-mute absolute bottom-3 right-3 z-30 hidden h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white shadow-md backdrop-blur hover:bg-black/80"
+    aria-label="Toggle sound"
+    aria-pressed="true"
+  >
+    <span class="mtl-hv-mute-icon">🔇</span>
+  </button>
+
+  <!-- Iframe slot (src injected on click) -->
+  <iframe
+    class="mtl-hv-iframe pointer-events-none absolute inset-0 z-20 h-full w-full border-0 opacity-0 transition-opacity duration-300"
+    title={title}
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    loading="lazy"
+  ></iframe>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLDivElement>('.mtl-hero-video').forEach((wrap) => {
+    const videoId = wrap.dataset.videoId;
+    if (!videoId) return;
+
+    const poster = wrap.querySelector<HTMLButtonElement>('.mtl-hv-poster');
+    const iframe = wrap.querySelector<HTMLIFrameElement>('.mtl-hv-iframe');
+    const mute = wrap.querySelector<HTMLButtonElement>('.mtl-hv-mute');
+    const muteIcon = wrap.querySelector<HTMLSpanElement>('.mtl-hv-mute-icon');
+    if (!poster || !iframe || !mute || !muteIcon) return;
+
+    let isMuted = true;
+    let loaded = false;
+
+    const buildSrc = () =>
+      `https://www.youtube-nocookie.com/embed/${videoId}` +
+      `?autoplay=1&mute=${isMuted ? 1 : 0}&controls=1&modestbranding=1` +
+      `&rel=0&playsinline=1&iv_load_policy=3`;
+
+    const play = () => {
+      if (loaded) return;
+      iframe.src = buildSrc();
+      iframe.style.opacity = '1';
+      iframe.classList.remove('pointer-events-none');
+      poster.style.display = 'none';
+      mute.style.display = 'flex';
+      loaded = true;
+    };
+
+    poster.addEventListener('click', play);
+
+    mute.addEventListener('click', () => {
+      isMuted = !isMuted;
+      muteIcon.textContent = isMuted ? '🔇' : '🔊';
+      mute.setAttribute('aria-pressed', String(isMuted));
+      // Reload iframe with updated mute param
+      iframe.src = buildSrc();
+    });
+  });
+</script>

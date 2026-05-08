@@ -1,0 +1,80 @@
+---
+import CourseDetailLayout from '../../../layouts/CourseDetailLayout.astro';
+import { nextStartLabel, findUpcoming, fmtDate } from '../../../lib/schedule';
+import { courseNode } from '../../../lib/schema';
+
+const seo = {
+  title: 'Live-Online Evening English Courses — MixTree Languages',
+  description:
+    'Live-online evening English courses on Zoom: 24 hours over 6 weeks, four levels A2+ to C1, small interactive groups with CELTA-certified teachers.',
+};
+
+const jsonLd = [
+  courseNode({
+    name: 'Live-Online Evening English Courses',
+    description: 'Interactive live-online evening English classes on Zoom — 24 hours over 6 weeks, levels A2+ to C1.',
+    courseCode: 'EVENING_ONLINE_ENGLISH',
+    educationalLevel: 'A2-C1',
+    scheduleFilter: { type: 'EVENING' },
+    timeRequired: 'PT24H',
+    courseWorkload: 'PT24H',
+    courseMode: 'online',
+    price: '385',
+    path: '/english-course/online-evening-english-courses/',
+  }),
+];
+
+const nextStart = nextStartLabel({ type: 'EVENING' }, 'Check schedule');
+const upcomingStarts = findUpcoming({ type: 'EVENING' }, 20);
+const uniqueStartDates = Array.from(new Set(upcomingStarts.map((r) => r.startDate))).slice(0, 3);
+const nextStartsList = uniqueStartDates.length ? uniqueStartDates.map(fmtDate).join(' · ') : 'Check schedule';
+
+const props = {
+  seo,
+  jsonLd,
+  hero: {
+    image: { src: '/wp-content/uploads/2021/02/Advanced-C1-English-Courses-Amsterdam-MixTRee-scaled-1.jpg', alt: 'MixTree Languages live-online evening English class' },
+    eyebrow: 'Live-Online Evening English Course',
+    title: 'Live-Online Evening English Courses',
+    intro:
+      'Improve your English from anywhere: <strong>24 hours over 6 weeks</strong>, two evening lessons a week on Zoom, small interactive groups with the same CELTA-certified teachers as our in-person classes.',
+  },
+  levels: {
+    heading: 'Four Levels | A2+ · B1 · B2 · C1',
+    intro: 'Each course starts every 6 weeks. Pick the level that matches you and join a live, interactive class with classmates from around the world.',
+    items: [
+      { code: 'A2+', name: 'Pre-Intermediate', desc: 'For students who can speak a little about themselves but need to strengthen basic grammar and vocabulary.', book: { src: '/wp-content/uploads/2022/04/pre-intermidiate.jpeg', alt: 'English File Pre-Intermediate textbook' }, isbn: '978-0194037419' },
+      { code: 'B1', name: 'Intermediate', desc: 'For students ready to deepen their understanding of English grammar and expand vocabulary across a variety of topics.', book: { src: '/wp-content/uploads/2021/12/english-file-intermidiate.jpeg', alt: 'English File Intermediate textbook' }, isbn: '978-0194035910' },
+      { code: 'B2', name: 'Upper-Intermediate', desc: 'For students mastering advanced grammar structures and the vocabulary needed for stronger written and spoken English.', book: { src: '/wp-content/uploads/2022/01/b2-book.jpeg', alt: 'English File Upper-Intermediate textbook' }, isbn: '978-0194039697' },
+      { code: 'C1', name: 'Advanced', desc: 'For students who want to refine grammar, activate more nuanced vocabulary and polish their English for personal or professional use.', book: { src: '/wp-content/uploads/2022/01/b2-book.jpeg', alt: 'English File Advanced textbook' }, isbn: '978-0194038355' },
+    ],
+  },
+  details: [
+    ['Levels', 'A2+ · B1 · B2 · C1'],
+    ['Next starts', nextStartsList],
+    ['Days', 'Mon & Wed, or Tue & Thu'],
+    ['Times', '19:00–21:00'],
+    ['Location', 'Live-Online with Zoom'],
+    ['Classroom hours', '24 hours (4 hours per week over 6 weeks)'],
+    ['Self-study', '~24 hours'],
+    ['Group size', '6–10 participants'],
+    ['Certificate', 'Certificate of Attendance & Proficiency Level (CEFR)'],
+  ] as [string, string][],
+  sidebar: {
+    price: '€385',
+    nextStart,
+    includes: [
+      { icon: '⏱', text: '24-hour live-online group course' },
+      { icon: '■', text: '10% discount on your "English File" course book' },
+      { icon: '▣', text: 'Extra materials & online practice' },
+      { icon: '✓', text: 'Final evaluation with your teacher' },
+      { icon: '★', text: 'Certificate of Attendance & Level' },
+    ],
+  },
+  finalCta: {
+    heading: 'Ready to improve your English from home?',
+    text: 'Schedule a free English level check — it only takes 15 minutes.',
+  },
+};
+---
+<CourseDetailLayout {...props} />

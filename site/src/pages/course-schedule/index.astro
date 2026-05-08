@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScheduleTable from '../../components/ScheduleTable.astro';
+import { courseCatalogNode } from '../../lib/schema';
+
+const seo = {
+  title: 'MixTree Languages Course Schedule (2026)',
+  description:
+    'Browse all upcoming English courses at MixTree Languages in Amsterdam. Filter by type, level, and start month.',
+};
+
+const jsonLd = [courseCatalogNode()];
+---
+<BaseLayout seo={seo} jsonLd={jsonLd}>
+  <h1 class="text-3xl font-bold text-brand-700 sm:text-4xl">MixTree Languages Course Schedule (2026)</h1>
+  <p class="mt-3 max-w-3xl text-slate-700">
+    From beginner to advanced, intensive to evening classes — find the perfect course to advance your English skills.
+    All our English courses take place in central Amsterdam or online.
+  </p>
+  <div class="mt-8">
+    <ScheduleTable />
+  </div>
+</BaseLayout>

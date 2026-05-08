@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Brand tokens — refined once we extract palette from the live site */
+@theme {
+  --color-brand-50:  #f5f7fb;
+  --color-brand-100: #e8eef7;
+  --color-brand-500: #2c5fa8;
+  --color-brand-600: #234d8a;
+  --color-brand-700: #1b3c6c;
+  --color-accent-500: #f5a623;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); }
+
+/* Tailwind Typography overrides — keep WP-imported page bodies on-brand */
+.prose h1, .prose h2, .prose h3, .prose h4 { color: var(--color-brand-700); }
+.prose a { color: var(--color-brand-600); }
+.prose a:hover { color: var(--color-brand-700); }
+.prose img { border-radius: 0.5rem; }

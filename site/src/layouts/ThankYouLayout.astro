@@ -1,0 +1,112 @@
+---
+/**
+ * Shared layout for all /thank-you-*  pages.
+ *
+ * Renders a centered confirmation hero with optional check icon, intro
+ * paragraph, "what's next" list, and CTA buttons back into the funnel.
+ * All thank-you pages are noindex by default — they should never appear
+ * in search results.
+ */
+import BaseLayout from './BaseLayout.astro';
+import ConversionEvent from '../components/ConversionEvent.astro';
+
+export interface CTA {
+  label: string;
+  href: string;
+  /** primary = orange filled, secondary = outline */
+  variant?: 'primary' | 'secondary';
+}
+
+export interface Props {
+  /** Page title — also used as the H1 heading. */
+  title: string;
+  /** Meta description (also short subtitle under the H1 if no `lead` slot). */
+  description: string;
+  /** Optional eyebrow shown above the H1. */
+  eyebrow?: string;
+  /** Lead paragraph under the H1. */
+  lead?: string;
+  /** Items to render in the “What happens next” list. */
+  nextSteps?: string[];
+  /** Buttons. First is the primary CTA. */
+  ctas?: CTA[];
+  /** Google Ads conversion id, e.g. "AW-9513016967/JxjUCIOQg5ADEMDszsUD". */
+  conversionSendTo?: string;
+}
+
+const {
+  title,
+  description,
+  eyebrow,
+  lead,
+  nextSteps = [],
+  ctas = [],
+  conversionSendTo,
+} = Astro.props;
+
+const seo = {
+  title: `${title} | MixTree Languages`,
+  description,
+  noindex: true,
+};
+---
+<BaseLayout seo={seo} container={false}>
+  {conversionSendTo && <ConversionEvent sendTo={conversionSendTo} slot="head" />}
+
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:py-20">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent-500 text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="h-7 w-7" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </div>
+      {eyebrow && (
+        <p class="mt-6 text-sm font-semibold uppercase tracking-wide text-accent-500">{eyebrow}</p>
+      )}
+      <h1 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl">{title}</h1>
+      {lead && <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-700">{lead}</p>}
+      <slot name="lead" />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:py-16">
+    <slot />
+
+    {nextSteps.length > 0 && (
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8">
+        <h2 class="text-xl font-semibold text-brand-700">What happens next</h2>
+        <ul class="mt-4 space-y-3 text-slate-700">
+          {nextSteps.map((step) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-1 inline-block h-2 w-2 flex-none rounded-full bg-accent-500" aria-hidden="true"></span>
+              <span set:html={step}></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {ctas.length > 0 && (
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        {ctas.map((cta, i) => {
+          const isPrimary = cta.variant !== 'secondary' && i === 0;
+          const cls = isPrimary
+            ? 'inline-flex items-center justify-center rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-accent-600'
+            : 'inline-flex items-center justify-center rounded-full border border-brand-700 px-6 py-3 text-sm font-semibold text-brand-700 hover:bg-brand-50';
+          return <a href={cta.href} class={cls}>{cta.label}</a>;
+        })}
+      </div>
+    )}
+
+    <div class="mt-12 text-center text-sm text-slate-500">
+      <p>
+        Stay in touch:
+        <a href="https://www.facebook.com/MixTreeLanguages" class="text-brand-700 hover:underline" rel="noopener" target="_blank">Facebook</a>
+        ·
+        <a href="https://www.instagram.com/mixtree.lang" class="text-brand-700 hover:underline" rel="noopener" target="_blank">Instagram</a>
+        ·
+        <a href="https://www.linkedin.com/company/mixtreelanguages" class="text-brand-700 hover:underline" rel="noopener" target="_blank">LinkedIn</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

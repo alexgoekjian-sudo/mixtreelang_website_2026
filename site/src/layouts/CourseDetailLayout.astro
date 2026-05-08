@@ -1,0 +1,227 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
+
+export type LevelCard = {
+  code: string;
+  name: string;
+  desc: string;
+  book: { src: string; alt: string };
+  isbn: string;
+};
+
+export type IncludeItem = { icon: string; text: string };
+
+export interface Props {
+  seo: { title: string; description: string };
+  jsonLd?: unknown[];
+  hero: {
+    image: { src: string; alt: string };
+    eyebrow: string;
+    title: string;
+    intro: string;
+  };
+  levels?: {
+    heading: string;
+    intro?: string;
+    items: LevelCard[];
+  };
+  details: [string, string][];
+  sidebar: {
+    price: string;
+    nextStart: string;
+    includes: IncludeItem[];
+    primaryCta?: { label: string; href: string };
+    secondaryCta?: { label: string; href: string } | null;
+  };
+  finalCta: {
+    heading: string;
+    text: string;
+  };
+  showEffective?: boolean;
+  showBestPrice?: boolean;
+}
+
+const { seo, jsonLd, hero, levels, details, sidebar, finalCta, showEffective = true, showBestPrice = true } = Astro.props;
+
+const effective = [
+  { title: 'Grammar through speaking', text: 'You activate grammar through real speaking practice, which makes it easier to remember.' },
+  { title: 'High-quality materials', text: 'The fun and engaging Oxford English File textbook with extra online practice.' },
+  { title: 'Personalised goals', text: 'Experienced English teachers guide you to set personal learning goals and give you regular feedback.' },
+  { title: 'Friendly atmosphere', text: 'Practise English in a friendly, fun atmosphere — including a class WhatsApp group and Language Exchange meetups.' },
+];
+
+const why = [
+  { title: 'Taught by professionals', text: 'Highly experienced, certified English teachers (minimum CELTA or TEFL) who are native or bilingual speakers.' },
+  { title: 'Designed by experts', text: 'Our MA-qualified Learning Manager designs effective English programmes with professional materials.' },
+  { title: 'Focused on you', text: 'A detailed level assessment places you on the correct course; teachers help you develop personalised goals with regular feedback.' },
+  { title: 'Highly interactive', text: 'An innovative approach maximises your speaking time through discussions and role-plays — speaking is the most effective way to improve.' },
+];
+---
+<BaseLayout seo={seo} jsonLd={jsonLd} container={false}>
+  <!-- Banner image -->
+  <div class="mx-auto max-w-6xl px-4 pt-2 sm:px-6 lg:px-8">
+    <figure class="overflow-hidden rounded-xl shadow-sm">
+      <img
+        src={hero.image.src}
+        alt={hero.image.alt}
+        class="h-48 w-full object-cover sm:h-64 md:h-80 lg:h-96"
+        width="1920"
+        height="600"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </figure>
+  </div>
+
+  <!-- Body with sticky sidebar -->
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
+    <div class="grid gap-10 lg:grid-cols-3">
+      <!-- Main column -->
+      <div class="space-y-16 lg:col-span-2">
+        <!-- Hero text -->
+        <section>
+          <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">{hero.eyebrow}</p>
+          <h1 class="mt-2 text-[1.7rem] font-bold leading-tight text-brand-700 sm:text-3xl lg:text-4xl">{hero.title}</h1>
+          <p class="mt-4 text-lg text-slate-700" set:html={hero.intro}></p>
+        </section>
+
+        {levels && (
+          <section>
+            <SectionHeading title={levels.heading} />
+            {levels.intro && (
+              <p class="mt-4 text-lg text-slate-700" set:html={levels.intro}></p>
+            )}
+            <div class="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+              {levels.items.map((l) => (
+                <article class="flex flex-col gap-3 rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                  <div class="flex items-baseline gap-2">
+                    <span class="text-2xl font-extrabold text-brand-600">{l.code}</span>
+                    <span class="text-base font-semibold text-slate-900">{l.name}</span>
+                  </div>
+                  <p class="text-sm text-slate-700">{l.desc}</p>
+                  <div class="mt-2 flex items-center gap-3 rounded-lg bg-slate-50 p-3">
+                    <img src={l.book.src} alt={l.book.alt} loading="lazy" class="h-16 w-12 shrink-0 object-cover" />
+                    <p class="text-xs text-slate-600"><strong>Course book included:</strong><br />English File {l.name} (4th Ed)<br /><span class="text-slate-500">ISBN {l.isbn}</span></p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Optional extra slot (between levels and 'why effective') -->
+        <slot name="extra" />
+
+        {showEffective && (
+          <section class="rounded-2xl bg-brand-50 p-6 sm:p-10">
+            <SectionHeading title="Activate Your English | Why It Works" />
+            <div class="mt-8 grid gap-4 sm:grid-cols-2">
+              {effective.map((e) => (
+                <div class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-200">
+                  <h3 class="text-base font-semibold text-brand-700">{e.title}</h3>
+                  <p class="mt-1 text-sm text-slate-700">{e.text}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Why MixTree -->
+        <section>
+          <SectionHeading title="Why MixTree Languages" />
+          <div class="mt-8 grid gap-4 sm:grid-cols-2">
+            {why.map((e) => (
+              <div class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-200">
+                <h3 class="text-base font-semibold text-brand-700">{e.title}</h3>
+                <p class="mt-1 text-sm text-slate-700">{e.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <!-- Sticky sidebar -->
+      <aside class="lg:col-span-1">
+        <div class="lg:sticky lg:top-24 space-y-4">
+          <div class="overflow-hidden rounded-xl bg-white shadow-md ring-1 ring-slate-200">
+            <div class="flex items-center justify-between gap-4 border-b border-slate-200 bg-brand-50 px-5 py-4">
+              <p class="text-3xl font-extrabold text-brand-700">{sidebar.price}</p>
+              <p class="text-right text-sm leading-snug text-slate-700">
+                Next start:<br />
+                <strong class="text-base font-semibold text-brand-700 sm:text-lg">{sidebar.nextStart}</strong>
+              </p>
+            </div>
+            <div class="space-y-3 p-5">
+              <a href={sidebar.primaryCta?.href ?? '/free-english-level-check-enrolment/'} class="block rounded-full bg-accent-500 px-5 py-3 text-center text-sm font-semibold text-white shadow hover:brightness-105">
+                {sidebar.primaryCta?.label ?? 'Start your enrollment'} →
+              </a>
+              {sidebar.secondaryCta !== null && (
+                <a href={sidebar.secondaryCta?.href ?? '/contact-form-request-for-information-english-courses-mixtree-languages/'} class="block rounded-full bg-brand-600 px-5 py-3 text-center text-sm font-semibold text-white shadow hover:bg-brand-700">
+                  {sidebar.secondaryCta?.label ?? 'Request Information'} →
+                </a>
+              )}
+            </div>
+            <div class="border-t border-slate-200 px-5 py-4">
+              <p class="text-sm font-semibold text-brand-700">This course includes:</p>
+              <ul class="mt-2 space-y-1.5 text-sm text-slate-700">
+                {sidebar.includes.map((it) => (
+                  <li><span class="mr-2 inline-block w-5 text-center" aria-hidden="true">{it.icon}</span>{it.text}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="border-t border-slate-200 px-5 py-4">
+              <p class="text-sm font-semibold text-brand-700">Course details</p>
+              <dl class="mt-2 divide-y divide-slate-100 text-sm">
+                {details.map(([term, value]) => (
+                  <div class="py-2">
+                    <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">{term}</dt>
+                    <dd class="text-slate-700">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+
+          {showBestPrice && (
+            <div class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+              <p class="text-sm font-semibold text-brand-700">Best Price Guarantee</p>
+              <a href="/best-price-guarantee-english-courses-mixtree-languages/" class="mt-1 inline-block text-sm font-medium text-brand-600 hover:text-brand-700">Learn more about our Best Price Guarantee →</a>
+            </div>
+          )}
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Certificate -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-4xl px-4 py-12 text-center sm:px-6 lg:px-8 lg:py-16">
+      <SectionHeading title="Certificate of Attendance and Proficiency Level" />
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-700">
+        All packages include a final one-to-one evaluation and a <strong>Certificate of Attendance and Proficiency Level</strong> based on the Common European Framework of Reference for Languages (CEFR).
+      </p>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <GoogleReviews count={3} layout="grid" heading="Student Reviews & Testimonials" />
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="bg-brand-700 text-white">
+    <div class="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold sm:text-3xl">{finalCta.heading}</h2>
+      <p class="mx-auto mt-3 max-w-2xl text-white/90">{finalCta.text}</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/free-online-english-level-check/" class="rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow hover:brightness-105">
+          Take a Free English Level Check →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

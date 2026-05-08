@@ -1,0 +1,20 @@
+---
+import ThankYouLayout from '../../layouts/ThankYouLayout.astro';
+import { GADS_CONVERSION } from '../../lib/conversions';
+---
+<ThankYouLayout
+  title="Thank you — we'll be in touch"
+  description="Your message about level check availability has been received."
+  eyebrow="Request received"
+  lead="Thanks for asking about level check availability. We'll get back to you with the next available slots as soon as possible."
+  nextSteps={[
+    'You\'ll receive a confirmation email with available appointment times.',
+    'Please check your spam folder if you don\'t see it within a few minutes.',
+    'Prefer to book straight away? Use our online scheduler below.',
+  ]}
+  ctas={[
+    { label: 'Book a level check now', href: '/free-online-english-level-check/' },
+    { label: 'Contact us', href: '/contact/', variant: 'secondary' },
+  ]}
+  conversionSendTo={GADS_CONVERSION.levelCheck}
+/>

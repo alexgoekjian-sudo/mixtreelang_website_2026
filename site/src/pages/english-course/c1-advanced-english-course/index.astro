@@ -1,0 +1,78 @@
+---
+import CourseDetailLayout from '../../../layouts/CourseDetailLayout.astro';
+import { nextStartLabel, findUpcoming, fmtDate } from '../../../lib/schedule';
+import { courseNode } from '../../../lib/schema';
+
+const seo = {
+  title: 'C1 Advanced English Course — MixTree Languages',
+  description:
+    'Refine your English at C1 Advanced level: 24 hours over 6 weeks, live-online on Zoom, small interactive groups with CELTA-certified teachers.',
+};
+
+const jsonLd = [
+  courseNode({
+    name: 'C1 Advanced English Course',
+    description: 'Live-online C1 Advanced English course on Zoom — 24 hours over 6 weeks, focused on nuanced vocabulary, pronunciation and confident communication.',
+    courseCode: 'C1_ADVANCED_ENGLISH',
+    educationalLevel: 'C1',
+    scheduleFilter: { type: 'EVENING', level: 'C1' },
+    timeRequired: 'PT24H',
+    courseWorkload: 'PT24H',
+    courseMode: 'online',
+    price: '385',
+    path: '/english-course/c1-advanced-english-course/',
+  }),
+];
+
+const nextStart = nextStartLabel({ type: 'EVENING', level: 'C1' }, 'Check schedule');
+const upcomingStarts = findUpcoming({ type: 'EVENING', level: 'C1' }, 20);
+const uniqueStartDates = Array.from(new Set(upcomingStarts.map((r) => r.startDate))).slice(0, 3);
+const nextStartsList = uniqueStartDates.length ? uniqueStartDates.map(fmtDate).join(' · ') : 'Check schedule';
+
+const props = {
+  seo,
+  jsonLd,
+  hero: {
+    image: { src: '/wp-content/uploads/2021/02/Advanced-C1-English-Courses-Amsterdam-MixTRee-scaled-1.jpg', alt: 'MixTree Languages C1 Advanced live-online English class' },
+    eyebrow: 'C1 Advanced English Course',
+    title: 'C1 Advanced English Course',
+    intro:
+      'Refine your existing English: <strong>24 hours over 6 weeks</strong>, two live-online evening lessons a week on Zoom. Focused on nuanced vocabulary, advanced pronunciation and confident, precise communication.',
+  },
+  levels: {
+    heading: 'Two Levels | B2+ · C1',
+    intro: 'Designed for students at strong Upper-Intermediate or Advanced level who want to express themselves with more clarity, range and ease.',
+    items: [
+      { code: 'B2+', name: 'Strong Upper-Intermediate', desc: "For students who already feel comfortable in most situations and want to push into truly advanced territory.", book: { src: '/wp-content/uploads/2022/01/b2-book.jpeg', alt: 'English File Upper-Intermediate textbook' }, isbn: '978-0194039697' },
+      { code: 'C1', name: 'Advanced', desc: 'For students who want to strengthen existing grammar, activate more nuanced vocabulary and refine the way they use English in personal or professional life.', book: { src: '/wp-content/uploads/2022/01/b2-book.jpeg', alt: 'English File Advanced textbook' }, isbn: '978-0194038355' },
+    ],
+  },
+  details: [
+    ['Levels', 'B2+ Strong Upper-Intermediate · C1 Advanced'],
+    ['Next starts', nextStartsList],
+    ['Days', 'Tuesday & Thursday'],
+    ['Times', '19:00–21:00'],
+    ['Location', 'Live-Online with Zoom'],
+    ['Classroom hours', '24 hours (4 hours per week over 6 weeks)'],
+    ['Self-study', '~24 hours'],
+    ['Group size', '6–10 participants'],
+    ['Certificate', 'Certificate of Attendance & Proficiency Level (CEFR)'],
+  ] as [string, string][],
+  sidebar: {
+    price: '€385',
+    nextStart,
+    includes: [
+      { icon: '⏱', text: '24-hour live-online group course' },
+      { icon: '■', text: '10% discount on your "English File" course book' },
+      { icon: '▣', text: 'Extra materials & online practice' },
+      { icon: '✓', text: 'Final evaluation with your teacher' },
+      { icon: '★', text: 'Certificate of Attendance & Level' },
+    ],
+  },
+  finalCta: {
+    heading: 'Ready to take your English to C1?',
+    text: 'Schedule a free English level check — it only takes 15 minutes.',
+  },
+};
+---
+<CourseDetailLayout {...props} />

@@ -1,0 +1,194 @@
+---
+type NavItem = { href: string; label: string; children?: NavItem[] };
+
+const nav: NavItem[] = [
+  {
+    href: '/english-course/',
+    label: 'Group Courses',
+    children: [
+      { href: '/english-course/intensive-english-course/',          label: 'Intensive English Course' },
+      { href: '/english-course/morning-english-courses/',           label: 'Morning English Courses' },
+      { href: '/english-course/online-evening-english-courses/',    label: 'Online Evening English Courses' },
+      { href: '/english-course/business-english/',                  label: 'Business English' },
+      { href: '/english-course/english-for-beginners/',             label: 'English for Beginners' },
+      { href: '/english-course/summer-intensive-english-course/',   label: 'Summer Intensive Course' },
+      { href: '/c1-advanced-english-course/',                       label: 'C1 Advanced English' },
+    ],
+  },
+  {
+    href: '/private-courses/',
+    label: 'Private Courses',
+    children: [
+      { href: '/private-courses/private-english-course/',  label: 'One-to-One Lessons' },
+      { href: '/private-courses/ielts-preparation-course/', label: 'IELTS Preparation' },
+      { href: '/private-courses/in-company-english-course/', label: 'In-Company English' },
+    ],
+  },
+  { href: '/course-schedule/', label: 'Schedule' },
+  {
+    href: '/about-mixtree-languages/',
+    label: 'About',
+    children: [
+      { href: '/about-mixtree-languages/',                                       label: 'About MixTree' },
+      { href: '/meet-our-teachers/',                                             label: 'Meet Our Teachers' },
+      { href: '/about-mixtree-languages/student-testimonials-mixtree-languages/', label: 'Student Testimonials' },
+      { href: '/about-mixtree-languages/faq-mixtree-languages/',                 label: 'FAQ' },
+      { href: '/about-mixtree-languages/photo-gallery/',                         label: 'Photo Gallery' },
+      { href: '/mixtree-events/',                                                label: 'Events' },
+      { href: '/open-days/',                                                     label: 'Open Days' },
+    ],
+  },
+  { href: '/english-language-tips/', label: 'Magazine' },
+  { href: '/contact/', label: 'Contact' },
+];
+const current = Astro.url.pathname;
+const isActive = (href: string) => current === href || current.startsWith(href);
+---
+<header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
+  <div class="bg-brand-700 text-white text-xs">
+    <div class="mx-auto flex max-w-6xl items-center justify-end gap-4 px-4 py-1 sm:px-6 lg:px-8">
+      <a href="tel:+31207861981" class="hover:underline">+31 (0) 20 78 61 981</a>
+      <a href="mailto:info@mixtreelang.nl" class="hover:underline">info@mixtreelang.nl</a>
+    </div>
+  </div>
+  <div class="relative mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-3 sm:px-6 lg:px-8">
+    <a href="/" class="flex shrink-0 items-center" aria-label="MixTree Languages — home">
+      <img
+        src="/wp-content/uploads/2024/03/MTL_LOGO_512-150x150.png"
+        srcset="/wp-content/uploads/2024/03/MTL_LOGO_512-150x150.png 1x, /wp-content/uploads/2024/03/MTL_LOGO_512-300x300.png 2x"
+        alt="MixTree Languages"
+        width="150"
+        height="150"
+        decoding="async"
+        class="-my-3 h-16 w-auto md:-my-5 md:h-20 lg:-mb-10 lg:h-24"
+      />
+    </a>
+    <nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
+      {nav.map((item) => {
+        const active = isActive(item.href);
+        const cls = `rounded px-3 py-2 text-sm font-medium transition ${
+          active ? 'text-brand-700 bg-brand-50' : 'text-slate-700 hover:text-brand-700 hover:bg-brand-50'
+        }`;
+        if (!item.children) {
+          return <a href={item.href} class={cls}>{item.label}</a>;
+        }
+        return (
+          <div class="group relative" data-dropdown>
+            <a href={item.href} class={`${cls} inline-flex items-center gap-1`}>
+              {item.label}
+              <button
+                type="button"
+                data-dropdown-toggle
+                aria-expanded="false"
+                aria-label={`Open ${item.label} submenu`}
+                class="-mr-1 inline-flex h-5 w-5 items-center justify-center rounded text-current hover:bg-brand-100"
+                onclick="event.preventDefault(); event.stopPropagation();"
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l4 4 4-4"/></svg>
+              </button>
+            </a>
+            <div
+              data-dropdown-menu
+              class="invisible absolute left-0 top-full z-50 min-w-[260px] translate-y-1 rounded-md border border-slate-200 bg-white py-2 opacity-0 shadow-lg transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
+            >
+              {item.children.map((child) => (
+                <a
+                  href={child.href}
+                  class={`block px-4 py-2 text-sm ${
+                    isActive(child.href) ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-brand-50 hover:text-brand-700'
+                  }`}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+      <a
+        href="/free-online-english-level-check/"
+        class="ml-2 rounded-full bg-accent-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:brightness-105"
+      >
+        Free Level Check
+      </a>
+    </nav>
+    <button
+      type="button"
+      class="md:hidden inline-flex items-center justify-center rounded p-2 text-slate-700 hover:bg-brand-50"
+      aria-label="Open menu"
+      onclick="document.getElementById('mobile-nav')?.classList.toggle('hidden')"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 6h18M3 12h18M3 18h18" />
+      </svg>
+    </button>
+  </div>
+  <nav id="mobile-nav" class="hidden border-t border-slate-200 bg-white md:hidden" aria-label="Mobile">
+    <ul class="mx-auto flex max-w-6xl flex-col px-4 py-2 sm:px-6">
+      {nav.map((item) => (
+        <li>
+          <a href={item.href} class="block rounded px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-700">
+            {item.label}
+          </a>
+          {item.children && (
+            <ul class="ml-3 border-l border-slate-200 pl-2">
+              {item.children.map((child) => (
+                <li>
+                  <a href={child.href} class="block rounded px-3 py-1.5 text-sm text-slate-600 hover:bg-brand-50 hover:text-brand-700">
+                    {child.label}
+         
+
+<script is:inline>
+  // Click-to-open dropdowns (in addition to hover). Useful on touch + improves a11y.
+  (function () {
+    var OPEN = 'is-open';
+    function closeAll(except) {
+      document.querySelectorAll('[data-dropdown].' + OPEN).forEach(function (d) {
+        if (d !== except) {
+          d.classList.remove(OPEN);
+          var menu = d.querySelector('[data-dropdown-menu]');
+          var btn  = d.querySelector('[data-dropdown-toggle]');
+          if (menu) { menu.classList.add('invisible', 'opacity-0'); menu.classList.remove('visible', 'opacity-100'); }
+          if (btn)  { btn.setAttribute('aria-expanded', 'false'); }
+        }
+      });
+    }
+    document.querySelectorAll('[data-dropdown-toggle]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var wrap = btn.closest('[data-dropdown]');
+        if (!wrap) return;
+        var menu = wrap.querySelector('[data-dropdown-menu]');
+        var willOpen = !wrap.classList.contains(OPEN);
+        closeAll(wrap);
+        wrap.classList.toggle(OPEN, willOpen);
+        if (menu) {
+          menu.classList.toggle('invisible', !willOpen);
+          menu.classList.toggle('opacity-0', !willOpen);
+          menu.classList.toggle('visible', willOpen);
+          menu.classList.toggle('opacity-100', willOpen);
+        }
+        btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('[data-dropdown]')) closeAll(null);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAll(null);
+    });
+  })();
+</script>         </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+      <li class="mt-2">
+        <a href="/free-online-english-level-check/" class="block rounded bg-accent-500 px-3 py-2 text-sm font-semibold text-white">Free Level Check</a>
+      </li>
+    </ul>
+  </nav>
+</header>

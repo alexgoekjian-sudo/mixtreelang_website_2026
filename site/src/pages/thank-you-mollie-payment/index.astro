@@ -1,0 +1,50 @@
+---
+import ThankYouLayout from '../../layouts/ThankYouLayout.astro';
+import { GADS_CONVERSION } from '../../lib/conversions';
+---
+<ThankYouLayout
+  title="Payment received — thank you!"
+  description="We've received your payment. A receipt is available on request."
+  eyebrow="Payment confirmed"
+  conversionSendTo={GADS_CONVERSION.payment}
+  ctas={[
+    { label: 'See course schedule', href: '/course-schedule/' },
+    { label: 'Contact us', href: '/contact/', variant: 'secondary' },
+  ]}
+>
+  <div slot="lead" class="mx-auto mt-4 max-w-2xl">
+    <p id="personalized-message" class="text-lg text-slate-700">
+      Thank you for your payment! We've sent a confirmation to your email address.
+    </p>
+    <p class="mt-3 text-sm text-slate-600">
+      If you'd like a receipt, just email us at
+      <a href="mailto:info@mixtreelang.nl" class="text-brand-700 underline">info@mixtreelang.nl</a>.
+    </p>
+  </div>
+
+  <script is:inline>
+    (function () {
+      try {
+        var p = new URLSearchParams(window.location.search);
+        var name = p.get('nameJJ') || p.get('name');
+        var course = p.get('courseJJ') || p.get('course');
+        var el = document.getElementById('personalized-message');
+        if (!el) return;
+        var safe = function (s) {
+          var d = document.createElement('div');
+          d.textContent = s;
+          return d.innerHTML;
+        };
+        if (name && course) {
+          el.innerHTML =
+            'Dear ' + safe(name) + ', we have received your payment. ' +
+            "We're excited to see you in the " + safe(course) + ' course!';
+        } else if (name) {
+          el.innerHTML = 'Dear ' + safe(name) + ', thank you for your payment!';
+        }
+      } catch (e) {
+        /* leave default copy */
+      }
+    })();
+  </script>
+</ThankYouLayout>

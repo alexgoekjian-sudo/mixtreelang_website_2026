@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'Contact Us | MixTree Languages',
+  description:
+    'Contact MixTree Languages in Amsterdam. Phone, email, address, and a contact form to request information about our English courses.',
+};
+
+const sent = Astro.url.searchParams.get('sent') === '1';
+---
+<BaseLayout seo={seo}>
+  <h1 class="text-3xl font-bold text-brand-700 sm:text-4xl">Contact Us</h1>
+
+  {sent && (
+    <div class="mt-6 rounded-md border border-green-200 bg-green-50 p-4 text-green-800">
+      Thanks — your message has been sent. We'll get back to you shortly.
+    </div>
+  )}
+
+  <div class="mt-8 grid gap-10 md:grid-cols-2">
+    <form action="/mailer.php" method="post" class="space-y-4" data-mtl-form data-mtl-conversion="contact_form_submit">
+      <input type="hidden" name="form" value="contact" />
+      {/* Honeypot — bots fill this, humans don't see it */}
+      <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+      {/* Tracking fields — populated by UtmCapture script */}
+      <input type="hidden" name="utm_source" value="" />
+      <input type="hidden" name="utm_medium" value="" />
+      <input type="hidden" name="utm_campaign" value="" />
+      <input type="hidden" name="utm_term" value="" />
+      <input type="hidden" name="utm_content" value="" />
+      <input type="hidden" name="traffic_type" value="" />
+      <input type="hidden" name="landing_page" value="" />
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="block">
+          <span class="mb-1 block text-sm font-medium text-slate-700">First Name *</span>
+          <input required name="first-name" type="text" placeholder="First Name" class="w-full rounded border border-slate-300 px-3 py-2 text-sm" />
+        </label>
+        <label class="block">
+          <span class="mb-1 block text-sm font-medium text-slate-700">Last Name *</span>
+          <input required name="last-name" type="text" placeholder="Last Name" class="w-full rounded border border-slate-300 px-3 py-2 text-sm" />
+        </label>
+      </div>
+
+      <label class="block">
+        <span class="mb-1 block text-sm font-medium text-slate-700">Email *</span>
+        <input required name="email" type="email" placeholder="Email" class="w-full rounded border border-slate-300 px-3 py-2 text-sm" />
+      </label>
+
+      <label class="block">
+        <span class="mb-1 block text-sm font-medium text-slate-700">Phone</span>
+        <input name="phone" type="tel" placeholder="Phone" class="w-full rounded border border-slate-300 px-3 py-2 text-sm" />
+      </label>
+
+      <label class="block">
+        <span class="mb-1 block text-sm font-medium text-slate-700">Question / Message *</span>
+        <textarea required name="question" rows="5" placeholder="Question/Message" class="w-full rounded border border-slate-300 px-3 py-2 text-sm"></textarea>
+      </label>
+
+      <label class="flex items-start gap-2 text-sm text-slate-600">
+        <input type="checkbox" name="consent" required class="mt-1" />
+        <span>By continuing, you accept our <a href="/privacy-policy/" class="text-brand-700 underline">privacy policy</a>.</span>
+      </label>
+
+      <button type="submit" class="rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white hover:bg-brand-700">SEND</button>
+    </form>
+
+    <aside class="space-y-3 text-sm text-slate-700">
+      <p><strong>ADDRESS:</strong> Eerste Weteringplantsoen 2c, 1017 SJ, Amsterdam, The Netherlands</p>
+      <p>(Station Vijzelgracht — via trams 1, 7, 19, 24 or Metro M52)</p>
+      <p><strong>PHONE:</strong> <a href="tel:+31207861981" class="text-brand-700 hover:underline">+31 (0) 20 78 61 981</a></p>
+      <p><strong>EMAIL:</strong> <a href="mailto:info@mixtreelang.nl" class="text-brand-700 hover:underline">info@mixtreelang.nl</a></p>
+      <p><strong>OFFICE HOURS:</strong> Mon–Fri 9:00–18:00 | Wed 9:00–15:00</p>
+
+      <h2 class="mt-8 text-lg font-semibold text-brand-700">Join Us</h2>
+      <p>Would you like to join one of our English courses? The first step is to <a href="/free-online-english-level-check/" class="text-brand-700 underline">schedule a free level check</a> with one of our teachers.</p>
+
+      <h2 class="mt-8 text-lg font-semibold text-brand-700">Work with us</h2>
+      <p>Are you a Qualified English Teacher? We are not currently looking for English teachers, but we are open to receiving your CV and cover letter. You can send it to <a href="mailto:info@mixtreelang.nl" class="text-brand-700 underline">info@mixtreelang.nl</a>.</p>
+      <ul class="ml-5 list-disc">
+        <li>CELTA/TESOL qualification</li>
+        <li>3+ years of post-qualification experience</li>
+        <li>Bilingual/Native teachers with full mastery of English across all 4 skills to CEFR C2</li>
+      </ul>
+    </aside>
+  </div>
+</BaseLayout>

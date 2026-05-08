@@ -1,0 +1,28 @@
+---
+/**
+ * StubPage — placeholder for routes that haven't been content-migrated yet.
+ * Renders the page chrome + an "under construction" notice. Used so every
+ * legacy URL resolves to a 200 from day 1, even before final content is in.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  /** True until content is migrated, then we delete this stub. */
+  preview?: boolean;
+}
+
+const { title, description, preview = true } = Astro.props;
+const seo = { title, description, noindex: preview };
+---
+<BaseLayout seo={seo}>
+  <h1 class="text-3xl font-bold text-brand-700 sm:text-4xl">{title}</h1>
+  <p class="mt-4 text-slate-700">{description}</p>
+  {preview && (
+    <p class="mt-6 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+      This page is being migrated. Final content will appear here before launch.
+    </p>
+  )}
+  <slot />
+</BaseLayout>

@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+
+const seo = {
+  title: 'Open Days & Free English Level Check | MixTree Languages',
+  description:
+    'Not sure which English course is right for you? Book a free in-person or online level check with a MixTree Languages teacher in Amsterdam.',
+};
+
+const expect = [
+  {
+    title: 'Language Level Evaluation',
+    body: 'A short, friendly conversation with one of our CELTA/TEFL-certified teachers to assess your current speaking level and identify your strengths and areas to improve.',
+  },
+  {
+    title: 'Schedule Discussion',
+    body: 'We talk through your availability — mornings, evenings, weekends, intensive or part-time — to find a course that fits your life.',
+  },
+  {
+    title: 'Goal Setting',
+    body: 'Tell us what you want to achieve — fluency for work, exam preparation, travel, or simply confidence to chat in Amsterdam — so we can match the right programme.',
+  },
+  {
+    title: 'Course Matching',
+    body: 'We recommend the course (or combination of courses) that best fits your level, goals and schedule, and answer any questions about prices and start dates.',
+  },
+];
+
+const after = [
+  'A short summary of your level on the CEFR scale (A1–C1).',
+  'A personalised course recommendation by email within 1 working day.',
+  'No obligation — take your time to decide which course is right for you.',
+];
+---
+<BaseLayout seo={seo} container={false}>
+  <!-- Hero -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">Open Days · Free Level Check</p>
+      <h1 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl lg:text-5xl">
+        Thinking of taking an English course?
+      </h1>
+      <p class="mt-4 max-w-3xl text-lg text-slate-700">
+        Not sure which course is right for you? Come and meet us — in person at our school in the heart of
+        Amsterdam, or online via Zoom or WhatsApp. We&rsquo;ll have a friendly chat, check your English
+        level and recommend the best course for your goals. <strong>It&rsquo;s completely free.</strong>
+      </p>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <a
+          href="https://calendly.com/mixtree-languages/in-person-english-level-check"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-xl bg-accent-500 p-6 text-white shadow transition hover:brightness-105"
+        >
+          <p class="text-xs font-semibold uppercase tracking-wide opacity-80">In person</p>
+          <p class="mt-1 text-lg font-bold">Book an in-person level check →</p>
+          <p class="mt-2 text-sm opacity-90">At our school: Eerste Weteringplantsoen 2c, Amsterdam.<br />Mon–Fri, 9:30–13:30 (except Wednesday).</p>
+        </a>
+        <a
+          href="https://calendly.com/mixtree-languages/online-english-level-check"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-xl bg-brand-600 p-6 text-white shadow transition hover:bg-brand-700"
+        >
+          <p class="text-xs font-semibold uppercase tracking-wide opacity-80">Online</p>
+          <p class="mt-1 text-lg font-bold">Book an online level check →</p>
+          <p class="mt-2 text-sm opacity-90">Via Zoom or WhatsApp.<br />Available across multiple time zones.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- What to Expect -->
+  <section class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    <SectionHeading title="What to Expect During Your English Level Check" />
+    <div class="mt-10 grid gap-6 sm:grid-cols-2">
+      {expect.map((s, i) => (
+        <article class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+          <p class="text-xs font-semibold uppercase tracking-wide text-accent-500">Step {i + 1}</p>
+          <h3 class="mt-2 text-lg font-bold text-brand-700">{s.title}</h3>
+          <p class="mt-3 text-sm text-slate-700">{s.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- After Your Level Check -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+      <SectionHeading title="After Your Level Check" />
+      <ul class="mx-auto mt-8 max-w-2xl space-y-3 text-slate-700">
+        {after.map((a) => (
+          <li class="flex gap-3 rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-200">
+            <span class="text-accent-500" aria-hidden="true">✓</span>
+            <span>{a}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-brand-700 text-white">
+    <div class="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 lg:px-8 lg:py-16">
+      <h2 class="text-2xl font-bold sm:text-3xl">Have a question first?</h2>
+      <p class="mx-auto mt-3 max-w-2xl text-white/90">
+        Send us a message — we reply within one working day.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/contact/" class="rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow hover:brightness-105">
+          Contact us →
+        </a>
+        <a href="/about-mixtree-languages/faq-mixtree-languages/" class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-white/20">
+          Read FAQ →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

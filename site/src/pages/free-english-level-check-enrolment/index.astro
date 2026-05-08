@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'Free English Level Check | Step 1 — Enrolment | MixTree Languages',
+  description:
+    'Book your free 15-minute English level check with one of our CELTA-certified teachers — online by video call or in person at our school in Amsterdam.',
+};
+
+const SITE = 'https://mixtreelang.nl';
+const pageUrl = new URL(Astro.url.pathname, SITE).toString();
+
+// Service schema describing the free level check.
+const jsonLd = [
+  {
+    '@type': 'Service',
+    '@id': `${pageUrl}#service`,
+    name: 'Free English Level Check',
+    serviceType: 'Language assessment',
+    description:
+      '15-minute English language assessment with a CELTA-certified teacher — speaking, grammar, listening, and goal-setting. Available online or in person at our Amsterdam school.',
+    provider: { '@id': `${SITE}/#organization` },
+    areaServed: ['Amsterdam', 'Netherlands', 'Worldwide (online)'],
+    audience: {
+      '@type': 'EducationalAudience',
+      educationalRole: 'student',
+    },
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+    },
+  },
+];
+---
+<BaseLayout seo={seo} jsonLd={jsonLd} container={false}>
+  <Fragment slot="head">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </Fragment>
+
+  <!-- Hero -->
+  <section class="bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:py-16">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">
+        Step 1 of your enrolment
+      </p>
+      <h1 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl lg:text-5xl">
+        Book your free English level check
+      </h1>
+      <p class="mt-4 max-w-3xl text-lg text-slate-700">
+        To make sure you get the most from your course, we begin with a short
+        <strong>15-minute level check</strong> — online by video call, or in person at our
+        school in Amsterdam. One of our <strong>CELTA-certified teachers</strong> will
+        assess your speaking, grammar, and understanding, and discuss your learning goals.
+      </p>
+      <p class="mt-3 max-w-3xl text-slate-700">
+        Prefer to walk in? You're welcome to drop by the school for an in-person level check
+        between <strong>9:30 and 13:00</strong>, except on Wednesdays.
+      </p>
+    </div>
+  </section>
+
+  <!-- Booking with tabs -->
+  <section class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:py-16" x-data="{ tab: 'online' }">
+    <div class="mb-6 inline-flex rounded-full bg-slate-100 p-1" role="tablist" aria-label="Booking type">
+      <button
+        type="button"
+        role="tab"
+        :aria-selected="tab === 'online'"
+        :class="tab === 'online' ? 'bg-white text-brand-700 shadow-sm' : 'text-slate-600 hover:text-brand-700'"
+        class="rounded-full px-5 py-2 text-sm font-semibold transition"
+        @click="tab = 'online'"
+      >
+        💻 Online (video call)
+      </button>
+      <button
+        type="button"
+        role="tab"
+        :aria-selected="tab === 'onsite'"
+        :class="tab === 'onsite' ? 'bg-white text-brand-700 shadow-sm' : 'text-slate-600 hover:text-brand-700'"
+        class="rounded-full px-5 py-2 text-sm font-semibold transition"
+        @click="tab = 'onsite'"
+      >
+        📍 In person (Amsterdam)
+      </button>
+    </div>
+
+    <div
+      role="tabpanel"
+      x-show="tab === 'online'"
+      class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200"
+    >
+      <iframe
+        src="https://cal.com/mixtree-languages-wun1zc/online-lc-15min?embed=1"
+        title="Book online English level check"
+        loading="lazy"
+        allow="fullscreen"
+        class="h-[760px] w-full border-0"
+      ></iframe>
+    </div>
+
+    <div
+      role="tabpanel"
+      x-show="tab === 'onsite'"
+      x-cloak
+      class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200"
+    >
+      <iframe
+        src="https://cal.com/mixtree-languages-wun1zc/onsite-lc-15min?embed=1"
+        title="Book in-person English level check"
+        loading="lazy"
+        allow="fullscreen"
+        class="h-[760px] w-full border-0"
+      ></iframe>
+    </div>
+
+    <p class="mt-3 text-sm text-slate-500">
+      Booking is handled by <a href="https://cal.com" class="text-brand-700 hover:underline" rel="noopener" target="_blank">cal.com</a>.
+      You'll receive a confirmation email straight away — please check your spam folder if you don't see it.
+    </p>
+  </section>
+
+  <!-- What to expect -->
+  <section class="bg-slate-50">
+    <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:py-16">
+      <h2 class="text-2xl font-bold text-brand-700 sm:text-3xl">What to expect during your level check</h2>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2">
+        {[
+          {
+            title: 'Language level evaluation',
+            body: 'A short, friendly conversation to assess your speaking, listening and grammar.',
+          },
+          {
+            title: 'Goal setting',
+            body: 'We discuss what you want to achieve — work, study, travel, or general fluency.',
+          },
+          {
+            title: 'Schedule discussion',
+            body: 'We find class times and formats that fit your week.',
+          },
+          {
+            title: 'Course matching',
+            body: 'We recommend the most suitable class level and format for you.',
+          },
+        ].map((item) => (
+          <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <h3 class="text-lg font-semibold text-brand-700">{item.title}</h3>
+            <p class="mt-2 text-slate-700">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 2 teaser -->
+  <section class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:py-16">
+    <div class="rounded-2xl border border-brand-100 bg-brand-50 p-6 sm:p-8">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">
+        Step 2 of your enrolment
+      </p>
+      <h2 class="mt-2 text-2xl font-bold text-brand-700 sm:text-3xl">After your level check</h2>
+      <p class="mt-3 max-w-3xl text-slate-700">
+        You'll receive an enrolment email with specific course recommendations based on your
+        English level, availability, and learning objectives. From there, you choose the
+        course that fits — and we'll be in touch with the next steps.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/course-schedule/"
+          class="inline-flex items-center justify-center rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white hover:bg-accent-600"
+          >See course schedule</a
+        >
+        <a
+          href="/contact/"
+          class="inline-flex items-center justify-center rounded-full border border-brand-700 px-6 py-3 text-sm font-semibold text-brand-700 hover:bg-white"
+          >Have a question?</a
+        >
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  [x-cloak] { display: none !important; }
+</style>

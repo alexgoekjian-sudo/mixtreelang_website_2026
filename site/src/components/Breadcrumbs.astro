@@ -1,0 +1,95 @@
+---
+/**
+ * Breadcrumbs — derived from the current pathname.
+ *
+ * Renders a thin row right under the site header, justified to the right.
+ * Uses a curated slug-to-label map for the most common URL segments so we
+ * get clean, human-readable trails without per-page configuration; unknown
+ * segments fall back to a Title-Case-ified version of the slug.
+ *
+ * Hidden on the home page.
+ */
+
+const path = Astro.url.pathname;
+
+// Curated overrides for nicer labels on known paths.
+const LABELS: Record<string, string> = {
+  '/english-course/':                                                   'Group Courses',
+  '/english-course/intensive-english-course/':                          'Intensive English Course',
+  '/english-course/morning-english-courses/':                           'Morning English Courses',
+  '/english-course/online-evening-english-courses/':                    'Online Evening English Courses',
+  '/english-course/business-english/':                                  'Business English',
+  '/english-course/english-for-beginners/':                             'English for Beginners',
+  '/english-course/summer-intensive-english-course/':                   'Summer Intensive Course',
+  '/c1-advanced-english-course/':                                       'C1 Advanced English',
+
+  '/private-courses/':                                                  'Private Courses',
+  '/private-courses/private-english-course/':                           'One-to-One Lessons',
+  '/private-courses/ielts-preparation-course/':                         'IELTS Preparation',
+  '/private-courses/in-company-english-course/':                        'In-Company English',
+  '/in-company-english-course-quote/':                                  'Get a Quote',
+
+  '/course-schedule/':                                                  'Schedule',
+
+  '/about-mixtree-languages/':                                          'About',
+  '/about-mixtree-languages/faq-mixtree-languages/':                    'FAQ',
+  '/about-mixtree-languages/photo-gallery/':                            'Photo Gallery',
+  '/about-mixtree-languages/student-testimonials-mixtree-languages/':   'Student Testimonials',
+  '/meet-our-teachers/':                                                'Meet Our Teachers',
+  '/mixtree-events/':                                                   'Events',
+  '/open-days/':                                                        'Open Days',
+
+  '/english-language-tips/':                                            'Magazine',
+
+  '/contact/':                                                          'Contact',
+  '/free-online-english-level-check/':                                  'Free Level Check',
+};
+
+function titleCase(slug: string): string {
+  return slug
+    .replace(/[-_]+/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+type Crumb = { href: string; label: string; current: boolean };
+
+function buildCrumbs(pathname: string): Crumb[] {
+  // Normalise to leading-and-trailing slash, e.g. "/foo/bar/".
+  const clean = '/' + pathname.replace(/^\/+|\/+$/g, '') + '/';
+  if (clean === '//') return []; // home
+
+  const segments = clean.slice(1, -1).split('/').filter(Boolean);
+  const crumbs: Crumb[] = [{ href: '/', label: 'Home', current: false }];
+
+  let acc = '';
+  segments.forEach((seg, i) => {
+    acc += '/' + seg + '/';
+    crumbs.push({
+      href: acc,
+      label: LABELS[acc] ?? titleCase(seg),
+      current: i === segments.length - 1,
+    });
+  });
+  return crumbs;
+}
+
+const crumbs = buildCrumbs(path);
+---
+{crumbs.length > 1 && (
+  <nav aria-label="Breadcrumb" class="bg-white">
+    <div class="mx-auto flex max-w-6xl justify-end px-4 pt-2 sm:px-6 lg:px-8">
+      <ol class="flex flex-wrap items-center gap-1 text-xs text-slate-500">
+        {crumbs.map((c, i) => (
+          <li class="flex items-center gap-1">
+            {i > 0 && <span aria-hidden="true" class="text-slate-300">/</span>}
+            {c.current ? (
+              <span aria-current="page" class="font-medium text-brand-700">{c.label}</span>
+            ) : (
+              <a href={c.href} class="hover:text-brand-700 hover:underline">{c.label}</a>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </nav>
+)}

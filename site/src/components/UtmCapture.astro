@@ -1,0 +1,47 @@
+<!--
+  MixTree Languages — UTM + landing-page capture
+  - Reads the session's first-touch UTMs from sessionStorage (or current URL)
+  - Populates any matching hidden inputs in forms with name="utm_source" etc.
+  - Sets `landing_page` to the first URL of the session and `traffic_type` to a
+    coarse classifier (paid|organic|referral|direct).
+
+  Drop-in: include this script tag once near </body> on every page (BaseLayout).
+-->
+<script is:inline>
+  (function () {
+    var KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+    var STORAGE_KEY = 'mtl_utm_v1';
+    var url = new URL(window.location.href);
+    var stored = {};
+    try { stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) {}
+
+    var hasNewUtm = KEYS.some(function (k) { return url.searchParams.has(k); });
+    if (hasNewUtm || !stored.landing_page) {
+      var fresh = {};
+      KEYS.forEach(function (k) { fresh[k] = url.searchParams.get(k) || ''; });
+      fresh.landing_page = stored.landing_page || (url.origin + url.pathname);
+
+      var ref = (document.referrer || '').toLowerCase();
+      var trafficType = 'direct';
+      if (fresh.utm_medium === 'cpc' || fresh.utm_medium === 'paid' || /gclid|fbclid|msclkid/.test(url.search)) {
+        trafficType = 'paid';
+      } else if (/google\.|bing\.|duckduckgo|yahoo\./.test(ref)) {
+        trafficType = 'organic';
+      } else if (ref) {
+        trafficType = 'referral';
+      }
+      fresh.traffic_type = trafficType;
+
+      try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(fresh)); } catch (e) {}
+      stored = fresh;
+    }
+
+    function fillForm(form) {
+      Object.keys(stored).forEach(function (k) {
+        var input = form.querySelector('input[name="' + k + '"]');
+        if (input && !input.value) input.value = stored[k];
+      });
+    }
+    document.querySelectorAll('form[data-mtl-form]').forEach(fillForm);
+  })();
+</script>

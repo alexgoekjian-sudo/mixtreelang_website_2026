@@ -1,0 +1,81 @@
+---
+import CourseDetailLayout from '../../../layouts/CourseDetailLayout.astro';
+import { nextStartLabel, findUpcoming, fmtDate } from '../../../lib/schedule';
+import { courseNode } from '../../../lib/schema';
+
+const seo = {
+  title: 'Morning English Courses in Amsterdam — MixTree Languages',
+  description:
+    'Improve your English in the morning: 30 hours over 6 weeks, 5 levels from A2 Elementary to C1 Advanced, small groups in Amsterdam city centre.',
+};
+
+const jsonLd = [
+  courseNode({
+    name: 'Morning English Courses',
+    description: 'Morning English courses in Amsterdam — 30 hours over 6 weeks, levels A2 to C1.',
+    courseCode: 'MORNING_ENGLISH',
+    educationalLevel: 'A2-C1',
+    scheduleFilter: { type: 'MORNING' },
+    timeRequired: 'PT30H',
+    courseWorkload: 'PT30H',
+    courseMode: 'in-person',
+    price: '525',
+    path: '/english-course/morning-english-courses/',
+  }),
+];
+
+const nextStart = nextStartLabel({ type: 'MORNING' }, 'Check schedule');
+const upcomingStarts = findUpcoming({ type: 'MORNING' }, 20);
+const uniqueStartDates = Array.from(new Set(upcomingStarts.map((r) => r.startDate))).slice(0, 3);
+const nextStartsList = uniqueStartDates.length ? uniqueStartDates.map(fmtDate).join(' · ') : 'Check schedule';
+
+const props = {
+  seo,
+  jsonLd,
+  hero: {
+    image: { src: '/wp-content/uploads/2021/01/morning-english-course.jpg', alt: 'MixTree Languages morning English class in Amsterdam' },
+    eyebrow: 'Morning English Course',
+    title: 'Morning English Courses in Amsterdam',
+    intro:
+      'Use your mornings to improve your English: <strong>30 hours over 6 weeks</strong>, two lessons a week with experienced CELTA-certified teachers. Five levels from <strong>A2 Elementary</strong> to <strong>C1 Advanced</strong>.',
+  },
+  levels: {
+    heading: 'Five Levels | A2 · A2+ · B1 · B2 · C1',
+    intro: 'Choose the level that matches you. Every class focuses on real <strong>communication</strong> — you learn grammar and vocabulary by using them.',
+    items: [
+      { code: 'A2', name: 'Elementary', desc: 'For students who can communicate using familiar everyday expressions and very basic phrases.', book: { src: '/wp-content/uploads/2022/04/pre-intermidiate.jpeg', alt: 'English File Elementary textbook' }, isbn: '978-0194031592' },
+      { code: 'A2+', name: 'Pre-Intermediate', desc: 'For students who can speak a little about themselves but need to strengthen basic grammar and vocabulary.', book: { src: '/wp-content/uploads/2022/04/pre-intermidiate.jpeg', alt: 'English File Pre-Intermediate textbook' }, isbn: '978-0194037419' },
+      { code: 'B1', name: 'Intermediate', desc: 'For students ready to deepen their understanding of English grammar and expand vocabulary on a wide range of topics.', book: { src: '/wp-content/uploads/2021/12/english-file-intermidiate.jpeg', alt: 'English File Intermediate textbook' }, isbn: '978-0194035910' },
+      { code: 'B2', name: 'Upper-Intermediate', desc: 'For students tackling more advanced grammar structures and the vocabulary needed for stronger written and spoken English.', book: { src: '/wp-content/uploads/2022/01/b2-book.jpeg', alt: 'English File Upper-Intermediate textbook' }, isbn: '978-0194039697' },
+      { code: 'C1', name: 'Advanced', desc: 'For students who want to strengthen existing grammar, activate more nuanced vocabulary and refine the way they use English at work or socially.', book: { src: '/wp-content/uploads/2022/01/b2-book.jpeg', alt: 'English File Advanced textbook' }, isbn: '978-0194038355' },
+    ],
+  },
+  details: [
+    ['Levels', 'A2 · A2+ · B1 · B2 · C1'],
+    ['Next starts', nextStartsList],
+    ['Days', 'Mon & Wed, Tue & Thu, or Tue & Fri'],
+    ['Times', '09:30–12:00'],
+    ['Location', 'Amsterdam city centre — Eerste Weteringplantsoen 2C'],
+    ['Classroom hours', '30 hours (5 hours per week over 6 weeks)'],
+    ['Self-study', '~24 hours'],
+    ['Group size', '6–11 participants'],
+    ['Certificate', 'Certificate of Attendance & Proficiency Level (CEFR)'],
+  ] as [string, string][],
+  sidebar: {
+    price: '€525',
+    nextStart,
+    includes: [
+      { icon: '⏱', text: '30-hour group course' },
+      { icon: '■', text: '"English File" course book' },
+      { icon: '▣', text: 'Extra materials & online practice' },
+      { icon: '✓', text: 'Final evaluation with your teacher' },
+      { icon: '★', text: 'Certificate of Attendance & Level' },
+    ],
+  },
+  finalCta: {
+    heading: 'Ready to start your mornings with English?',
+    text: 'Schedule a free English level check — it only takes 15 minutes.',
+  },
+};
+---
+<CourseDetailLayout {...props} />

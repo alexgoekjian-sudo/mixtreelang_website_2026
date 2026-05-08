@@ -1,0 +1,61 @@
+---
+/**
+ * Enhanced Conversions form helper.
+ *
+ * On submit of any <form data-mtl-form data-mtl-conversion="<event_name>">,
+ * pushes user-provided fields to the GTM dataLayer in the format Google Ads
+ * expects for Enhanced Conversions, then lets the form submit normally.
+ *
+ * In GTM, create a "Google Ads Conversion" tag with:
+ *   - Trigger: Custom Event = "form_submit"
+ *   - User-provided data: read from {{DLV - eh.email}}, {{DLV - eh.phone_number}},
+ *     {{DLV - eh.address.first_name}}, {{DLV - eh.address.last_name}}.
+ *
+ * Fields are sent UNHASHED — GTM hashes them (SHA-256) before transmission.
+ */
+---
+<script is:inline>
+  (function () {
+    function normalize(s) {
+      return (s || '').toString().trim().toLowerCase();
+    }
+    function normalizePhone(s) {
+      // E.164-ish: keep + and digits.
+      return (s || '').toString().replace(/[^\d+]/g, '');
+    }
+
+    document.addEventListener('submit', function (e) {
+      var form = e.target;
+      if (!(form instanceof HTMLFormElement)) return;
+      if (!form.matches('form[data-mtl-form][data-mtl-conversion]')) return;
+
+      var eventName = form.getAttribute('data-mtl-conversion') || 'form_submit';
+      var fd = new FormData(form);
+
+      var firstName = fd.get('first-name') || fd.get('first_name') || '';
+      var lastName = fd.get('last-name') || fd.get('last_name') || '';
+      var email = fd.get('email') || '';
+      var phone = fd.get('phone') || '';
+
+      var enhanced = {
+        email: normalize(email),
+        phone_number: normalizePhone(phone),
+        address: {
+          first_name: normalize(firstName),
+          last_name: normalize(lastName),
+          country: 'NL',
+        },
+      };
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: eventName,
+        form_id: form.getAttribute('id') || form.querySelector('[name=form]')?.value || 'unknown',
+        // Enhanced Conversions user-provided data (Google Ads convention).
+        eh: enhanced,
+        // Legacy GA4 lead-form params for cross-checks.
+        form_destination: form.action,
+      });
+    }, true);
+  })();
+</script>

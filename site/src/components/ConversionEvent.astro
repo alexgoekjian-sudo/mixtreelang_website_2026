@@ -1,0 +1,36 @@
+---
+/**
+ * Fires a single Google Ads conversion event on page load.
+ *
+ * Usage:
+ *   <ConversionEvent sendTo="AW-9513016967/JxjUCIOQg5ADEMDszsUD" />
+ *
+ * The event is gated behind GTM/Consent Mode — `gtag` is only defined once
+ * the cookie banner has loaded GTM and the user has granted ad_storage.
+ * If gtag is not yet defined we queue the event via dataLayer instead.
+ */
+export interface Props {
+  /** Google Ads conversion target, e.g. "AW-XXXXXXXXX/abcDEF". */
+  sendTo: string;
+  /** Optional event name override (default 'conversion'). */
+  eventName?: string;
+}
+const { sendTo, eventName = 'conversion' } = Astro.props;
+---
+<script is:inline define:vars={{ sendTo, eventName }}>
+  (function () {
+    function fire() {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', eventName, { send_to: sendTo });
+      } else {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: eventName, send_to: sendTo });
+      }
+    }
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      setTimeout(fire, 0);
+    } else {
+      document.addEventListener('DOMContentLoaded', fire);
+    }
+  })();
+</script>

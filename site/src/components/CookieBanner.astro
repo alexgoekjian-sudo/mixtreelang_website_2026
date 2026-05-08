@@ -1,0 +1,140 @@
+---
+/**
+ * Cookie banner + Google Consent Mode v2 + GTM bootstrap.
+ *
+ * Wiring:
+ *   1. dataLayer is created and gtag() defined immediately.
+ *   2. Default consent is set BEFORE GTM loads (per Consent Mode v2 spec).
+ *      → User picked "granted by default" — see note in repo memory.
+ *      → Cookie banner reject flips it to denied via consent('update', …).
+ *   3. GTM container loads with data attributes so consent state is respected.
+ *   4. vanilla-cookieconsent renders the banner; on save it pushes a
+ *      consent('update', …) signal so GA4 / Google Ads adjust storage.
+ *   5. A 'cc:consent' CustomEvent is dispatched on every save so other
+ *      components (form helpers, embeds) can react.
+ */
+const GTM_ID = 'GTM-M6N8T8S3';
+---
+
+{/* CSS for the banner (loaded from the package) */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v3.0.1/dist/cookieconsent.css" />
+
+{/* 1+2+3: dataLayer, default consent, GTM */}
+<script is:inline define:vars={{ GTM_ID }}>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ window.dataLayer.push(arguments); }
+  window.gtag = gtag;
+
+  // Consent Mode v2 — default state BEFORE GTM loads.
+  // NOTE: configured as "granted" per current site preference. To make this
+  // GDPR-compliant in NL, change every "granted" below to "denied" and the
+  // banner will flip them to granted on Accept.
+  gtag('consent', 'default', {
+    ad_storage: 'granted',
+    ad_user_data: 'granted',
+    ad_personalization: 'granted',
+    analytics_storage: 'granted',
+    functionality_storage: 'granted',
+    personalization_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500,
+  });
+
+  // Respect Global Privacy Control / DNT signals.
+  if (navigator.globalPrivacyControl || navigator.doNotTrack === '1') {
+    gtag('consent', 'update', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+    });
+  }
+
+  // Google Tag Manager
+  (function(w,d,s,l,i){
+    w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+    var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+    j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+    f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer', GTM_ID);
+</script>
+
+{/* 4: cookie banner (vanilla-cookieconsent v3, loaded as ESM from CDN to keep build static) */}
+<script type="module">
+  import * as CookieConsent from 'https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v3.0.1/dist/cookieconsent.esm.js';
+
+  const CATEGORY_TO_CONSENT = {
+    analytics: ['analytics_storage'],
+    marketing: ['ad_storage', 'ad_user_data', 'ad_personalization'],
+  };
+
+  function pushConsent(cookie) {
+    const update = {};
+    for (const [cat, keys] of Object.entries(CATEGORY_TO_CONSENT)) {
+      const granted = cookie.categories?.includes(cat) ? 'granted' : 'denied';
+      keys.forEach((k) => (update[k] = granted));
+    }
+    window.gtag?.('consent', 'update', update);
+    window.dataLayer?.push({ event: 'cookie_consent_update', consent: update });
+    document.dispatchEvent(new CustomEvent('cc:consent', { detail: update }));
+  }
+
+  CookieConsent.run({
+    guiOptions: {
+      consentModal: { layout: 'box', position: 'bottom right', equalWeightButtons: true },
+      preferencesModal: { layout: 'box', equalWeightButtons: true },
+    },
+    categories: {
+      necessary: { enabled: true, readOnly: true },
+      analytics: { enabled: true },
+      marketing: { enabled: true },
+    },
+    language: {
+      default: 'en',
+      translations: {
+        en: {
+          consentModal: {
+            title: 'We use cookies',
+            description:
+              'We use cookies to provide essential site functionality, analyse traffic, and personalise advertising. You can accept all, reject non-essential, or manage your preferences.',
+            acceptAllBtn: 'Accept all',
+            acceptNecessaryBtn: 'Reject all',
+            showPreferencesBtn: 'Manage preferences',
+            footer: '<a href="/privacy-policy/">Privacy policy</a>',
+          },
+          preferencesModal: {
+            title: 'Cookie preferences',
+            acceptAllBtn: 'Accept all',
+            acceptNecessaryBtn: 'Reject all',
+            savePreferencesBtn: 'Save preferences',
+            closeIconLabel: 'Close',
+            sections: [
+              {
+                title: 'Necessary',
+                description: 'Required for the site to function. Always enabled.',
+                linkedCategory: 'necessary',
+              },
+              {
+                title: 'Analytics',
+                description:
+                  'Helps us understand how visitors use the site (Google Analytics 4 via Google Tag Manager).',
+                linkedCategory: 'analytics',
+              },
+              {
+                title: 'Marketing',
+                description:
+                  'Used to measure ad effectiveness and personalise ads (Google Ads enhanced conversions, remarketing).',
+                linkedCategory: 'marketing',
+              },
+            ],
+          },
+        },
+      },
+    },
+    onConsent: ({ cookie }) => pushConsent(cookie),
+    onChange: ({ cookie }) => pushConsent(cookie),
+  });
+
+  // Expose a global so a footer link "Manage cookies" can re-open the modal.
+  window.showCookiePreferences = () => CookieConsent.showPreferences();
+</script>

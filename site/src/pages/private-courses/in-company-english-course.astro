@@ -1,0 +1,145 @@
+---
+import CourseDetailLayout from '../../layouts/CourseDetailLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { courseNode } from '../../lib/schema';
+
+const seo = {
+  title: 'In-Company English Courses in Amsterdam | MixTree Languages',
+  description:
+    'Customised in-company English training delivered at your office in Amsterdam, online or at a location of your choice. Tax-free under the Dutch WKR scheme.',
+};
+
+const jsonLd = [
+  courseNode({
+    name: 'In-Company English Courses',
+    description:
+      'Customised English training for companies and teams, delivered on-site at your office in the Netherlands or live online. Tailored programme, certified teachers, all levels.',
+    courseCode: 'IN_COMPANY_ENGLISH',
+    educationalLevel: 'A1-C2',
+    scheduleFilter: { type: 'PRIVATE' },
+    timeRequired: 'PT20H',
+    courseWorkload: 'PT20H',
+    courseMode: 'blended',
+    price: '0',
+    path: '/private-courses/in-company-english-course/',
+  }),
+];
+
+const props = {
+  seo,
+  jsonLd,
+  showBestPrice: false,
+  hero: {
+    image: {
+      src: '/wp-content/uploads/2020/08/In.Company.Amsterda.MixTree.English.courses-scaled.jpg',
+      alt: 'In-company English course delivered at a client office in Amsterdam',
+    },
+    eyebrow: 'In-Company English Courses',
+    title: 'In-Company English Courses for Teams',
+    intro:
+      'MixTree Languages understands your time is precious. We deliver <strong>customised English training at your office in Amsterdam</strong>, live-online or at any preferred location, at a time that works for you and your team.',
+  },
+  details: [
+    ['Levels', 'All levels (A1 to C2)'],
+    ['Format', 'On-site at your office, live-online, or blended'],
+    ['Group size', 'Private lessons, small groups or whole teams'],
+    ['Schedule', 'Flexible — built around your team’s availability'],
+    ['Programme', 'Tailor-made after a free 30-minute consultation'],
+    ['Tax benefit', 'Eligible under the Dutch WKR (Work-Related Costs) scheme'],
+    ['Certificate', 'Certificate of Attendance & Proficiency Level (CEFR)'],
+  ] as [string, string][],
+  sidebar: {
+    price: 'Custom quote',
+    nextStart: 'On demand',
+    primaryCta: { label: 'Get a quote', href: '/in-company-english-course-quote/' },
+    secondaryCta: null,
+    includes: [
+      { icon: '👥', text: 'Private teacher matched to your team' },
+      { icon: '🎯', text: 'Programme designed for your goals' },
+      { icon: '📘', text: 'All materials & lesson hours included' },
+      { icon: '💼', text: 'WKR-eligible employee benefit' },
+      { icon: '★', text: 'Certificate of Attendance & Level' },
+    ],
+  },
+  finalCta: {
+    heading: 'Build a stronger English-speaking team',
+    text: 'Book a free 30-minute consultation. We’ll assess your team’s level, design a programme and send a complete quote — all materials and lesson hours included.',
+  },
+};
+
+const goals = [
+  { title: 'Private teacher selected for you', text: 'Matched from a team of native, CELTA/TEFL-certified trainers with diverse professional backgrounds.', icon: '👤' },
+  { title: 'Programme designed for your team', text: 'Tested for level, then planned around the needs and interests of the participants.', icon: '🎯' },
+  { title: 'Affordable private training', text: 'Competitive pricing for private and small-group corporate English training.', icon: '💶' },
+  { title: 'Certificate of attendance', text: 'Each participant receives a CEFR Certificate of Attendance and Proficiency Level on completion.', icon: '🏆' },
+];
+
+const coaching = [
+  'Presentation and public speaking skills',
+  'Pronunciation and accent reduction',
+  'Team building',
+  'Diplomacy, tact and formal language',
+  'Networking',
+  'English for HR managers',
+  'Conducting an interview',
+  'Effective email composition',
+  'Interpersonal communication for management and leadership',
+  'Negotiation strategies',
+  'English for specific purposes (legal, medical, etc.)',
+];
+
+const steps = [
+  { n: '1', title: 'Free 30-minute consultation', text: 'We discuss your goals and assess your team’s English level.' },
+  { n: '2', title: 'Tailored programme & quote', text: 'Your trainer designs a programme — you receive a full quote including all materials and hours.' },
+  { n: '3', title: 'Course is booked', text: 'Once you’re happy with the programme, we schedule the lessons around your team.' },
+  { n: '4', title: 'Your team starts learning', text: 'Highly interactive lessons focused on real, useful situations at work.' },
+];
+---
+<CourseDetailLayout {...props}>
+  <div slot="extra" class="space-y-16">
+    <!-- Course goals -->
+    <section>
+      <SectionHeading title="In-Company English Course | Goals" />
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        {goals.map((g) => (
+          <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div class="text-3xl" aria-hidden="true">{g.icon}</div>
+            <h3 class="mt-3 text-base font-semibold text-brand-700">{g.title}</h3>
+            <p class="mt-1 text-sm text-slate-700">{g.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="rounded-2xl bg-brand-50 p-6 sm:p-10">
+      <SectionHeading title="How it works | From consultation to first lesson" />
+      <ol class="mt-8 grid gap-4 sm:grid-cols-2">
+        {steps.map((s) => (
+          <li class="flex gap-4 rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-200">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-500 text-sm font-bold text-white">{s.n}</span>
+            <div>
+              <h3 class="text-base font-semibold text-brand-700">{s.title}</h3>
+              <p class="mt-1 text-sm text-slate-700">{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="mt-6 text-sm text-slate-700">
+        <strong>Tax tip:</strong> our English training can be offered as a
+        tax-free employee benefit under the Dutch <strong>Work-Related Costs
+        Scheme (WKR)</strong> — useful when planning staff development.
+      </p>
+    </section>
+
+    <!-- Coaching topics -->
+    <section>
+      <SectionHeading title="MixTree Languages offers coaching in" />
+      <ul class="mt-6 grid gap-2 text-sm text-slate-700 sm:grid-cols-2">
+        {coaching.map((o) => (
+          <li class="flex gap-2 rounded-lg bg-white p-3 ring-1 ring-slate-200"><span class="text-accent-500" aria-hidden="true">▸</span><span>{o}</span></li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</CourseDetailLayout>
