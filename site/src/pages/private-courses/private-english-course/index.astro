@@ -86,6 +86,7 @@ const formats = [
 
 const onlinePackages = [
   {
+    hours: '10',
     label: '10-hour package',
     price: '€520',
     perHour: '€52 / hour',
@@ -94,6 +95,7 @@ const onlinePackages = [
     popular: false,
   },
   {
+    hours: '20',
     label: '20-hour package',
     price: '€1,020',
     was: '€1,060',
@@ -103,6 +105,7 @@ const onlinePackages = [
     popular: true,
   },
   {
+    hours: '30',
     label: '30-hour package',
     price: '€1,500',
     was: '€1,560',
@@ -115,6 +118,7 @@ const onlinePackages = [
 
 const onsitePackages = [
   {
+    hours: '10',
     label: '10-hour package',
     price: '€740',
     perHour: '€74 / hour',
@@ -123,6 +127,7 @@ const onsitePackages = [
     popular: false,
   },
   {
+    hours: '20',
     label: '20-hour package',
     price: '€1,460',
     was: '€1,520',
@@ -132,6 +137,7 @@ const onsitePackages = [
     popular: true,
   },
   {
+    hours: '30',
     label: '30-hour package',
     price: '€2,160',
     was: '€2,250',
@@ -216,7 +222,7 @@ const offerings = [
                 <li class="flex gap-2"><span class="text-accent-500" aria-hidden="true">✓</span><span>{b}</span></li>
               ))}
             </ul>
-            <a href="/contact-form-request-for-information-english-courses-mixtree-languages/" class={`mt-6 block rounded-full px-5 py-3 text-sm font-semibold text-white shadow ${p.popular ? 'bg-accent-500 hover:brightness-105' : 'bg-brand-600 hover:bg-brand-700'}`}>
+            <a href={`/private-courses/private-english-course/inquiry/?package=${p.hours}&format=online`} class={`mt-6 block rounded-full px-5 py-3 text-sm font-semibold text-white shadow ${p.popular ? 'bg-accent-500 hover:brightness-105' : 'bg-brand-600 hover:bg-brand-700'}`}>
               {p.cta} →
             </a>
           </article>
@@ -240,7 +246,7 @@ const offerings = [
                 <li class="flex gap-2"><span class="text-accent-500" aria-hidden="true">✓</span><span>{b}</span></li>
               ))}
             </ul>
-            <a href="/contact-form-request-for-information-english-courses-mixtree-languages/" class={`mt-6 block rounded-full px-5 py-3 text-sm font-semibold text-white shadow ${p.popular ? 'bg-accent-500 hover:brightness-105' : 'bg-brand-600 hover:bg-brand-700'}`}>
+            <a href={`/private-courses/private-english-course/inquiry/?package=${p.hours}&format=in-person`} class={`mt-6 block rounded-full px-5 py-3 text-sm font-semibold text-white shadow ${p.popular ? 'bg-accent-500 hover:brightness-105' : 'bg-brand-600 hover:bg-brand-700'}`}>
               {p.cta} →
             </a>
           </article>

@@ -1,6 +1,6 @@
 # MixTree Languages — Project Status & Task Tracker
 
-_Last updated: 8 May 2026_
+_Last updated: 8 May 2026 (after first GitHub push)_
 
 This document is the single source of truth for where we are in the WordPress → Astro migration of **mixtreelang.nl**, what's done, what's next, and what's needed from Alex (the site owner).
 
@@ -33,11 +33,12 @@ This document is the single source of truth for where we are in the WordPress �
 | Thank-you pages unified on `ThankYouLayout` | ✅ Done (10 pages) + Enhanced Conversions GTM event |
 | Free level-check enrolment redesign | ✅ Done — Alpine tabs, cal.com iframes, Service JSON-LD |
 | WooCommerce buy-X-hour pages → unified inquiry form | ✅ Done (this session) |
-| Decap CMS scaffolding | ✅ Done — [site/public/admin/](site/public/admin/) (needs repo URL filled in) |
+| Decap CMS scaffolding | ✅ Done — [site/public/admin/](site/public/admin/) wired to `alexgoekjian-sudo/mixtreelang_website` |
 | Root `.gitignore`, `README.md`, `.env.example` | ✅ Done |
+| GitHub repo created + first push | ✅ Done — https://github.com/alexgoekjian-sudo/mixtreelang_website |
 | Lighthouse pass (written guidance) | ⏳ Pending |
-| GitHub repo created + first push | ⏳ Pending — needs repo URL from Alex |
-| Cloud86 git deploy hook configured | ⏳ Pending — Alex to do in Cloud86 panel after first push |
+| Cloud86 git deploy hook configured | ⏳ Pending — Alex to do in Cloud86 panel |
+| `/mailer.php` updated to handle `form=private-lessons` | ⏳ Pending — server-side, Alex to coordinate |
 | Decap CMS OAuth proxy (production) | ⏳ Pending — needed before non-local editors can log in |
 
 ---
@@ -76,37 +77,32 @@ This document is the single source of truth for where we are in the WordPress �
 
 ## 4. Outstanding tasks (in priority order)
 
-### 🔴 P1 — Before first GitHub push
+### ✅ Done in this session
 
-- [ ] **Get Cloud86 `/mailer.php` updated** to handle `form=private-lessons` → email to info@mixtreelang.nl. (Alex to coordinate — or share current mailer.php so we can patch it.)
-- [ ] **Provide GitHub repo URL** (`github.com/<owner>/<repo>`) so we can:
-  - Set `backend.repo` in [site/public/admin/config.yml](site/public/admin/config.yml)
-  - Add the git remote
-- [ ] **Confirm default branch** name (`main` recommended)
-- [ ] **Rotate `GOOGLE_PLACES_API_KEY`** if it has ever been pasted in chat or shared. Re-issue in Google Cloud Console with HTTP-referrer restrictions for `localhost` + `mixtreelang.nl` + `*.mixtreelang.nl`.
-- [ ] Final pre-push sanity check: `git status` to confirm nothing private staged (`.env`, `dist/`, exports).
+- ✅ Decap CMS config wired to `alexgoekjian-sudo/mixtreelang_website`
+- ✅ `git init -b main`, 371 files committed as "Initial Astro site (migrated from WordPress)"
+- ✅ Pushed to `https://github.com/alexgoekjian-sudo/mixtreelang_website` `main` (one README merge conflict resolved — kept our richer version)
 
-### 🟡 P2 — First push & Cloud86 wiring
+### 🔴 P1 — Server side & Cloud86 wiring (blocking launch)
 
-- [ ] `git init -b main && git add . && git commit -m "Initial Astro site (migrated from WordPress)"`
-- [ ] `git remote add origin <repo URL> && git push -u origin main`
-- [ ] In Cloud86 control panel:
+- [ ] **Get Cloud86 `/mailer.php` updated** to handle `form=private-lessons` → email to info@mixtreelang.nl. New fields the script must read: `package_hours`, `lesson_format`, `english_level`, `goals`. Also respect the hidden `redirect_to` field (currently posts back to `…/inquiry/?sent=1`).
+- [ ] **Cloud86 control panel** — set up git deploy:
+  - Repo: `https://github.com/alexgoekjian-sudo/mixtreelang_website.git`
+  - Branch: `main`
   - Build command: `cd site && npm ci && npm run build`
   - Publish directory: `site/dist`
   - Node version: 22 LTS (package.json requires `>=22.12.0`)
-  - Env var: `GOOGLE_PLACES_API_KEY` (only if running `npm run reviews:fetch` on the runner; otherwise the cached `src/data/google-reviews.json` is used)
-- [ ] Add Cloud86's webhook URL to GitHub → Settings → Webhooks (push-to-main triggers redeploy)
-- [ ] Smoke-test on staging URL: home, one course page, one magazine post, the new `/private-courses/private-english-course/inquiry/`, the contact form, and at least one Yoast-redirect URL
+  - Env var (optional): `GOOGLE_PLACES_API_KEY` — only if running `npm run reviews:fetch` on the runner. Otherwise the cached `src/data/google-reviews.json` is used.
+  - If the repo is private, add Cloud86's deploy key to GitHub → Settings → Deploy keys (read-only).
+- [ ] Add Cloud86's webhook URL to GitHub → Settings → Webhooks (push-to-main triggers redeploy).
+- [ ] Smoke-test on staging URL: home, one course page, one magazine post, the new `/private-courses/private-english-course/inquiry/`, the contact form, and at least one Yoast-redirect URL (e.g. `/buy-10-hours-online-english-course/` should land on the inquiry page with `?package=10&format=online`).
+- [ ] **Rotate `GOOGLE_PLACES_API_KEY`** if it has ever been pasted in chat or shared. Re-issue in Google Cloud Console with HTTP-referrer restrictions for `localhost` + `mixtreelang.nl` + `*.mixtreelang.nl`. (Not blocking launch — only matters when running the reviews:fetch script.)
 
 ### 🟢 P3 — Post-launch polish
 
-- [ ] **Lighthouse pass** — run on home, one course page, magazine front, free level-check enrolment, new inquiry page. Target ≥ 90 on all four categories. Common fixes:
-  - Preload LCP image on hero pages
-  - Ensure cookie banner doesn't block render
-  - `loading="lazy"` on below-the-fold images (already mostly done)
-  - Confirm fonts subset / preload OK
-- [ ] **Decap CMS OAuth proxy** — deploy `vencax/netlify-cms-github-oauth-provider` (or equivalent) on a Cloud86 Node service or free Render/Fly.io. Then update [site/public/admin/config.yml](site/public/admin/config.yml) with `base_url: https://oauth.mixtreelang.nl`. See [site/scripts/cms-local.md](site/scripts/cms-local.md) for steps. Until then, editors can use `npx decap-server` locally.
-- [ ] Add a "Request a quote" CTA button from the main private-english-course page → new inquiry page (currently only reachable via redirects).
+- [ ] **Lighthouse pass** — see §8 below for the full checklist & how to run it.
+- [ ] **Decap CMS OAuth proxy** — full step-by-step now in [site/scripts/cms-local.md](site/scripts/cms-local.md) (Render free-tier route is the easiest, ~5 min). Until then, editors can use `npx decap-server` locally.
+- ✅ Package CTAs on `/private-courses/private-english-course/` re-pointed at the new inquiry form with matching `?package=X&format=Y` query strings (this session).
 - [ ] (Optional) Create a dedicated `/thank-you-private-lessons-request/` page. Right now it lands back on the inquiry page with `?sent=1` banner — fine, but a dedicated page would let GA/GTM track conversions cleanly.
 
 ---
@@ -168,3 +164,86 @@ Last verified: 8 May 2026, after adding the new inquiry form.
 Checked 4953 internal link(s) across 103 page(s).
 ✓ No broken internal links.
 ```
+
+---
+
+## 8. Lighthouse pass — checklist
+
+### How to run
+
+**Locally (cheapest, fast feedback):**
+
+```pwsh
+cd site
+npm run build
+npm run preview         # serves dist/ on http://localhost:4321
+```
+
+Then in Chrome → DevTools → **Lighthouse tab**:
+- Mode: **Navigation**
+- Device: **Mobile** (Google ranks on mobile scores)
+- Categories: all four (Performance, Accessibility, Best Practices, SEO)
+- Click **Analyze**
+
+Or from the command line (one-shot, all key pages):
+
+```pwsh
+npm install -g lighthouse
+lighthouse http://localhost:4321/ --preset=desktop --view
+lighthouse http://localhost:4321/ --view   # mobile (default)
+```
+
+**On staging** (after first Cloud86 deploy): same, but point Lighthouse at the staging URL. Always test the **production** URL too once live, because CDN/cache headers from Cloud86 affect TTFB.
+
+### Pages to test (the canonical 5)
+
+| Page | Why |
+|---|---|
+| `/` | Home — most traffic, hero video, has the LCP image |
+| `/english-course/intensive-english-course/` | Course page template — used by ~10 pages |
+| `/english-language-tips/` | Magazine front — image-heavy grid |
+| `/free-online-english-level-check/` | High-converting funnel page |
+| `/private-courses/private-english-course/inquiry/` | New form — make sure no JS regressions |
+
+### Targets
+
+| Category | Target |
+|---|---|
+| Performance | ≥ 90 (mobile), ≥ 95 (desktop) |
+| Accessibility | ≥ 95 |
+| Best Practices | 100 |
+| SEO | 100 |
+
+### Common things Lighthouse flags & how to fix
+
+| Lighthouse warning | Fix |
+|---|---|
+| **LCP > 2.5s** on home | Hero image already in `<picture>` with `loading="eager"` and `fetchpriority="high"` — verify on the actual hero element. If still slow, add `<link rel="preload" as="image" href="..." />` in `BaseLayout.astro` head, conditionally per page. |
+| **CLS > 0.1** | Every `<img>` and `<iframe>` must have `width` & `height` attrs (or aspect-ratio CSS). Audit hero video iframe + magazine post images. |
+| **Render-blocking resources** | Cookie banner JS — load with `defer` or after page idle. Check `BaseLayout.astro` for any synchronous third-party `<script>`. |
+| **Unused CSS** | Tailwind v4 already tree-shakes. If flagged, it's usually the cookie banner or GTM CSS — out of scope. |
+| **Image elements do not have explicit width/height** | Add `width` and `height` attrs (the source image's intrinsic dimensions). |
+| **Serve images in next-gen formats** | Astro `<Image />` (from `astro:assets`) auto-converts to AVIF/WebP. Verify magazine post images use it; raw `<img>` tags inside markdown go through `prose` and won't auto-convert — `astro-rehype-relative-markdown-links` or `<Picture>` wrapping needed if it's a problem. |
+| **Buttons do not have an accessible name** | Check icon-only buttons (mobile menu toggle, social icons). Add `aria-label`. |
+| **Heading order** | Make sure no page jumps from `<h1>` to `<h3>` skipping `<h2>`. |
+| **Document does not have a meta description** | All pages use `seo.description` via `BaseLayout`. If flagged, the page is missing the `seo` prop. |
+| **Tap targets too small** | Minimum 48×48 px for touch targets. Phone/email links and pagination arrows are common offenders. |
+| **Cumulative cookie banner blocking** | If GTM consent mode v2 is correctly configured, this should already be fine. Worth a recheck. |
+
+### Quick wins specific to this site
+
+1. **Hero video on home** — already on `youtube-nocookie.com` ✅. If LCP is slow, swap autoplay video for poster image until user clicks (most likely the cheapest perf win).
+2. **Magazine post images** — they're served from `/wp-content/uploads/` (raw, not via `astro:assets`). For top-traffic posts, consider running them through `<Image />`.
+3. **Google Reviews JSON** — already cached, no runtime fetch ✅.
+4. **`schedule.json`** — small, fine.
+5. **Fonts** — using system fonts via Tailwind defaults ✅, no custom font load.
+
+### After fixing: regression check
+
+```pwsh
+cd site
+npm run build
+npm run links:check
+```
+
+Both must pass before deploy.
