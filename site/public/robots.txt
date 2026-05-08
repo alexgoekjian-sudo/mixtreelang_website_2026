@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /.rate/
-Disallow: /mailer.php
-
-Sitemap: https://mixtreelang.nl/sitemap-index.xml
