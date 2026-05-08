@@ -111,10 +111,23 @@ const graphJson = { '@context': 'https://schema.org', '@graph': graph };
     <link rel="preconnect" href="https://cal.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://i.ytimg.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    {/* Inter — loaded non-blocking via the print/onload swap pattern.
+        The <noscript> fallback ensures it still loads if JS is disabled. */}
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
 
     <slot name="head" />
   </head>

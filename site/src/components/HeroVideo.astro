@@ -13,15 +13,18 @@
  *   - poster:  image src for facade (required)
  *   - title:   accessible title (default: "Play video")
  *   - aspect:  CSS aspect-ratio (default: '16 / 9')
+ *   - eager:   set true on above-the-fold heroes so the poster is the LCP element
+ *              (loads with high priority, no lazy attribute).
  */
 export interface Props {
   videoId: string;
   poster: string;
   title?: string;
   aspect?: string;
+  eager?: boolean;
 }
 
-const { videoId, poster, title = 'Play video', aspect = '16 / 9' } = Astro.props;
+const { videoId, poster, title = 'Play video', aspect = '16 / 9', eager = false } = Astro.props;
 ---
 
 <div
@@ -38,7 +41,10 @@ const { videoId, poster, title = 'Play video', aspect = '16 / 9' } = Astro.props
     <img
       src={poster}
       alt=""
-      loading="lazy"
+      width="480"
+      height="360"
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
       decoding="async"
       class="h-full w-full object-cover"
     />

@@ -59,6 +59,15 @@ const courses = [
 ---
 
 <BaseLayout seo={seo} container={false}>
+  <Fragment slot="head">
+    {/* LCP preload \u2014 the YouTube poster is the hero image. */}
+    <link
+      rel="preload"
+      as="image"
+      href="https://i.ytimg.com/vi/UII8_Jld4is/hqdefault.jpg"
+      fetchpriority="high"
+    />
+  </Fragment>
   <section class="bg-gradient-to-br from-brand-50 to-white">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div class="grid items-center gap-10 lg:grid-cols-2">
@@ -82,8 +91,9 @@ const courses = [
         <div>
           <HeroVideo
             videoId="UII8_Jld4is"
-            poster="https://i.ytimg.com/vi/UII8_Jld4is/maxresdefault.jpg"
+            poster="https://i.ytimg.com/vi/UII8_Jld4is/hqdefault.jpg"
             title="MixTree Languages — Learn English in Amsterdam"
+            eager
           />
         </div>
       </div>

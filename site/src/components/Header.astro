@@ -136,7 +136,19 @@ const isActive = (href: string) => current === href || current.startsWith(href);
                 <li>
                   <a href={child.href} class="block rounded px-3 py-1.5 text-sm text-slate-600 hover:bg-brand-50 hover:text-brand-700">
                     {child.label}
-         
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+      <li class="mt-2">
+        <a href="/free-online-english-level-check/" class="block rounded bg-accent-500 px-3 py-2 text-sm font-semibold text-white">Free Level Check</a>
+      </li>
+    </ul>
+  </nav>
+</header>
 
 <script is:inline>
   // Click-to-open dropdowns (in addition to hover). Useful on touch + improves a11y.
@@ -179,16 +191,4 @@ const isActive = (href: string) => current === href || current.startsWith(href);
       if (e.key === 'Escape') closeAll(null);
     });
   })();
-</script>         </a>
-                </li>
-              ))}
-            </ul>
-          )}
-        </li>
-      ))}
-      <li class="mt-2">
-        <a href="/free-online-english-level-check/" class="block rounded bg-accent-500 px-3 py-2 text-sm font-semibold text-white">Free Level Check</a>
-      </li>
-    </ul>
-  </nav>
-</header>
+</script>
