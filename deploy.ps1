@@ -93,14 +93,16 @@ Write-Host "==> Extracting on server (will prompt for password)..." -ForegroundC
 $remoteCmd = @"
 set -e
 mkdir -p '$RemoteRoot'
-TMPDIR=`$(mktemp -d "$RemoteRoot/.deploy_XXXXXX")
+TMPDIR=`$(mktemp -d "`$HOME/.mtl_deploy_XXXXXX")
 tar -xzf '$remoteTar' -C "`$TMPDIR"
-# Move new files into place; --delete-equivalent semantics via rsync if available, else cp -a then prune
-# Simpler: rsync local copy from TMPDIR to RemoteRoot with --delete (rsync DOES work in same-host shell).
+# rsync local copy from TMPDIR (outside RemoteRoot) to RemoteRoot with --delete.
+# TMPDIR MUST be outside RemoteRoot, otherwise --delete would remove TMPDIR mid-transfer.
 rsync -a --delete --exclude='.cagefs' --exclude='.cl.selector' --exclude='cgi-bin' "`$TMPDIR/" "$RemoteRoot/"
 rm -rf "`$TMPDIR" '$remoteTar'
 echo DEPLOY_OK
 "@
+# PowerShell here-strings emit CRLF; remote bash needs LF only or it sees stray \r.
+$remoteCmd = $remoteCmd -replace "`r", ""
 ssh "${User}@${Host_}" $remoteCmd
 if ($LASTEXITCODE -ne 0) { throw "remote extract failed" }
 
