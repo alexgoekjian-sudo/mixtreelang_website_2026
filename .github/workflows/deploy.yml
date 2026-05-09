@@ -52,6 +52,7 @@ jobs:
           target: ${{ secrets.SFTP_REMOTE_DIR }}
           strip_components: 2
           overwrite: true
+          debug: true
 
       - name: Verify deploy
         uses: appleboy/ssh-action@v1.2.0
