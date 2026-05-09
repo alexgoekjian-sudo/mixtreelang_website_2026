@@ -41,30 +41,30 @@ jobs:
         working-directory: site
         run: npm run links:check
 
-      - name: Deploy via SSH + tar (no SFTP needed)
-        env:
-          SSHPASS: ${{ secrets.SFTP_PASS }}
-          REMOTE_HOST: ${{ secrets.SFTP_HOST }}
-          REMOTE_USER: ${{ secrets.SFTP_USER }}
-          REMOTE_DIR: ${{ secrets.SFTP_REMOTE_DIR }}
-        run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
-          mkdir -p ~/.ssh
-          ssh-keyscan -H "$REMOTE_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+      - name: Package dist
+        run: tar -czf /tmp/dist.tar.gz -C site/dist .
 
-          tar -czf /tmp/dist.tar.gz -C site/dist .
-          ls -la /tmp/dist.tar.gz
+      - name: Upload tarball via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          port: 22
+          source: /tmp/dist.tar.gz
+          target: /tmp/
+          strip_components: 1
 
-          SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=20 -o ServerAliveInterval=15"
-
-          # Step 1: upload tarball to remote /tmp via stdin redirection (NO `|` pipe — sshpass mishandles piped input)
-          REMOTE_TGZ="/tmp/mtl_deploy_${GITHUB_RUN_ID}.tar.gz"
-          echo "Uploading tarball to $REMOTE_TGZ ..."
-          sshpass -e ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "cat > $REMOTE_TGZ" < /tmp/dist.tar.gz
-          echo "Verifying upload ..."
-          sshpass -e ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "ls -la $REMOTE_TGZ"
-
-          # Step 2: extract on the server, then clean up.
-          echo "Extracting into $REMOTE_DIR ..."
-          sshpass -e ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" \
-            "set -e; mkdir -p '$REMOTE_DIR' && tar -xzf '$REMOTE_TGZ' -C '$REMOTE_DIR' && rm -f '$REMOTE_TGZ' && echo DEPLOY_OK"
+      - name: Extract on server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          port: 22
+          script: |
+            set -e
+            mkdir -p "${{ secrets.SFTP_REMOTE_DIR }}"
+            tar -xzf /tmp/dist.tar.gz -C "${{ secrets.SFTP_REMOTE_DIR }}"
+            rm -f /tmp/dist.tar.gz
+            echo DEPLOY_OK
