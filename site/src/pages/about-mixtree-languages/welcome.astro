@@ -1,0 +1,354 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+
+const seo = {
+  title: 'Welcome to MixTree Languages — Our School, the CEFR & Your Learning Journey',
+  description:
+    'A visual guide to MixTree Languages: our friendly Amsterdam school, our team, our Activate Your English approach, the CEFR levels, our flipped homework method, and our community events.',
+};
+
+const team = [
+  { name: 'Susanna Pasqualini', role: 'School Director' },
+  { name: 'Carlo Borriello',   role: 'Course Coordinator' },
+  { name: 'Nicole Findlay',    role: 'Academic Manager' },
+];
+
+const sections = [
+  { num: '1', title: 'About our school',          anchor: 'about' },
+  { num: '2', title: 'Meet the team',             anchor: 'team' },
+  { num: '3', title: 'Activate your English',     anchor: 'activate' },
+  { num: '4', title: 'The CEFR & making progress', anchor: 'cefr' },
+  { num: '5', title: 'Our material — English File', anchor: 'material' },
+  { num: '6', title: 'The flipped approach',      anchor: 'flipped' },
+  { num: '7', title: 'Socialising',               anchor: 'socialising' },
+];
+
+const speakingActivities = ['Pair Work', 'Role Play', 'Discussion', 'Presentations'];
+const supportingSkills   = ['Listening', 'Reading', 'Writing', 'Grammar'];
+
+const cefrLevels = [
+  { level: 'A1',  band: 'Basic User',        color: 'bg-emerald-100 text-emerald-800 ring-emerald-200' },
+  { level: 'A2',  band: 'Basic User',        color: 'bg-emerald-100 text-emerald-800 ring-emerald-200' },
+  { level: 'A2+', band: 'Basic User',        color: 'bg-emerald-100 text-emerald-800 ring-emerald-200' },
+  { level: 'B1',  band: 'Independent User',  color: 'bg-sky-100 text-sky-800 ring-sky-200' },
+  { level: 'B2',  band: 'Independent User',  color: 'bg-sky-100 text-sky-800 ring-sky-200' },
+  { level: 'C1',  band: 'Proficient User',   color: 'bg-violet-100 text-violet-800 ring-violet-200' },
+  { level: 'C2',  band: 'Proficient User',   color: 'bg-violet-100 text-violet-800 ring-violet-200' },
+];
+
+const journeyFactors = [
+  'Your first language',
+  'Previous experience with English',
+  'Motivation to learn',
+  'Participation in class',
+  'Use outside the classroom',
+  'Intensity of studies',
+];
+
+const programmeIncludes = [
+  'Grammar, vocabulary & pronunciation',
+  'Reading, listening, writing & speaking skills',
+  'Everyday & functional language',
+];
+
+const flippedReasons = [
+  'When you find grammar rules or patterns by yourself, it’s easier to remember and use them in real life.',
+  'We can go deeper into the topics in class and fill in gaps in your understanding.',
+  'You have more time to practise speaking in class and get personal feedback and corrections.',
+];
+
+const events = [
+  {
+    title: 'Language Exchange',
+    when: 'Tuesdays · 18:30–21:30',
+    detail: 'Twice a month at Marina iDock / Meet Berlage',
+  },
+  {
+    title: 'Conversation Café',
+    when: 'Wednesdays · 13:00–15:00',
+    detail: 'Twice a month in our canteen',
+  },
+  {
+    title: 'AIC Free English Events',
+    when: 'In partnership with the Amsterdam International Community',
+    detail: 'Karaoke Night · Expat Meet-Up · Games Night · Movie Night · Ladies Night',
+  },
+];
+---
+<BaseLayout seo={seo} container={false}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-accent-500 text-white">
+    <div class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <p class="text-sm font-semibold uppercase tracking-widest text-white/80">A welcome guide</p>
+      <h1 class="mt-3 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+        Welcome to MixTree Languages
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg text-white/90 sm:text-xl">
+        Everything you need to know about our school, our teachers, the CEFR, our teaching approach,
+        and how we’ll support your English learning journey in Amsterdam.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/free-online-english-level-check/" class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow hover:bg-brand-50">
+          Book a free level check →
+        </a>
+        <a href="/docs/welcome-to-mixtree-languages.pdf" class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white ring-1 ring-inset ring-white/40 backdrop-blur hover:bg-white/20" download>
+          Download the PDF
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Table of contents -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+      <ol class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {sections.map((s) => (
+          <li>
+            <a href={`#${s.anchor}`} class="flex items-center gap-3 rounded-xl bg-brand-50 px-4 py-3 ring-1 ring-brand-100 transition hover:bg-brand-100">
+              <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-600 text-sm font-bold text-white">{s.num}</span>
+              <span class="font-medium text-brand-700">{s.title}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 1. About our school -->
+  <section id="about" class="scroll-mt-24 bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">01 · About our school</p>
+      <h2 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl">A non-profit English school in the heart of Amsterdam</h2>
+      <p class="mt-5 text-lg text-slate-700">
+        MixTree Languages is a non-profit English language school in the heart of Amsterdam, offering
+        high-quality, affordable courses in a friendly and multicultural community since 2015.
+      </p>
+      <p class="mt-3 text-lg text-slate-700">
+        Our welcoming environment, small group classes, highly-qualified teachers and speaking-focused
+        approach help students improve their English faster. We also provide opportunities to socialise,
+        practise and connect outside the classroom.
+      </p>
+      <blockquote class="mt-8 rounded-xl border-l-4 border-accent-500 bg-white px-6 py-5 text-lg italic text-slate-700 shadow-sm">
+        “Mistakes are a natural part of learning — every trial and error brings us one step closer to progress.
+        We encourage you to step outside your comfort zone.”
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- 2. Meet the team -->
+  <section id="team" class="scroll-mt-24 bg-white">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">02 · Meet the team</p>
+      <h2 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl">The people who run MixTree</h2>
+      <p class="mt-4 max-w-3xl text-lg text-slate-700">
+        Have a question about our courses, events or your English level? Our team is here to help.
+      </p>
+      <div class="mt-10 grid gap-6 sm:grid-cols-3">
+        {team.map((p) => (
+          <article class="rounded-xl bg-brand-50 p-6 text-center ring-1 ring-brand-100">
+            <div class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-brand-600 text-2xl font-bold text-white">
+              {p.name.split(' ').map((n) => n[0]).join('')}
+            </div>
+            <h3 class="mt-4 text-lg font-semibold text-brand-700">{p.name}</h3>
+            <p class="text-sm text-slate-600">{p.role}</p>
+          </article>
+        ))}
+      </div>
+      <p class="mt-8 text-center text-slate-700">
+        Email us any time at
+        <a href="mailto:info@mixtreelang.nl" class="font-medium text-brand-600 hover:text-brand-700">info@mixtreelang.nl</a>
+      </p>
+      <div class="mt-6 text-center">
+        <a href="/meet-our-teachers/" class="inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-brand-700">
+          Meet our teachers →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Activate your English -->
+  <section id="activate" class="scroll-mt-24 bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">03 · Activate your English</p>
+      <h2 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl">An interactive approach to learning English</h2>
+      <p class="mt-5 text-lg text-slate-700">
+        We believe the best way to <strong>learn</strong> a language is to <strong>speak</strong> it. Our classes are full of opportunities to practise:
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        {speakingActivities.map((a) => (
+          <span class="rounded-full bg-accent-500 px-5 py-2 text-sm font-semibold text-white shadow-sm">{a}</span>
+        ))}
+      </div>
+      <p class="mt-10 text-lg text-slate-700">
+        But remember — <strong>all</strong> the skills are important for speaking and understanding:
+      </p>
+      <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {supportingSkills.map((s) => (
+          <div class="rounded-lg bg-white px-4 py-3 text-center font-medium text-brand-700 ring-1 ring-slate-200 shadow-sm">{s}</div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. The CEFR & making progress -->
+  <section id="cefr" class="scroll-mt-24 bg-white">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">04 · The CEFR & making progress</p>
+      <h2 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl">The Common European Framework of Reference</h2>
+      <p class="mt-5 max-w-3xl text-lg text-slate-700">
+        We follow the <strong>CEFR</strong> — an international standard for describing language ability.
+        It shows what you need to learn to use a language, how well you can use English at different levels,
+        and helps you see your progress over time.
+      </p>
+
+      <!-- CEFR ladder -->
+      <div class="mt-10 grid grid-cols-7 gap-1 overflow-hidden rounded-xl ring-1 ring-slate-200">
+        {cefrLevels.map((l) => (
+          <div class={`flex flex-col items-center justify-end px-2 py-4 ring-1 ${l.color}`}>
+            <span class="text-2xl font-bold sm:text-3xl">{l.level}</span>
+            <span class="mt-1 hidden text-center text-[10px] uppercase tracking-wide opacity-80 sm:block">{l.band}</span>
+          </div>
+        ))}
+      </div>
+      <div class="mt-3 grid grid-cols-3 gap-1 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+        <span>Basic User</span>
+        <span>Independent User</span>
+        <span>Proficient User</span>
+      </div>
+      <p class="mt-4 text-sm text-slate-500">
+        Source:
+        <a href="https://www.coe.int/en/web/common-european-framework-reference-languages/home"
+           class="underline hover:text-brand-600" target="_blank" rel="noopener">Council of Europe</a>
+      </p>
+
+      <!-- Making progress -->
+      <div class="mt-14 rounded-2xl bg-brand-50 p-8 ring-1 ring-brand-100">
+        <h3 class="text-2xl font-bold text-brand-700">How do you go from one level to the next?</h3>
+        <p class="mt-3 text-lg text-slate-700">
+          The CEFR estimates around <strong>200 hours of guided study</strong> to move up a level. But every student is unique — your journey depends on:
+        </p>
+        <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+          {journeyFactors.map((f) => (
+            <li class="flex items-start gap-3 rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-200">
+              <span class="text-accent-500" aria-hidden="true">✓</span>
+              <span class="text-slate-700">{f}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Our material -->
+  <section id="material" class="scroll-mt-24 bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">05 · Our material</p>
+      <h2 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl">English File — divided into three programmes</h2>
+      <p class="mt-5 max-w-3xl text-lg text-slate-700">
+        We divide the content of the coursebook into <strong>three programmes</strong>. This lets us cover
+        the selected content in depth and follow the CEFR amount of hours needed to make progress.
+      </p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-3">
+        {[1, 2, 3].map((n) => (
+          <div class="rounded-xl bg-white p-6 text-center shadow-sm ring-1 ring-slate-200">
+            <div class="mx-auto grid h-12 w-12 place-items-center rounded-full bg-accent-500 text-lg font-bold text-white">{n}</div>
+            <p class="mt-3 font-semibold text-brand-700">Programme {n}</p>
+          </div>
+        ))}
+      </div>
+      <h3 class="mt-12 text-xl font-bold text-brand-700">Each programme includes:</h3>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-3">
+        {programmeIncludes.map((p) => (
+          <li class="flex items-start gap-3 rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-200">
+            <span class="text-accent-500" aria-hidden="true">✓</span>
+            <span class="text-slate-700">{p}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6. Flipped approach -->
+  <section id="flipped" class="scroll-mt-24 bg-white">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">06 · The flipped approach</p>
+      <h2 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl">Homework that prepares you, not just reviews</h2>
+      <div class="mt-8 grid gap-6 lg:grid-cols-2">
+        <div class="rounded-xl bg-slate-100 p-6 ring-1 ring-slate-200">
+          <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Traditional classroom</p>
+          <p class="mt-2 text-lg text-slate-700">Homework is a <strong>review</strong> of what you already learned in class that day.</p>
+        </div>
+        <div class="rounded-xl bg-accent-500/10 p-6 ring-1 ring-accent-500/30">
+          <p class="text-xs font-semibold uppercase tracking-wide text-accent-500">MixTree — flipped</p>
+          <p class="mt-2 text-lg text-slate-700">Homework is a <strong>pre-assignment</strong> that prepares you for the next lesson.</p>
+        </div>
+      </div>
+      <h3 class="mt-12 text-xl font-bold text-brand-700">Why?</h3>
+      <ol class="mt-4 grid gap-4 sm:grid-cols-3">
+        {flippedReasons.map((r, i) => (
+          <li class="rounded-xl bg-brand-50 p-6 ring-1 ring-brand-100">
+            <div class="grid h-10 w-10 place-items-center rounded-full bg-brand-600 text-base font-bold text-white">{i + 1}</div>
+            <p class="mt-3 text-slate-700">{r}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 7. Socialising -->
+  <section id="socialising" class="scroll-mt-24 bg-brand-50">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <p class="text-sm font-semibold uppercase tracking-wide text-accent-500">07 · Socialising</p>
+      <h2 class="mt-2 text-3xl font-bold text-brand-700 sm:text-4xl">More than classes — a community</h2>
+      <p class="mt-5 max-w-3xl text-lg text-slate-700">
+        We host regular events to help you practise English outside the classroom and meet people from all over the world.
+      </p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-3">
+        {events.map((e) => (
+          <article class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <h3 class="text-lg font-bold text-brand-700">{e.title}</h3>
+            <p class="mt-2 text-sm font-semibold text-accent-500">{e.when}</p>
+            <p class="mt-2 text-slate-700">{e.detail}</p>
+          </article>
+        ))}
+      </div>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2">
+        <div class="flex items-center gap-3 rounded-lg bg-white px-5 py-4 ring-1 ring-slate-200">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-brand-600 text-white" aria-hidden="true">📚</span>
+          <span class="text-slate-700">Borrow English books from our library</span>
+        </div>
+        <div class="flex items-center gap-3 rounded-lg bg-white px-5 py-4 ring-1 ring-slate-200">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-brand-600 text-white" aria-hidden="true">🎲</span>
+          <span class="text-slate-700">Play board games in our canteen</span>
+        </div>
+      </div>
+      <div class="mt-8">
+        <a href="/mixtree-events/" class="inline-flex items-center gap-2 font-semibold text-brand-700 hover:text-brand-600">
+          See all our events →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="bg-gradient-to-br from-brand-700 to-accent-500 text-white">
+    <div class="mx-auto max-w-5xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-20">
+      <h2 class="text-3xl font-bold sm:text-4xl">We look forward to seeing you in class 😊</h2>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/english-course/" class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow hover:bg-brand-50">
+          Check out our courses →
+        </a>
+        <a href="/free-online-english-level-check/" class="rounded-full bg-accent-500 px-6 py-3 text-sm font-semibold text-white shadow ring-1 ring-white/40 hover:brightness-110">
+          Book a free level check →
+        </a>
+      </div>
+      <div class="mt-10 flex flex-wrap justify-center gap-6 text-sm text-white/90">
+        <a href="https://www.instagram.com/mixtreelanguages/" class="hover:underline" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/mixtreelanguages" class="hover:underline" target="_blank" rel="noopener">Facebook</a>
+        <a href="mailto:info@mixtreelang.nl" class="hover:underline">info@mixtreelang.nl</a>
+        <a href="tel:+31207861981" class="hover:underline">+31 (0) 20 78 61 981</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

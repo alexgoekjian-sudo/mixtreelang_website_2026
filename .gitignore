@@ -43,5 +43,5 @@ wp_courses_export.txt
 # Build outputs / local previews of the link checker etc.
 **/coverage/
 
-# Stray PDFs in repo root
-*.pdf
+# Stray PDFs in repo root (anchored — does NOT block site/public/docs/*.pdf)
+/*.pdf
