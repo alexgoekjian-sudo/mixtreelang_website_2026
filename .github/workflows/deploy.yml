@@ -41,7 +41,7 @@ jobs:
         working-directory: site
         run: npm run links:check
 
-      - name: Deploy via scp -O (OpenSSH legacy SCP protocol)
+      - name: Deploy via rsync over SSH
         env:
           SSHPASS: ${{ secrets.SFTP_PASS }}
           REMOTE_HOST: ${{ secrets.SFTP_HOST }}
@@ -49,17 +49,17 @@ jobs:
           REMOTE_DIR: ${{ secrets.SFTP_REMOTE_DIR }}
         run: |
           set -e
-          sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
-          mkdir -p ~/.ssh && ssh-keyscan -p 22 -H "$REMOTE_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          sudo apt-get update -qq && sudo apt-get install -y -qq sshpass rsync
 
-          tar -czf /tmp/dist.tar.gz -C site/dist .
-          ls -la /tmp/dist.tar.gz
+          SSH_CMD="sshpass -e ssh -p 22 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=20"
 
-          SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=20"
+          # Make sure remote dir exists
+          $SSH_CMD "$REMOTE_USER@$REMOTE_HOST" "mkdir -p '$REMOTE_DIR'"
 
-          echo "Uploading tarball..."
-          sshpass -e scp -O -P 22 $SSH_OPTS /tmp/dist.tar.gz "$REMOTE_USER@$REMOTE_HOST:dist.tar.gz"
+          # Sync; --delete keeps the deployed dir matching dist exactly.
+          # Trailing slash on source is intentional (copy contents, not the dir).
+          sshpass -e rsync -az --delete --human-readable --stats \
+            -e "ssh -p 22 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=20" \
+            site/dist/ "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR"
 
-          echo "Extracting on server..."
-          sshpass -e ssh -p 22 $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" \
-            "set -e; mkdir -p '$REMOTE_DIR' && tar -xzf dist.tar.gz -C '$REMOTE_DIR' && rm -f dist.tar.gz && echo DEPLOY_OK"
+          echo DEPLOY_OK
