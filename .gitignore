@@ -42,3 +42,6 @@ wp_courses_export.txt
 
 # Build outputs / local previews of the link checker etc.
 **/coverage/
+
+# Stray PDFs in repo root
+*.pdf
