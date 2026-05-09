@@ -51,13 +51,20 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
           mkdir -p ~/.ssh
           ssh-keyscan -H "$REMOTE_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
           tar -czf /tmp/dist.tar.gz -C site/dist .
-          # Stream the tarball through SSH and extract on the server.
-          # `mkdir -p` ensures the destination exists; `--delete-after`-style
-          # cleanup is handled by emptying the dir first (safe — only the
-          # subdomain root, never anything outside SFTP_REMOTE_DIR).
-          cat /tmp/dist.tar.gz | sshpass -e ssh \
-            -o StrictHostKeyChecking=no \
-            -o UserKnownHostsFile=/dev/null \
-            "$REMOTE_USER@$REMOTE_HOST" \
-            "mkdir -p '$REMOTE_DIR' && cd '$REMOTE_DIR' && tar -xzf -"
+          ls -la /tmp/dist.tar.gz
+
+          SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=20 -o ServerAliveInterval=15"
+
+          # Step 1: upload tarball to remote /tmp via stdin redirection (NO `|` pipe — sshpass mishandles piped input)
+          REMOTE_TGZ="/tmp/mtl_deploy_${GITHUB_RUN_ID}.tar.gz"
+          echo "Uploading tarball to $REMOTE_TGZ ..."
+          sshpass -e ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "cat > $REMOTE_TGZ" < /tmp/dist.tar.gz
+          echo "Verifying upload ..."
+          sshpass -e ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" "ls -la $REMOTE_TGZ"
+
+          # Step 2: extract on the server, then clean up.
+          echo "Extracting into $REMOTE_DIR ..."
+          sshpass -e ssh $SSH_OPTS "$REMOTE_USER@$REMOTE_HOST" \
+            "set -e; mkdir -p '$REMOTE_DIR' && tar -xzf '$REMOTE_TGZ' -C '$REMOTE_DIR' && rm -f '$REMOTE_TGZ' && echo DEPLOY_OK"
