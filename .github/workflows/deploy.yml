@@ -41,21 +41,19 @@ jobs:
         working-directory: site
         run: npm run links:check
 
-      - name: Package dist
-        run: tar -czf /tmp/dist.tar.gz -C site/dist .
-
-      - name: Upload tarball via SCP
+      - name: Upload dist via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USER }}
           password: ${{ secrets.SFTP_PASS }}
           port: 22
-          source: /tmp/dist.tar.gz
-          target: /tmp/
-          strip_components: 1
+          source: site/dist/*
+          target: ${{ secrets.SFTP_REMOTE_DIR }}
+          strip_components: 2
+          overwrite: true
 
-      - name: Extract on server
+      - name: Verify deploy
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SFTP_HOST }}
@@ -63,8 +61,5 @@ jobs:
           password: ${{ secrets.SFTP_PASS }}
           port: 22
           script: |
-            set -e
-            mkdir -p "${{ secrets.SFTP_REMOTE_DIR }}"
-            tar -xzf /tmp/dist.tar.gz -C "${{ secrets.SFTP_REMOTE_DIR }}"
-            rm -f /tmp/dist.tar.gz
+            ls -la "${{ secrets.SFTP_REMOTE_DIR }}" | head -20
             echo DEPLOY_OK
