@@ -42,7 +42,7 @@ jobs:
         run: npm run links:check
 
       - name: Deploy to Plesk via SFTP
-        uses: Dylan700/sftp-upload-action@v1.4.1
+        uses: Dylan700/sftp-upload-action@latest
         with:
           server: ${{ secrets.SFTP_HOST }}
           port: 22
